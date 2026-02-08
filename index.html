@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Century by StackLevel Group — корпоративный контур внедрения ИИ</title>
+  <title>Century by Stacklevel Group — корпоративный контур внедрения ИИ</title>
   <meta name="description" content="Century — корпоративная платформа и конвейер для контролируемого внедрения LLM‑сервисов в крупных организациях: внутри периметра (on‑prem/air‑gapped), ИБ и комплаенс, верификация ответов (RAG + цитаты), логирование и аудит, KPI и дорожная карта масштабирования.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Sora:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
 
   <header class="site-header">
     <div class="shell header-main">
-      <a href="#home" class="logo" aria-label="Century by StackLevel Group">
+      <a href="#home" class="logo" aria-label="Century by Stacklevel Group">
         <span class="logo-century">CENTURY</span>
         <span class="logo-line-two">
           <img class="logo-stacklevel" src="assets/sl.svg" alt="Stacklevel" width="277" height="23">
@@ -210,32 +211,58 @@
       </div>
 
       <div class="shell platform-panel">
-        <div class="platform-columns">
-          <article class="platform-column">
-            <h3>Технологии</h3>
-            <ul>
-              <li>Среда выполнения LLM (локально/гибридно)</li>
-              <li>RAG и векторный индекс</li>
-              <li>Движок политик</li>
-              <li>Оркестрация промптов и агентов</li>
-              <li>Мониторинг и оповещения</li>
-              <li>Контур оценки качества</li>
-              <li>Хранилище аудита</li>
-            </ul>
-          </article>
+        <div class="connectors-head">
+          <h3>Коннекторы</h3>
+          <p>Единый контур подключений к данным и системам: агент хорош настолько, насколько качественный контекст он получает.</p>
+        </div>
 
-          <article class="platform-column">
-            <h3>Интеграции</h3>
-            <ul>
-              <li>ERP / BPM / корпоративные порталы</li>
-              <li>СЭД / управление документами</li>
-              <li>CRM / контакт-центр</li>
-              <li>Корпоративный мессенджер</li>
-              <li>Сервис‑деск / ITSM</li>
-              <li>Управление доступом (IAM)</li>
-              <li>SIEM / SOC</li>
-              <li>DWH / платформа данных</li>
-            </ul>
+        <div class="connector-grid" aria-label="Сетка коннекторов">
+          <article class="connector-card">
+            <p>ERP</p>
+            <span>Финансы, закупки, план-факт</span>
+          </article>
+          <article class="connector-card">
+            <p>СЭД</p>
+            <span>Договоры, регламенты, архив</span>
+          </article>
+          <article class="connector-card">
+            <p>CRM</p>
+            <span>Клиенты, сделки, коммуникации</span>
+          </article>
+          <article class="connector-card">
+            <p>ITSM</p>
+            <span>Заявки, SLA, маршрутизация</span>
+          </article>
+          <article class="connector-card">
+            <p>IAM</p>
+            <span>Роли, доступы, группы</span>
+          </article>
+          <article class="connector-card">
+            <p>SIEM</p>
+            <span>События ИБ и расследования</span>
+          </article>
+          <article class="connector-card">
+            <p>DWH</p>
+            <span>Витрины, отчёты, метрики</span>
+          </article>
+          <article class="connector-card">
+            <p>Портал</p>
+            <span>Корпоративные порталы и базы знаний</span>
+          </article>
+        </div>
+
+        <div class="connector-principles">
+          <article>
+            <h4>Синхронизация и поиск по источникам</h4>
+            <p>Индексируем и ищем по документам, процессным системам и данным в едином контуре.</p>
+          </article>
+          <article>
+            <h4>Ответы по правам доступа</h4>
+            <p>Ответы зависят от ролей и прав доступа, а не только от текста запроса.</p>
+          </article>
+          <article>
+            <h4>Единая панель управления</h4>
+            <p>Политики, аудит и наблюдаемость управляются в одной панели контроля.</p>
           </article>
         </div>
 
@@ -273,21 +300,55 @@
       </div>
 
       <div class="shell scenario-tabs" role="tablist" aria-label="Сценарии внедрения">
-        <button class="tab-btn is-active" type="button" data-tab="retail" aria-selected="true">База знаний</button>
-        <button class="tab-btn" type="button" data-tab="corp" aria-selected="false">Документы</button>
-        <button class="tab-btn" type="button" data-tab="risk" aria-selected="false">Риски / комплаенс</button>
-        <button class="tab-btn" type="button" data-tab="ops" aria-selected="false">Операции</button>
+        <button class="tab-btn is-active" type="button" role="tab" data-tab="retail" aria-selected="true" aria-controls="panel-retail">База знаний</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="corp" aria-selected="false" aria-controls="panel-corp">Документы</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="risk" aria-selected="false" aria-controls="panel-risk">Риски / комплаенс</button>
+        <button class="tab-btn" type="button" role="tab" data-tab="ops" aria-selected="false" aria-controls="panel-ops">Операции</button>
       </div>
 
       <div class="shell scenario-panels">
-        <article class="scenario-panel is-active" data-panel="retail">
+        <article class="scenario-panel is-active" data-panel="retail" id="panel-retail" role="tabpanel">
           <div class="scenario-main">
             <h3>База знаний и поддержка</h3>
-            <ul>
-              <li>Ассистент в корпоративном мессенджере с ответами по регламентам и документам.</li>
-              <li>Сервис‑деск: классификация обращений, черновики ответов и быстрый поиск по базе знаний.</li>
-              <li>Онбординг и обучение: подсказки по процессам и учебным материалам с проверяемыми источниками.</li>
-            </ul>
+            <p class="scenario-intro">Галерея агентов для помощи сотрудникам: от быстрых ответов по регламентам до триажа обращений.</p>
+
+            <div class="agent-grid">
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент знаний по политикам</h4>
+                <p>Отвечает по внутренним регламентам с обязательной ссылкой на источник.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Цитаты</li>
+                  <li>IAM</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="policy-knowledge" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент триажа поддержки</h4>
+                <p>Классифицирует обращения, формирует черновик ответа и маршрут в ITSM.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Аудит</li>
+                  <li>ITSM</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="support-triage" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент онбординга</h4>
+                <p>Подсказывает шаги онбординга и учебные материалы в контексте роли сотрудника.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Цитаты</li>
+                  <li>Доступ</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="onboarding-copilot" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+            </div>
           </div>
           <aside class="scenario-aside">
             <p>Метрики эффекта</p>
@@ -295,14 +356,48 @@
           </aside>
         </article>
 
-        <article class="scenario-panel" data-panel="corp">
+        <article class="scenario-panel" data-panel="corp" id="panel-corp" role="tabpanel" hidden>
           <div class="scenario-main">
             <h3>Документы: продажи, юристы, закупки</h3>
-            <ul>
-              <li>Черновики КП, писем, презентаций и RFP — с проверкой источников и политик.</li>
-              <li>Разбор договоров: извлечение условий, рисков и отклонений от шаблонов.</li>
-              <li>Подготовка резюме по тендерам и предложениям: сравнение вариантов и фиксация аргументов.</li>
-            </ul>
+            <p class="scenario-intro">Набор агентов для документных потоков: создавать, проверять, согласовывать и фиксировать аргументацию.</p>
+
+            <div class="agent-grid">
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент рисков договора</h4>
+                <p>Извлекает условия, рисковые пункты и отклонения от типовых шаблонов.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Цитаты</li>
+                  <li>Аудит</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="contract-risk" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент резюме тендера</h4>
+                <p>Собирает резюме тендера с сопоставлением требований, рисков и дедлайнов.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Цитаты</li>
+                  <li>IAM</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="tender-summary" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент коммерческих предложений</h4>
+                <p>Готовит черновик КП и проверяет, что формулировки соответствуют политике компании.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>Политики</li>
+                  <li>Аудит</li>
+                  <li>CRM</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="sales-drafter" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+            </div>
           </div>
           <aside class="scenario-aside">
             <p>Метрики эффекта</p>
@@ -310,14 +405,48 @@
           </aside>
         </article>
 
-        <article class="scenario-panel" data-panel="risk">
+        <article class="scenario-panel" data-panel="risk" id="panel-risk" role="tabpanel" hidden>
           <div class="scenario-main">
             <h3>Риски / комплаенс</h3>
-            <ul>
-              <li>Проверка соблюдения политик: ПДн, коммерческая тайна, ограничения по источникам.</li>
-              <li>Доказуемость: цитаты, журнал запросов/ответов и трассировка решений.</li>
-              <li>Подготовка к аудиту: воспроизводимые отчёты, контроль качества и контроль изменений.</li>
-            </ul>
+            <p class="scenario-intro">Агенты комплаенса и аудита для постоянного контроля рисков и воспроизводимых доказательств.</p>
+
+            <div class="agent-grid">
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент контроля политик</h4>
+                <p>Проверяет ответы на соответствие ПДн, коммерческой тайне и отраслевым правилам.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>Политики</li>
+                  <li>IAM</li>
+                  <li>Аудит</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="compliance-monitor" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент доказательств для аудита</h4>
+                <p>Формирует доказательную цепочку: вопрос, ответ, цитаты, версия политики и исполнитель.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>Цитаты</li>
+                  <li>Аудит</li>
+                  <li>RAG</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="audit-evidence" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент отчёта по инцидентам</h4>
+                <p>Собирает картину инцидента из SIEM/ITSM и готовит отчёт для риск-офиса.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>SIEM</li>
+                  <li>ITSM</li>
+                  <li>Аудит</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="incident-narrative" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+            </div>
           </div>
           <aside class="scenario-aside">
             <p>Метрики эффекта</p>
@@ -325,14 +454,48 @@
           </aside>
         </article>
 
-        <article class="scenario-panel" data-panel="ops">
+        <article class="scenario-panel" data-panel="ops" id="panel-ops" role="tabpanel" hidden>
           <div class="scenario-main">
             <h3>Операции</h3>
-            <ul>
-              <li>Извлечение данных из заявок и вложений (PDF/DOCX) в операционном потоке.</li>
-              <li>Маршрутизация задач, подсказки исполнителям по регламентам и контроль SLA в реальном времени.</li>
-              <li>Умная аналитика: быстрые ответы по отчётам и данным без очереди в команду аналитики.</li>
-            </ul>
+            <p class="scenario-intro">Операционная галерея агентов для входящих потоков, контроля SLA и управленческой аналитики.</p>
+
+            <div class="agent-grid">
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент входящего потока операций</h4>
+                <p>Извлекает данные из PDF/DOCX, валидирует поля и передаёт в целевой процесс.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>RAG</li>
+                  <li>Аудит</li>
+                  <li>DWH</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="operations-intake" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент контроля SLA</h4>
+                <p>Отслеживает отклонения SLA, предлагает действие и фиксирует управленческий след.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>ITSM</li>
+                  <li>IAM</li>
+                  <li>Аудит</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="sla-control" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+
+              <article class="agent-card">
+                <p class="agent-kicker">Агент</p>
+                <h4>Агент ответов по отчётам</h4>
+                <p>Даёт ответы по отчётам и метрикам из DWH с обязательным источником и временем среза.</p>
+                <ul class="agent-badges" aria-label="Функции агента">
+                  <li>Цитаты</li>
+                  <li>DWH</li>
+                  <li>Доступ</li>
+                </ul>
+                <button class="agent-workflow-btn" type="button" data-agent="report-qa" aria-controls="workflowDrawer">Сценарий</button>
+              </article>
+            </div>
           </div>
           <aside class="scenario-aside">
             <p>Метрики эффекта</p>
@@ -340,45 +503,178 @@
           </aside>
         </article>
       </div>
+
+      <div class="shell build-share-run" aria-label="Цикл работы с агентами">
+        <article>
+          <p>Создать</p>
+          <span>Собираем агента из кейса, данных, ролей и KPI.</span>
+        </article>
+        <article>
+          <p>Поделиться</p>
+          <span>Публикуем шаблон для бизнеса, ИТ, ИБ и риск-офиса.</span>
+        </article>
+        <article>
+          <p>Запустить</p>
+          <span>Запускаем в рабочем контуре с аудитом и метриками эффекта.</span>
+        </article>
+      </div>
     </section>
 
-    <section class="section motion reveal" id="motion">
+    <section class="section black-platform reveal" id="motion">
+      <div class="shell black-accent">
+        <div class="black-accent-top">
+          <h2>
+            Century —<br>
+            платформа<br>
+            безопасного<br>
+            внедрения LLM
+          </h2>
+          <p>
+            Единый конвейер для создания и запуска LLM‑сервисов в корпорации: внутри периметра (on‑prem/air‑gapped) или гибридно.
+            Встроенный контроль качества, аудит и верификация ответов превращают пилот в масштабируемый стандарт.
+          </p>
+        </div>
+        <div class="black-accent-grid">
+          <article>
+            <p>01</p>
+            <h3>Безопасность и развёртывание</h3>
+            <span>Разворачивается локально или в изолированном контуре. Данные не покидают периметр, а правила доступа и политики ИБ учитываются в процессе.</span>
+            <strong>Эффект: снижает риск утечек и блокировок со стороны ИБ.</strong>
+          </article>
+          <article>
+            <p>02</p>
+            <h3>Точность и верификация</h3>
+            <span>Гибридный RAG по корпоративным документам и ответы с цитатами источников — чтобы можно было проверять факты.</span>
+            <strong>Эффект: меньше ошибок и «галлюцинаций», выше доверие.</strong>
+          </article>
+          <article>
+            <p>03</p>
+            <h3>Мониторинг и аудит</h3>
+            <span>Логирование запросов и ответов, наблюдаемость, контроль качества и воспроизводимость — база для внутреннего контроля и подготовки к аудиту.</span>
+            <strong>Эффект: управляемый продакшен и доказательная база.</strong>
+          </article>
+          <article>
+            <p>04</p>
+            <h3>Скорость и независимость</h3>
+            <span>OpenAI‑совместимый API и сменяемые компоненты снижают вендорскую зависимость и ускоряют интеграции. Прозрачная экономика и масштабирование на портфель.</span>
+            <strong>Эффект: быстрее вывод в эксплуатацию и прогнозируемый бюджет.</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section motion reveal" id="brain">
       <div class="shell section-head">
-        <h2>Century — платформа безопасного внедрения LLM</h2>
+        <h2>Ядро платформы: проверяемые ответы</h2>
         <p>
-          Единый конвейер для создания и запуска LLM‑сервисов в корпорации: внутри периметра (on‑prem/air‑gapped)
-          или гибридно. Встроенные контроль качества, аудит и верификация ответов превращают пилот в масштабируемый стандарт.
+          Демонстрация продуктового режима: слева источники и статусы доступа, справа ответ агента с проверяемыми ссылками.
+          Результаты учитывают права доступа и готовы для аудита.
         </p>
       </div>
 
-      <div class="shell motion-grid">
-        <article class="motion-card">
-          <p class="motion-index">01</p>
-          <h3>Безопасность и развёртывание</h3>
-          <p>Разворачивается локально или в изолированном контуре. Данные не покидают периметр, а правила доступа и политики ИБ учитываются в процессе.</p>
-          <span>Эффект: снижает риск утечек и блокировок со стороны ИБ.</span>
+      <div class="shell brain-board">
+        <article class="brain-sources">
+          <p class="brain-label">Источники</p>
+          <ul class="brain-source-list">
+            <li>
+              <button class="source-item" type="button" data-source-id="source-q3" aria-controls="sourceDrawer">
+                Q3_Management_Report_2025.pdf
+                <span>Проиндексирован • с контролем доступа</span>
+              </button>
+            </li>
+            <li>
+              <button class="source-item" type="button" data-source-id="source-contract" aria-controls="sourceDrawer">
+                Master_Supply_Contract_v7.docx
+                <span>Проиндексирован • с контролем доступа</span>
+              </button>
+            </li>
+            <li>
+              <button class="source-item" type="button" data-source-id="source-policy" aria-controls="sourceDrawer">
+                Policy_PD_17_Data_Protection.pdf
+                <span>Проиндексирован • с контролем доступа</span>
+              </button>
+            </li>
+            <li>
+              <button class="source-item" type="button" data-source-id="source-sla" aria-controls="sourceDrawer">
+                ITSM_SLA_Q3_2025.csv
+                <span>Проиндексирован • с контролем доступа</span>
+              </button>
+            </li>
+          </ul>
         </article>
 
-        <article class="motion-card">
-          <p class="motion-index">02</p>
-          <h3>Точность и верификация</h3>
-          <p>Гибридный RAG по корпоративным документам (PDF/DOCX/таблицы) и ответы с цитатами источников — чтобы можно было проверять факты.</p>
-          <span>Эффект: меньше ошибок и «галлюцинаций», выше доверие.</span>
+        <article class="brain-answer">
+          <p class="brain-label">Ответ агента</p>
+          <p>
+            По итогам Q3 наибольшее отклонение маржи связано с ростом затрат на логистику и штрафами по SLA
+            <button class="citation-badge" type="button" data-source-id="source-q3" aria-controls="sourceDrawer">[1]</button>.
+            В договоре с поставщиком есть риск по одностороннему изменению сроков без SLA-компенсации
+            <button class="citation-badge" type="button" data-source-id="source-contract" aria-controls="sourceDrawer">[2]</button>.
+          </p>
+          <p>
+            Для ответа на вопрос о ПДн агент использует только разрешённые разделы политики и не показывает закрытые документы
+            <button class="citation-badge" type="button" data-source-id="source-policy" aria-controls="sourceDrawer">[3]</button>.
+          </p>
+          <p class="permission-indicator">Ответы учитывают права доступа</p>
         </article>
+      </div>
+    </section>
 
-        <article class="motion-card">
-          <p class="motion-index">03</p>
-          <h3>Мониторинг и аудит</h3>
-          <p>Логирование запросов и ответов, наблюдаемость, контроль качества и воспроизводимость — база для внутреннего контроля и подготовки к аудиту.</p>
-          <span>Эффект: управляемый продакшен и доказательная база.</span>
-        </article>
+    <section class="section trust-section trust-section-stacklevel reveal" id="trust">
+      <div class="shell trust-block">
+        <div class="trust-head">
+          <h3><span class="trust-title-main">Доверие</span> и <span class="trust-title-accent">управление</span></h3>
+          <p>Доказательная рамка для корпоративного внедрения: владение данными, контроль доступа, аудит и качество.</p>
+        </div>
 
-        <article class="motion-card">
-          <p class="motion-index">04</p>
-          <h3>Скорость и независимость</h3>
-          <p>OpenAI‑совместимый API и сменяемые компоненты снижают вендорскую зависимость и ускоряют интеграции. Прозрачная экономика и масштабирование на портфель.</p>
-          <span>Эффект: быстрее вывод в эксплуатацию и прогнозируемый бюджет.</span>
-        </article>
+        <div class="proofpoint-grid">
+          <article class="proofpoint-card">
+            <h4>Развёртывание</h4>
+            <p>Локальное или изолированное развёртывание в пределах корпоративного периметра.</p>
+            <a href="#trust-deployment">Подробнее</a>
+          </article>
+
+          <article class="proofpoint-card">
+            <h4>Контроль доступа</h4>
+            <p>IAM, роли и уровневые ограничения доступа для каждого ответа агента.</p>
+            <a href="#trust-access">Подробнее</a>
+          </article>
+
+          <article class="proofpoint-card">
+            <h4>Аудит</h4>
+            <p>Неизменяемые логи запросов, цитат, решений и действий в едином журнале.</p>
+            <a href="#trust-audit">Подробнее</a>
+          </article>
+
+          <article class="proofpoint-card">
+            <h4>Качество</h4>
+            <p>Контур оценки и мониторинга: метрики качества, рисков и стабильности в эксплуатации.</p>
+            <a href="#trust-quality">Подробнее</a>
+          </article>
+        </div>
+
+        <div class="trust-details">
+          <article id="trust-deployment">
+            <p>Размещение</p>
+            <h4>Локальный / изолированный контур</h4>
+            <span>Размещение внутри инфраструктуры компании с контролем сетевого и юридического периметра.</span>
+          </article>
+          <article id="trust-access">
+            <p>Доступ</p>
+            <h4>Ролевая модель доступа</h4>
+            <span>Ответ строится только по источникам, на которые у пользователя есть разрешение.</span>
+          </article>
+          <article id="trust-audit">
+            <p>Аудит</p>
+            <h4>Сквозная трассируемость решений</h4>
+            <span>Фиксируются запрос, источники, версия политики, результат и исполнитель.</span>
+          </article>
+          <article id="trust-quality">
+            <p>Качество</p>
+            <h4>Оценка и наблюдаемость</h4>
+            <span>Пороговые значения качества и рисков помогают управлять портфелем кейсов на уровне CDTO.</span>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -390,21 +686,21 @@
         </p>
       </div>
 
-      <div class="shell proof-kpis">
-        <article>
-          <p><span data-counter="6">0</span> недель</p>
+      <div class="shell metric-strip" aria-label="Ключевые метрики внедрения">
+        <article class="metric-card">
+          <p class="metric-value"><span data-counter="4">0</span>&ndash;<span data-counter="6">0</span> недель</p>
           <h3>до кейса в промышленной эксплуатации</h3>
         </article>
-        <article>
-          <p><span data-counter="90">0</span> дней</p>
+        <article class="metric-card">
+          <p class="metric-value"><span data-counter="90">0</span> дней</p>
           <h3>до модели управления портфелем</h3>
         </article>
-        <article>
-          <p><span data-counter="1">0</span> контур</p>
+        <article class="metric-card">
+          <p class="metric-value"><span data-counter="1">0</span> контур</p>
           <h3>для бизнеса, ИТ, ИБ и аудита</h3>
         </article>
-        <article>
-          <p><span data-counter="360">0</span>&deg;</p>
+        <article class="metric-card">
+          <p class="metric-value"><span data-counter="360">0</span>&deg;</p>
           <h3>прозрачность качества и рисков</h3>
         </article>
       </div>
@@ -474,12 +770,30 @@
         </form>
       </div>
     </section>
+
+    <div class="drawer-backdrop" id="workflowDrawerBackdrop" hidden></div>
+    <aside class="side-drawer" id="workflowDrawer" role="dialog" aria-modal="true" aria-labelledby="workflowDrawerTitle" hidden>
+      <header class="side-drawer-head">
+        <h3 id="workflowDrawerTitle">Сценарий</h3>
+        <button class="drawer-close" type="button" data-close="workflowDrawer" aria-label="Закрыть окно workflow">Закрыть</button>
+      </header>
+      <div class="side-drawer-body" id="workflowDrawerBody"></div>
+    </aside>
+
+    <div class="drawer-backdrop" id="sourceDrawerBackdrop" hidden></div>
+    <aside class="side-drawer" id="sourceDrawer" role="dialog" aria-modal="true" aria-labelledby="sourceDrawerTitle" hidden>
+      <header class="side-drawer-head">
+        <h3 id="sourceDrawerTitle">Источник</h3>
+        <button class="drawer-close" type="button" data-close="sourceDrawer" aria-label="Закрыть окно источника">Закрыть</button>
+      </header>
+      <div class="side-drawer-body" id="sourceDrawerBody"></div>
+    </aside>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-grid">
       <section class="footer-brand">
-        <a href="#home" class="footer-logo" aria-label="Century by StackLevel Group">
+        <a href="#home" class="footer-logo" aria-label="Century by Stacklevel Group">
           <span class="footer-century">CENTURY</span>
           <span class="footer-line">
             <img class="footer-stacklevel" src="assets/sl.svg" alt="Stacklevel" width="277" height="23">
@@ -507,7 +821,7 @@
     </div>
 
     <div class="shell footer-bottom">
-      <p>&copy; <span id="year"></span> Century by StackLevel Group</p>
+      <p>&copy; <span id="year"></span> Century by Stacklevel Group</p>
       <a href="#home">Наверх</a>
     </div>
   </footer>
