@@ -102,7 +102,17 @@ export default function Footer() {
         </div>
 
         <div className="shell footer-bottom">
-          <p>&copy; {year} Century by Stacklevel Group.</p>
+          <p>
+            &copy; {year} Century by{' '}
+            <a
+              href="https://stacklevel.group/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Stacklevel Group
+            </a>
+            .
+          </p>
         </div>
       </section>
     </footer>
