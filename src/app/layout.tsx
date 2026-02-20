@@ -38,6 +38,20 @@ export const metadata: Metadata = {
   creator: 'Stacklevel Group',
   publisher: 'Stacklevel Group',
   category: 'enterprise ai',
+  icons: {
+    icon: [
+      {
+        url: '/favicon.png',
+        type: 'image/png',
+      },
+    ],
+    shortcut: ['/favicon.png'],
+    apple: [
+      {
+        url: '/favicon.png',
+      },
+    ],
+  },
   alternates: {
     canonical: '/',
     languages: {
