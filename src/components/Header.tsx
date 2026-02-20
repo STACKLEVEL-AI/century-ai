@@ -132,8 +132,8 @@ export default function Header() {
           <span className="logo-line-two">
             <Image
               className="logo-stacklevel"
-              src="assets/sl.png"
-              alt="Stacklevel"
+              src="/assets/sl.png"
+              alt="Stacklevel Group logo"
               width={300}
               height={23}
               priority
