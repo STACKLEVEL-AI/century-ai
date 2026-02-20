@@ -18,8 +18,8 @@ export default function Footer() {
               <span className="footer-line">
                 <Image
                   className="footer-stacklevel"
-                  src="assets/sl.png"
-                  alt="Stacklevel"
+                  src="/assets/sl.png"
+                  alt="Stacklevel Group logo"
                   width={277}
                   height={23}
                 />
@@ -81,8 +81,8 @@ export default function Footer() {
             <p className="footer-title">QR-код</p>
             <div className="footer-qr">
               <Image
-                src="assets/qr-code.png"
-                alt="QR-код для связи"
+                src="/assets/qr-code.png"
+                alt="QR code for Century contact"
                 width={120}
                 height={120}
                 className="qr-image"
@@ -93,8 +93,8 @@ export default function Footer() {
 
         <div className="footer-big-century">
           <Image
-            src="assets/CENTURY_White_H.png"
-            alt="CENTURY_White_H"
+            src="/assets/CENTURY_White_H.png"
+            alt="Century brand mark"
             width={0}
             height={0}
             className="century-image"

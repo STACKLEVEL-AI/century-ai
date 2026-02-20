@@ -2,6 +2,14 @@ import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
 import './globals.css'
 
+const SITE_URL = 'https://century-ai.ru'
+const SITE_NAME = 'Century by Stacklevel Group'
+const SITE_TITLE =
+  'Century — корпоративная платформа внедрения LLM для крупных организаций'
+const SITE_DESCRIPTION =
+  'Century помогает запускать корпоративные LLM-сервисы в безопасном контуре: on-prem/air-gapped, RAG с цитатами, аудит и контроль качества, интеграции с ERP/CRM/ITSM/IAM.'
+const OG_IMAGE_URL = `${SITE_URL}/og/century-ai-og.svg`
+
 const manrope = Manrope({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-manrope',
@@ -9,131 +17,312 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
-  title: 'Century by Stacklevel Group — корпоративный контур внедрения ИИ',
-  description:
-    'Century — корпоративная платформа и конвейер для контролируемого внедрения LLM\u2011сервисов в крупных организациях: внутри периметра (on\u2011prem/air\u2011gapped), ИБ и комплаенс, верификация ответов (RAG + цитаты), логирование и аудит, KPI и дорожная карта масштабирования.',
-  metadataBase: new URL('https://century-ai.ru'),
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: '%s | Century',
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: 'Century',
+  referrer: 'origin-when-cross-origin',
+  keywords: [
+    'внедрение llm',
+    'корпоративный rag',
+    'on-prem ai',
+    'air-gapped llm',
+    'аудит llm',
+    'enterprise ai platform',
+    'openai-compatible api',
+  ],
+  authors: [{ name: 'Stacklevel Group', url: 'https://stacklevel.group' }],
+  creator: 'Stacklevel Group',
+  publisher: 'Stacklevel Group',
+  category: 'enterprise ai',
+  alternates: {
+    canonical: '/',
+    languages: {
+      'ru-RU': '/',
+      'x-default': '/',
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
-    title: 'Century by Stacklevel Group — корпоративный контур внедрения ИИ',
-    description:
-      'Century — корпоративная платформа для контролируемого внедрения LLM\u2011сервисов в крупных организациях.',
-    url: 'https://century-ai.ru',
-    siteName: 'Century',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: 'ru_RU',
     type: 'website',
+    images: [
+      {
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+        alt: 'Century by Stacklevel Group',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE_URL],
+  },
+  verification: {
+    google: 'G-9lIFOuqI7bxNAuFqZww-U_npp1rvShARY-mU1dBVs',
   },
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
     {
-      "@type": "WebSite",
-      "@id": "https://century-ai.ru/#website",
-      "name": "Century by Stacklevel Group — корпоративный контур внедрения ИИ",
-      "url": "https://century-ai.ru/",
-      "description": "Century — корпоративная платформа и конвейер для контролируемого внедрения LLM‑сервисов в крупных организациях: внутри периметра (on‑prem/air‑gapped), ИБ и комплаенс, верификация ответов (RAG + цитаты), логирование и аудит, KPI и дорожная карта масштабирования.",
-      "inLanguage": "ru-RU"
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://stacklevel.group/#organization",
-      "name": "StackLevel Group",
-      "url": "https://stacklevel.group",
-      "description": "StackLevel Group — компания, разрабатывающая корпоративные LLM/RAG-системы с фокусом на безопасность и надежность.",
-      "sameAs": [
-        "https://www.linkedin.com/company/stacklevel"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Минск",
-        "addressCountry": "BY"
-      }
-    },
-    {
-      "@type": "Organization",
-      "name": "Проект Century",
-      "url": "https://century-ai.ru",
-      "description": "Century — платформа для безопасного внедрения LLM в контур бизнеса и государственных организаций: локально (air-gapped/on-prem) с совместимостью с облачными моделями и единым конвейером для запуска LLM-приложений.",
-      "sameAs": [
-        "https://destiny.by"
-      ]
-    },
-    {
-      "@type": "Person",
-      "@id": "https://vadimohka.ru/#person",
-      "name": "Владымцев Вадим Денисович",
-      "alternateName": "Vadim Vladymtsev",
-      "disambiguatingDescription": "Архитектор корпоративных LLM/RAG-систем (secure on-prem / air-gapped).",
-      "description": "Архитектор корпоративных LLM/RAG-систем. Специализируюсь на безопасном внедрении ИИ в регулируемых секторах: air-gapped/on-prem развертывание, OpenAI-совместимый API, гибридный поиск, верификация источников, аудит и наблюдаемость.",
-      "jobTitle": "R&D Director & AI Solutions Architect",
-      "worksFor": { "@id": "https://stacklevel.group/#organization" },
-      "url": "https://vadimohka.ru/",
-      "image": "https://vadimohka.ru/Vadim_Vladymtsev.png",
-      "mainEntityOfPage": { "@id": "https://vadimohka.ru/#profile" },
-      "sameAs": [
-        "https://www.linkedin.com/in/vadimohka/",
-        "https://github.com/vadimohka",
-        "https://scholar.google.com/citations?user=ccabRDYAAAAJ",
-        "https://codeforces.com/profile/Vadimohka",
-        "https://www.researchgate.net/profile/Vadim-Vladymtsev",
-        "https://libeldoc.bsuir.by/simple-search?query=Владымцев",
-        "https://stepik.org/users/296085237/profile",
-        "https://setka.ru/users/9c9dcca0-084b-4bf3-addf-1102cf4e4fd2",
-        "https://ctv.by/tags/vadim-vladymcev"
-      ],
-      "email": "vadimohkav@gmail.com",
-      "identifier": [
-        {
-          "@type": "PropertyValue",
-          "propertyID": "Google Scholar",
-          "value": "ccabRDYAAAAJ",
-          "url": "https://scholar.google.com/citations?user=ccabRDYAAAAJ"
-        }
-      ],
-      "knowsAbout": [
-        "Enterprise RAG",
-        "Hybrid Search",
-        "Source-grounded answers",
-        "Air-Gapped Systems",
-        "On-Premise Deployments",
-        "OpenAI-compatible API",
-        "LLM Security",
-        "Prompt Injection Defense",
-        "Access Control",
-        "Audit Logging",
-        "LLM Evaluation",
-        "AI Observability",
-        "Agentic Orchestration",
-        "AI Readiness Assessment"
-      ],
-      "alumniOf": {
-        "@type": "EducationalOrganization",
-        "name": "БГУИР"
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Stacklevel Group',
+      url: 'https://stacklevel.group',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/assets/sl.png`,
+        width: 656,
+        height: 298,
       },
-      "hasCredential": {
-        "@type": "EducationalOccupationalCredential",
-        "credentialCategory": "Master's degree",
-        "educationalLevel": "Master's degree",
-        "recognizedBy": {
-          "@type": "EducationalOrganization",
-          "name": "БГУИР"
-        }
-      }
+      email: 'v.bakhmat@stacklevel.group',
+      telephone: '+375296682127',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          contactType: 'sales',
+          email: 'v.bakhmat@stacklevel.group',
+          telephone: '+375296682127',
+          availableLanguage: ['ru', 'en'],
+          url: `${SITE_URL}/#contact`,
+        },
+      ],
+      sameAs: [
+        'https://www.linkedin.com/company/stacklevel',
+        'https://www.youtube.com/@STACKLEVELGROUP',
+      ],
+      areaServed: [
+        {
+          '@type': 'Country',
+          name: 'Russia',
+        },
+        {
+          '@type': 'Country',
+          name: 'Belarus',
+        },
+      ],
+      knowsAbout: [
+        'Enterprise LLM',
+        'RAG with citations',
+        'On-premise deployment',
+        'Air-gapped infrastructure',
+        'AI audit trails',
+        'AI governance',
+      ],
     },
     {
-      "@type": "Person",
-      "name": "Бахмат Виталий Кириллович",
-      "alternateName": "Vitali Bakhmat",
-      "jobTitle": "CEO продукта",
-      "worksFor": { "@id": "https://stacklevel.group/#organization" },
-      "sameAs": [
-        "https://www.facebook.com/vbakhmat",
-        "https://www.linkedin.com/in/vbakhmat/"
+      '@type': 'Brand',
+      '@id': `${SITE_URL}/#brand`,
+      name: 'Century',
+      url: SITE_URL,
+      logo: `${SITE_URL}/assets/CENTURY_White_H.png`,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: `${SITE_URL}/`,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      publisher: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/#webpage`,
+      url: `${SITE_URL}/`,
+      name: SITE_TITLE,
+      description: SITE_DESCRIPTION,
+      isPartOf: {
+        '@id': `${SITE_URL}/#website`,
+      },
+      about: {
+        '@id': `${SITE_URL}/#service`,
+      },
+      breadcrumb: {
+        '@id': `${SITE_URL}/#breadcrumb`,
+      },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+      },
+      inLanguage: 'ru-RU',
+      dateModified: new Date().toISOString(),
+      mainEntity: {
+        '@id': `${SITE_URL}/#service`,
+      },
+    },
+    {
+      '@type': 'Service',
+      '@id': `${SITE_URL}/#service`,
+      name: 'Century',
+      serviceType: 'Внедрение корпоративных LLM и RAG-сервисов',
+      description:
+        'Платформа и методология для запуска LLM-сценариев в регулируемой среде: от выбора кейса и KPI до промышленного контура с аудитом и контролем качества.',
+      provider: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      brand: {
+        '@id': `${SITE_URL}/#brand`,
+      },
+      areaServed: [
+        {
+          '@type': 'Country',
+          name: 'Russia',
+        },
+        {
+          '@type': 'Country',
+          name: 'Belarus',
+        },
       ],
-      "description": "Partner at StackLevel Group, Account Manager at LSEG (London Stock Exchange Group), Business Development Manager at JungleJobs"
-      }
-    ]
+      audience: {
+        '@type': 'BusinessAudience',
+        audienceType:
+          'Крупные организации и государственные структуры в регулируемых отраслях',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Сценарии первых 90 дней',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'База знаний и поддержка',
+              description:
+                'Агенты для ответов по регламентам, триажа обращений и онбординга с цитатами источников.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Документы: продажи, юристы, закупки',
+              description:
+                'Агенты для анализа договоров, тендеров и подготовки коммерческих материалов.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Риски и комплаенс',
+              description:
+                'Проверка политик, сбор доказательной цепочки и отчёты по инцидентам для аудита.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Операции и SLA',
+              description:
+                'Автоматизация входящих потоков, контроль SLA и ответы по отчётным данным.',
+            },
+          },
+        ],
+      },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#application`,
+      name: 'Century Platform',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'On-premise, Private Cloud, Air-gapped',
+      url: SITE_URL,
+      description:
+        'Корпоративная LLM-платформа с интеграциями в ERP/CRM/ITSM/IAM, проверяемыми ответами и журналом аудита.',
+      brand: {
+        '@id': `${SITE_URL}/#brand`,
+      },
+      provider: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      featureList: [
+        'Локальное развертывание и изолированный контур',
+        'Гибридный RAG с цитированием источников',
+        'Наблюдаемость и аудит запросов/ответов',
+        'OpenAI-совместимый API и сменяемые компоненты',
+        'Контроль доступа по ролям (IAM)',
+      ],
+      availableLanguage: ['ru', 'en'],
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/#scenario-list`,
+      name: 'Портфель сценариев Century',
+      itemListOrder: 'https://schema.org/ItemListOrderAscending',
+      numberOfItems: 4,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'База знаний и поддержка',
+          item: `${SITE_URL}/#scenarios`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Документные процессы',
+          item: `${SITE_URL}/#scenarios`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Риски и комплаенс',
+          item: `${SITE_URL}/#scenarios`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: 'Операции и SLA',
+          item: `${SITE_URL}/#scenarios`,
+        },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${SITE_URL}/#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Главная',
+          item: `${SITE_URL}/`,
+        },
+      ],
+    },
+  ],
 }
 
 export default function RootLayout({
@@ -141,14 +330,26 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const jsonLdScript = JSON.stringify(structuredData).replace(/</g, '\\u003c')
+
   return (
     <html lang="ru" className={`${manrope.variable}`}>
       <head>
+        <link
+          rel="alternate"
+          type="text/plain"
+          href={`${SITE_URL}/llms.txt`}
+          title="LLMs.txt"
+        />
+        <link
+          rel="sitemap"
+          type="application/xml"
+          href={`${SITE_URL}/sitemap.xml`}
+        />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript }}
         />
-        <meta name="google-site-verification" content="G-9lIFOuqI7bxNAuFqZww-U_npp1rvShARY-mU1dBVs" />
       </head>
       <body>
         <div className="grid-overlay" aria-hidden="true" />
@@ -157,4 +358,3 @@ export default function RootLayout({
     </html>
   )
 }
-
