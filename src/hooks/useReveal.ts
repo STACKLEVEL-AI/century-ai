@@ -14,13 +14,17 @@ export function useReveal(delay = 0) {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     if (prefersReduced || !('IntersectionObserver' in window)) {
-      setVisible(true)
-      return
+      const frame = window.requestAnimationFrame(() => {
+        setVisible(true)
+      })
+      return () => window.cancelAnimationFrame(frame)
     }
 
     if (node.getBoundingClientRect().top <= window.innerHeight * 0.88) {
-      setVisible(true)
-      return
+      const frame = window.requestAnimationFrame(() => {
+        setVisible(true)
+      })
+      return () => window.cancelAnimationFrame(frame)
     }
 
     const observer = new IntersectionObserver(
@@ -44,4 +48,3 @@ export function useReveal(delay = 0) {
 
   return { ref, visible, className, style }
 }
-

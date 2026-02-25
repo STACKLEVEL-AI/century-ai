@@ -60,7 +60,7 @@ const steps = [
     },
 ]
 
-export default function Narrative({ ...props }: any) {
+export default function Narrative(props: React.HTMLAttributes<HTMLElement>) {
     const { ref, className, style } = useReveal(140)
     const [active, setActive] = useState(0)
     const autoRef = useRef<ReturnType<typeof setInterval> | null>(null)

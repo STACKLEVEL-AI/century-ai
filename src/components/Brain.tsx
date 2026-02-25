@@ -31,7 +31,7 @@ export default function Brain() {
         <p>
           Демонстрация продуктового режима: слева источники и статусы доступа,
           справа ответ агента с проверяемыми ссылками. Результаты учитывают
-          праваx доступа и готовы для аудита.
+          права доступа и готовы для аудита.
         </p>
       </div>
 
@@ -93,6 +93,17 @@ export default function Brain() {
             Ответы учитывают права доступа
           </p>
         </article>
+      </div>
+
+      <div className="shell brain-audience">
+        <div className="audience-strip">
+          <p>для кого?</p>
+          <div className="audience-tags">
+            <span>#Государственный сектор</span>
+            <span>#Крупный бизнес</span>
+            <span>#Корпорации в РБ</span>
+          </div>
+        </div>
       </div>
     </section>
   )
