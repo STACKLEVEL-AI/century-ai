@@ -925,6 +925,50 @@ a {
   gap: 10px;
 }
 
+.hook-advantages {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--gray);
+}
+
+.advantages-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--blue);
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.advantage-text {
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  margin-bottom: 6px !important;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding-left: 12px;
+}
+
+.advantage-text::before {
+  content: "•";
+  color: var(--blue);
+  position: absolute;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  .hook-advantages {
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+
+  .advantage-text {
+    font-size: 0.85rem !important;
+  }
+}
+
 /* =========================================================
    Narrative
    ========================================================= */
@@ -1605,9 +1649,9 @@ a {
 }
 
 .agent-grid {
-  margin-top: 14px;
+  margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -1615,15 +1659,11 @@ a {
   border: var(--border-subtle);
   border-radius: var(--radius-md);
   background: var(--white);
-  padding: 14px;
+  padding: 20px;
   display: grid;
   align-content: start;
   gap: 9px;
   transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
-}
-
-.agent-grid .agent-card:last-child {
-  grid-column: 1 / -1;
 }
 
 .agent-card:hover {
@@ -1712,6 +1752,8 @@ a {
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 12px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .scenario-aside p {
@@ -1724,12 +1766,12 @@ a {
   font-weight: 700;
   border: 1px solid var(--color-primary-200);
   border-radius: var(--radius-pill);
-  padding: 5px 10px;
+  padding: 7px 13px;
   background: var(--white);
 }
 
 .scenario-aside span {
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.46;
   color: var(--color-text-secondary);
 }
@@ -1826,9 +1868,9 @@ a {
   font-family: var(--font-heading);
   text-transform: uppercase;
   letter-spacing: -0.035em;
-  line-height: 0.88;
-  font-size: clamp(2.2rem, 5.1vw, 6.1rem);
-  max-width: 13ch;
+  line-height: 0.95;
+  font-size: clamp(2rem, 4.4vw, 3.95rem);
+  max-width: 16ch;
   font-weight: 600;
   text-wrap: balance;
 }
@@ -2017,6 +2059,94 @@ a {
 }
 
 /* =========================================================
+   Audience блок (как в Contact)
+   ========================================================= */
+.brain-audience {
+  margin-top: 30px;
+}
+
+.audience-strip {
+  border: 1px solid var(--gray);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  min-height: 60px;
+}
+
+.audience-strip p {
+  margin: 0;
+  padding: 0 20px 0 0;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--blue);
+  border-right: 1px solid var(--gray);
+  flex-shrink: 0;
+}
+
+.audience-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.audience-tags span {
+  border: 1px solid var(--gray);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--white);
+  color: var(--black);
+}
+
+@media (max-width: 768px) {
+  .audience-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  .audience-strip p {
+    border-right: none;
+    border-bottom: 1px solid var(--gray);
+    padding: 0 0 8px 0;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .audience-tags {
+    padding: 0;
+    width: 100%;
+  }
+
+  .audience-tags span {
+    white-space: normal;
+    text-align: center;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .audience-tags {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .audience-tags span {
+    width: 100%;
+  }
+}
+
+/* =========================================================
    Trust
    ========================================================= */
 .trust {
@@ -2050,6 +2180,7 @@ a {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.2, 0.72, 0.14, 1);
   position: relative;
+  height: 230px;
 }
 
 .trust-card:hover {
@@ -3223,4 +3354,3 @@ footer section {
     transform: translateX(0);
   }
 }
-
