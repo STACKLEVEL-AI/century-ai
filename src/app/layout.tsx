@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Manrope } from 'next/font/google'
 import './globals.css'
 
@@ -102,6 +102,10 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  themeColor: '#04070f',
+}
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -118,56 +122,29 @@ const structuredData = {
       },
       email: 'v.bakhmat@stacklevel.group',
       telephone: '+375296682127',
-      contactPoint: [
-        {
-          '@type': 'ContactPoint',
-          contactType: 'sales',
-          email: 'v.bakhmat@stacklevel.group',
-          telephone: '+375296682127',
-          availableLanguage: ['ru', 'en'],
-          url: `${SITE_URL}/#contact`,
-        },
-      ],
-      sameAs: [
-        'https://www.linkedin.com/company/stacklevel',
-        'https://www.youtube.com/@STACKLEVELGROUP',
-      ],
-      areaServed: [
-        {
-          '@type': 'Country',
-          name: 'Russia',
-        },
-        {
-          '@type': 'Country',
-          name: 'Belarus',
-        },
-      ],
-      knowsAbout: [
-        'Enterprise LLM',
-        'RAG with citations',
-        'On-premise deployment',
-        'Air-gapped infrastructure',
-        'AI audit trails',
-        'AI governance',
-      ],
+      contactPoint: {
+        '@id': `${SITE_URL}/#contactpoint`,
+      },
+      sameAs: ['https://www.youtube.com/@STACKLEVELGROUP'],
     },
     {
-      '@type': 'Brand',
-      '@id': `${SITE_URL}/#brand`,
-      name: 'Century',
-      url: SITE_URL,
-      logo: `${SITE_URL}/assets/CENTURY_White_H.png`,
+      '@type': 'ContactPoint',
+      '@id': `${SITE_URL}/#contactpoint`,
+      contactType: 'sales',
+      email: 'v.bakhmat@stacklevel.group',
+      telephone: '+375296682127',
+      availableLanguage: ['ru', 'en'],
+      url: `${SITE_URL}/#contact`,
     },
     {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
       name: SITE_NAME,
-      description: SITE_DESCRIPTION,
+      inLanguage: 'ru',
       publisher: {
         '@id': `${SITE_URL}/#organization`,
       },
-      inLanguage: 'ru-RU',
     },
     {
       '@type': 'WebPage',
@@ -175,14 +152,15 @@ const structuredData = {
       url: `${SITE_URL}/`,
       name: SITE_TITLE,
       description: SITE_DESCRIPTION,
+      inLanguage: 'ru',
       isPartOf: {
         '@id': `${SITE_URL}/#website`,
       },
       about: {
-        '@id': `${SITE_URL}/#service`,
+        '@id': `${SITE_URL}/#product`,
       },
-      breadcrumb: {
-        '@id': `${SITE_URL}/#breadcrumb`,
+      mainEntity: {
+        '@id': `${SITE_URL}/#product`,
       },
       primaryImageOfPage: {
         '@type': 'ImageObject',
@@ -190,111 +168,120 @@ const structuredData = {
         width: 1200,
         height: 630,
       },
-      inLanguage: 'ru-RU',
-      dateModified: new Date().toISOString(),
-      mainEntity: {
-        '@id': `${SITE_URL}/#service`,
-      },
     },
     {
-      '@type': 'Service',
-      '@id': `${SITE_URL}/#service`,
+      '@type': 'Product',
+      '@id': `${SITE_URL}/#product`,
       name: 'Century',
-      serviceType: 'Внедрение корпоративных LLM и RAG-сервисов',
+      url: `${SITE_URL}/`,
       description:
-        'Платформа и методология для запуска LLM-сценариев в регулируемой среде: от выбора кейса и KPI до промышленного контура с аудитом и контролем качества.',
-      provider: {
-        '@id': `${SITE_URL}/#organization`,
+        'Корпоративная платформа и конвейер внедрения LLM-сервисов для крупных организаций РФ и Беларуси: от выбора первого кейса с KPI до промышленного запуска в безопасном контуре.',
+      image: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/assets/CENTURY_White_H.png`,
       },
       brand: {
-        '@id': `${SITE_URL}/#brand`,
+        '@type': 'Brand',
+        name: 'Century',
       },
-      areaServed: [
-        {
-          '@type': 'Country',
-          name: 'Russia',
-        },
-        {
-          '@type': 'Country',
-          name: 'Belarus',
-        },
-      ],
+      manufacturer: {
+        '@id': `${SITE_URL}/#organization`,
+      },
       audience: {
         '@type': 'BusinessAudience',
-        audienceType:
-          'Крупные организации и государственные структуры в регулируемых отраслях',
+        audienceType: 'Крупные организации и государственные структуры',
       },
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Сценарии первых 90 дней',
-        itemListElement: [
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'База знаний и поддержка',
-              description:
-                'Агенты для ответов по регламентам, триажа обращений и онбординга с цитатами источников.',
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Документы: продажи, юристы, закупки',
-              description:
-                'Агенты для анализа договоров, тендеров и подготовки коммерческих материалов.',
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Риски и комплаенс',
-              description:
-                'Проверка политик, сбор доказательной цепочки и отчёты по инцидентам для аудита.',
-            },
-          },
-          {
-            '@type': 'Offer',
-            itemOffered: {
-              '@type': 'Service',
-              name: 'Операции и SLA',
-              description:
-                'Автоматизация входящих потоков, контроль SLA и ответы по отчётным данным.',
-            },
-          },
-        ],
-      },
+      category: 'Enterprise AI Platform',
+      slogan: 'LLM в корпорации — из пилота в управленческое решение',
     },
     {
-      '@type': 'SoftwareApplication',
-      '@id': `${SITE_URL}/#application`,
-      name: 'Century Platform',
-      applicationCategory: 'BusinessApplication',
-      operatingSystem: 'On-premise, Private Cloud, Air-gapped',
-      url: SITE_URL,
-      description:
-        'Корпоративная LLM-платформа с интеграциями в ERP/CRM/ITSM/IAM, проверяемыми ответами и журналом аудита.',
-      brand: {
-        '@id': `${SITE_URL}/#brand`,
-      },
-      provider: {
-        '@id': `${SITE_URL}/#organization`,
-      },
-      featureList: [
-        'Локальное развертывание и изолированный контур',
-        'Гибридный RAG с цитированием источников',
-        'Наблюдаемость и аудит запросов/ответов',
-        'OpenAI-совместимый API и сменяемые компоненты',
-        'Контроль доступа по ролям (IAM)',
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/#roadmap-list`,
+      name: 'Дорожная карта CDTO к масштабируемым решениям',
+      itemListOrder: 'https://schema.org/ItemListOrderAscending',
+      numberOfItems: 3,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Подготовка и старт (месяц 1)',
+          item: `${SITE_URL}/#narrative`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Внедрение и запуск (месяц 2)',
+          item: `${SITE_URL}/#narrative`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'Масштабирование (месяц 3)',
+          item: `${SITE_URL}/#narrative`,
+        },
       ],
-      availableLanguage: ['ru', 'en'],
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/#connector-list`,
+      name: 'Коннекторы',
+      itemListOrder: 'https://schema.org/ItemListOrderAscending',
+      numberOfItems: 8,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'ERP',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'СЭД',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: 'CRM',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: 'ITSM',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 5,
+          name: 'IAM',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 6,
+          name: 'SIEM',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 7,
+          name: 'DWH',
+          item: `${SITE_URL}/#platform`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 8,
+          name: 'Портал',
+          item: `${SITE_URL}/#platform`,
+        },
+      ],
     },
     {
       '@type': 'ItemList',
       '@id': `${SITE_URL}/#scenario-list`,
-      name: 'Портфель сценариев Century',
+      name: 'Сценарии первых 90 дней',
       itemListOrder: 'https://schema.org/ItemListOrderAscending',
       numberOfItems: 4,
       itemListElement: [
@@ -307,32 +294,20 @@ const structuredData = {
         {
           '@type': 'ListItem',
           position: 2,
-          name: 'Документные процессы',
+          name: 'Документы: продажи, юристы, закупки',
           item: `${SITE_URL}/#scenarios`,
         },
         {
           '@type': 'ListItem',
           position: 3,
-          name: 'Риски и комплаенс',
+          name: 'Риски / комплаенс',
           item: `${SITE_URL}/#scenarios`,
         },
         {
           '@type': 'ListItem',
           position: 4,
-          name: 'Операции и SLA',
+          name: 'Операции',
           item: `${SITE_URL}/#scenarios`,
-        },
-      ],
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${SITE_URL}/#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Главная',
-          item: `${SITE_URL}/`,
         },
       ],
     },
@@ -351,9 +326,15 @@ export default function RootLayout({
       <head>
         <link
           rel="alternate"
-          type="text/plain"
+          type="text/markdown"
           href={`${SITE_URL}/llms.txt`}
           title="LLMs.txt"
+        />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href={`${SITE_URL}/llms-full.txt`}
+          title="LLMs full context"
         />
         <link
           rel="sitemap"

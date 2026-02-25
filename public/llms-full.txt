@@ -1,0 +1,178 @@
+# Century by Stacklevel Group — full context snapshot
+
+Canonical URL: https://century-ai.ru/
+Language: ru-RU
+Snapshot date: 2026-02-25
+
+## 1) Hero / positioning
+H1: LLM в корпорации — из пилота в управленческое решение.
+
+Core statement:
+Century is positioned as a corporate platform and implementation pipeline for LLM services in large organizations in Russia and Belarus, from first KPI-based use case selection to production launch.
+
+Highlighted constraints and requirements:
+- on-prem and air-gapped deployment
+- RAG with source citations
+- logging and audit
+- OpenAI-compatible API with swappable components
+
+Primary CTA:
+- discuss use case and KPI
+- view roadmap
+
+## 2) Key stakeholders
+The page lists the following key participants:
+- CDTO (цифровая трансформация)
+- CIO (архитектура и ИТ)
+- CDO (данные и ИИ)
+- Информационная безопасность
+- Риск-офис
+- Комплаенс
+- Внутренний аудит
+- Бизнес-владельцы
+
+## 3) Why AI pilots fail to become management-grade solutions
+The page highlights three barriers:
+1) No owner and measurable economics.
+2) Security and compliance involved too late.
+3) No scaling mechanism from one successful case to portfolio rollout.
+
+Expected outcomes on the page:
+- effect tracked in numbers and KPI
+- control embedded into architecture
+- roadmap with roles, quality standards, and rollout cadence
+
+## 4) Roadmap (first 90 days)
+Section title: Дорожная карта CDTO к масштабируемым решениям.
+
+Stage 01: Подготовка и старт (месяц 1)
+- choose and approve use case with KPI
+- assess data/system readiness
+- define owner and target metrics
+- outcome: investment logic approved
+
+Stage 02: Внедрение и запуск (месяц 2)
+- production launch of first use case
+- integration into operating workflows
+- security/compliance policy checks
+- outcome: launch with verified security
+
+Stage 03: Масштабирование (месяц 3)
+- replicate to 2-3 additional scenarios
+- establish portfolio governance model
+- launch metrics and audit system
+- outcome: managed portfolio of AI services
+
+## 5) Platform and integrations
+Section title: Технологии и интеграции под единым контролем.
+
+Connectors listed:
+- ERP
+- СЭД
+- CRM
+- ITSM
+- IAM
+- SIEM
+- DWH
+- Портал
+
+Operating principles listed:
+- synchronization and search across sources
+- answers constrained by access rights
+- unified control panel for policies, observability, and audit
+
+Architecture layers listed:
+- бизнес-приложения
+- среда агентов и процессов
+- знания и данные
+- управление и безопасность
+
+## 6) First 90-day scenarios
+Section title: Сценарии первых 90 дней.
+
+Direction 1: База знаний и поддержка
+- Агент знаний по политикам
+- Агент триажа поддержки
+- Агент онбординга
+
+Direction 2: Документы: продажи, юристы, закупки
+- Агент рисков договора
+- Агент резюме тендера
+- Агент коммерческих предложений
+
+Direction 3: Риски / комплаенс
+- Агент контроля политик
+- Агент доказательств для аудита
+- Агент отчёта по инцидентам
+
+Direction 4: Операции
+- Агент входящего потока операций
+- Агент контроля SLA
+- Агент ответов по отчётам
+
+## 7) Platform advantages (black section)
+Section title: Century — платформа безопасного внедрения LLM.
+
+Four feature blocks:
+1) Безопасность и развёртывание
+2) Точность и верификация
+3) Мониторинг и аудит
+4) Скорость и независимость
+
+## 8) Product-mode answer demo
+Section title: Ядро платформы: проверяемые ответы.
+
+Source examples shown:
+- Q3_Management_Report_2025.pdf
+- Master_Supply_Contract_v7.docx
+- Policy_PD_17_Data_Protection.pdf
+- ITSM_SLA_Q3_2025.csv
+
+Demo behavior described on page:
+- answer with citations
+- access-rights-aware responses
+- audit-ready output
+
+Audience tags shown:
+- #Государственный сектор
+- #Крупный бизнес
+- #Корпорации в РБ
+
+## 9) Trust and governance
+Section title: Доверие и управление.
+
+Cards listed:
+- Развёртывание
+- Контроль доступа
+- Аудит
+- Качество
+
+## 10) Working session offer
+Section title: Рабочая сессия по вашему ИИ-контуру.
+
+Offer on page:
+- 60-minute working session
+- define target process, KPI, baseline
+- capture security/compliance constraints
+- build first production-launch plan
+
+Cycle blocks shown:
+- Создать
+- Поделиться
+- Запустить
+
+## 11) Contact and ownership
+Footer contact details:
+- Email: v.bakhmat@stacklevel.group
+- Phone: +375 (29) 668-21-27
+- Website: https://stacklevel.group
+- Telegram: tg://resolve?domain=vitalibakhmat
+- YouTube: https://www.youtube.com/@STACKLEVELGROUP
+
+Ownership line:
+- Century by Stacklevel Group
+
+## 12) Canonical machine-readable resources
+- https://century-ai.ru/robots.txt
+- https://century-ai.ru/sitemap.xml
+- https://century-ai.ru/llms.txt
