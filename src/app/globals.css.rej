@@ -1,0 +1,26 @@
+@@ -4302,23 +4302,15 @@
+ }
+ 
+-/* Ensure inputs stretch nicely if row height expands (e.g. adjacent fieldset) */
+-.final-cta-body .lead-form .field {
+-  height: 100%;
+-}
+-
+ /* Cleaner white inputs without borders */
+ .final-cta-body .lead-form input,
+ .final-cta-body .lead-form textarea {
+   border: 1px solid transparent; 
+   background: var(--white);
+-  padding: 14px 16px;
+-  font-size: 0.95rem;
++  padding: 12px 16px;
++  font-size: 0.9rem;
+   box-shadow: none;
+   border-radius: var(--radius-sm);
+   transition: background 200ms ease;
+-  height: 100%; 
+ }
+ 
+ .final-cta-body .lead-form textarea {
+-  min-height: 100px;
+-  padding: 16px;

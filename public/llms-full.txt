@@ -2,177 +2,229 @@
 
 Canonical URL: https://century-ai.ru/
 Language: ru-RU
-Snapshot date: 2026-02-25
+Snapshot date: 2026-03-26
 
-## 1) Hero / positioning
-H1: LLM в корпорации — из пилота в управленческое решение.
+## 1) Overall positioning
+Century is presented as a corporate AI execution platform, not as a narrow safe-RAG landing page and not as a simple chat interface.
 
-Core statement:
-Century is positioned as a corporate platform and implementation pipeline for LLM services in large organizations in Russia and Belarus, from first KPI-based use case selection to production launch.
+Core product framing:
+- managed enterprise AI rollout
+- on-prem, air-gapped, and hybrid deployment
+- assistants and multi-agent execution
+- workflow orchestration as a core differentiator
+- ready-made service catalog
+- access-aware answers with citations
+- audit trail and observability
+- controlled rollout from one scenario to a portfolio of use cases
 
-Highlighted constraints and requirements:
-- on-prem and air-gapped deployment
-- RAG with source citations
-- logging and audit
-- OpenAI-compatible API with swappable components
+Primary navigation routes:
+- /
+- /platform
+- /workflow
+- /services
+- /assistants
+- /security
+- /observability
+- /cases
+- /pricing
+- /demo
 
-Primary CTA:
-- discuss use case and KPI
-- view roadmap
+## 2) Home page summary
+The home page is structured as a product site with the following block order:
+1. Hero
+2. What Century is
+3. Deployment modes
+4. Century Workflow
+5. Ready-made services
+6. Verifiable answers
+7. Assistants and agentic execution
+8. Observability and metrics
+9. Security and governance
+10. Cases
+11. Pricing and launch format
+12. Final CTA
 
-## 2) Key stakeholders
-The page lists the following key participants:
-- CDTO (цифровая трансформация)
-- CIO (архитектура и ИТ)
-- CDO (данные и ИИ)
-- Информационная безопасность
-- Риск-офис
-- Комплаенс
-- Внутренний аудит
-- Бизнес-владельцы
+Hero positioning:
+- eyebrow: Corporate AI execution platform
+- H1: Century — платформа управляемого внедрения корпоративного ИИ
+- subheadline emphasizes assistants, multi-agent scenarios, workflow, service modules, access control, audit, and metrics in a unified enterprise environment
 
-## 3) Why AI pilots fail to become management-grade solutions
-The page highlights three barriers:
-1) No owner and measurable economics.
-2) Security and compliance involved too late.
-3) No scaling mechanism from one successful case to portfolio rollout.
+Hero visual components:
+- answer card with citations
+- workflow card
+- service catalog card
+- metrics card
 
-Expected outcomes on the page:
-- effect tracked in numbers and KPI
-- control embedded into architecture
-- roadmap with roles, quality standards, and rollout cadence
+## 3) Product capabilities presented on the site
+The site explicitly surfaces these product capabilities:
+- corporate AI execution platform
+- assistants
+- multi-agent systems
+- knowledge and documents
+- files and databases in the execution contour
+- workflow chains
+- ready-made services
+- administrative contour
+- access-aware answers
+- source citations
+- execution log
+- metrics by models, tokens, cost, requests, and scenarios
+- governance and audit
 
-## 4) Roadmap (first 90 days)
-Section title: Дорожная карта CDTO к масштабируемым решениям.
+## 4) Deployment model
+Deployment modes shown on the site:
+- On-prem
+- Air-gapped
+- Hybrid
 
-Stage 01: Подготовка и старт (месяц 1)
-- choose and approve use case with KPI
-- assess data/system readiness
-- define owner and target metrics
-- outcome: investment logic approved
+The site states that the delivery model is determined by architecture, information security, compliance, and business-effect ownership.
 
-Stage 02: Внедрение и запуск (месяц 2)
-- production launch of first use case
-- integration into operating workflows
-- security/compliance policy checks
-- outcome: launch with verified security
+## 5) Century Workflow page
+The /workflow page positions Century Workflow as a standalone execution layer for enterprise AI scenarios.
 
-Stage 03: Масштабирование (месяц 3)
-- replicate to 2-3 additional scenarios
-- establish portfolio governance model
-- launch metrics and audit system
-- outcome: managed portfolio of AI services
+Core statements on that page:
+- workflow as execution layer
+- reproducible scenarios
+- controlled runtime
+- compatibility with an n8n-style orchestration approach
+- proprietary Century modules for enterprise AI
 
-## 5) Platform and integrations
-Section title: Технологии и интеграции под единым контролем.
+Named modules on the page:
+- retrieve and citations
+- access-aware retrieval
+- anonymization
+- extraction
+- policy gate
+- human review
+- metrics hook
 
-Connectors listed:
-- ERP
-- СЭД
-- CRM
-- ITSM
-- IAM
-- SIEM
-- DWH
-- Портал
+The page explains that enterprise value comes not only from answer generation, but from the route to the result, how it executes, where it is checked, and how it is supported.
 
-Operating principles listed:
-- synchronization and search across sources
-- answers constrained by access rights
-- unified control panel for policies, observability, and audit
+## 6) Service catalog page
+The /services page presents ready-made services as a standalone product value.
 
-Architecture layers listed:
-- бизнес-приложения
-- среда агентов и процессов
-- знания и данные
-- управление и безопасность
+Named service categories:
+- transcription
+- extraction
+- anonymization
+- normalization
+- service modules for workflow
+- service use in assistants and scenarios
 
-## 6) First 90-day scenarios
-Section title: Сценарии первых 90 дней.
+Each service section explains:
+- what the service does
+- where it is used
+- how it integrates into workflow
+- why it matters for enterprise operations
 
-Direction 1: База знаний и поддержка
-- Агент знаний по политикам
-- Агент триажа поддержки
-- Агент онбординга
+## 7) Assistants and agentic execution page
+The /assistants page shows assistants and multi-agent scenarios as a distinct product layer.
 
-Direction 2: Документы: продажи, юристы, закупки
-- Агент рисков договора
-- Агент резюме тендера
-- Агент коммерческих предложений
+Themes covered:
+- user-facing assistants
+- multi-agent scenarios
+- knowledge and document scenarios
+- risk and operations scenarios
+- linkage between assistants, workflow, services, and access control
 
-Direction 3: Риски / комплаенс
-- Агент контроля политик
-- Агент доказательств для аудита
-- Агент отчёта по инцидентам
+The site states that the scaling unit is not a single chat, but a reproducible working scenario.
 
-Direction 4: Операции
-- Агент входящего потока операций
-- Агент контроля SLA
-- Агент ответов по отчётам
+## 8) Observability page
+The /observability page frames metrics and observability as a built-in product layer.
 
-## 7) Platform advantages (black section)
-Section title: Century — платформа безопасного внедрения LLM.
+Sections include:
+- number of messages and dialogs
+- history by time and users
+- tokens and cost
+- load by model
+- request log
+- scenario repeatability
+- how observability helps operations
 
-Four feature blocks:
-1) Безопасность и развёртывание
-2) Точность и верификация
-3) Мониторинг и аудит
-4) Скорость и независимость
+The public site states that observability is part of the product, not an extra presentation promise.
 
-## 8) Product-mode answer demo
-Section title: Ядро платформы: проверяемые ответы.
+## 9) Security page
+The /security page talks about more than access control and audit. It frames security as part of industrial admissibility.
 
-Source examples shown:
-- Q3_Management_Report_2025.pdf
-- Master_Supply_Contract_v7.docx
-- Policy_PD_17_Data_Protection.pdf
-- ITSM_SLA_Q3_2025.csv
+Required themes shown:
+- role boundaries
+- access-aware answers
+- execution log
+- result verifiability
+- controlled release
+- support readiness
 
-Demo behavior described on page:
-- answer with citations
-- access-rights-aware responses
-- audit-ready output
+The FAQ section explains:
+- how access rights are applied
+- what is stored in the execution log
+- how Century supports result verification
+- what the support team sees
 
-Audience tags shown:
-- #Государственный сектор
-- #Крупный бизнес
-- #Корпорации в РБ
+## 10) Platform page
+The /platform page describes Century as a unified enterprise AI platform with five layers:
+1. users and interfaces
+2. assistants and agentic execution
+3. workflow and service modules
+4. knowledge, documents, files, and databases
+5. management, security, metrics, and administration
 
-## 9) Trust and governance
-Section title: Доверие и управление.
+It also lists what the customer receives as a product:
+- user contour
+- execution layer
+- service catalog
+- governance layer
+- observability layer
+- administrative layer
 
-Cards listed:
-- Развёртывание
-- Контроль доступа
-- Аудит
-- Качество
+## 11) Cases page
+The /cases page highlights scenarios where a plain chat interface is insufficient.
 
-## 10) Working session offer
-Section title: Рабочая сессия по вашему ИИ-контуру.
+Themes shown:
+- policies and regulations
+- documents and contracts
+- compliance and evidence
+- operations and intake
+- support and knowledge bases
+- risk-aware scenarios
 
-Offer on page:
-- 60-minute working session
-- define target process, KPI, baseline
-- capture security/compliance constraints
-- build first production-launch plan
+The page ties use cases to controlled rollout and industrial execution.
 
-Cycle blocks shown:
-- Создать
-- Поделиться
-- Запустить
+## 12) Pricing and launch page
+The /pricing page describes Century through launch formats rather than fixed public prices.
 
-## 11) Contact and ownership
-Footer contact details:
+Launch stages:
+- working session
+- pilot launch
+- enterprise deployment
+
+Commercial framing shown:
+- discovery / working session
+- scoped pilot delivery
+- enterprise rollout
+
+The page states that infrastructure, compute, and implementation composition are determined separately according to delivery mode and architecture.
+
+## 13) Demo page
+The /demo page offers a working session and a demo request flow.
+
+The page explains that the demo is used to:
+- define the first scenario
+- clarify deployment constraints
+- understand source systems and data
+- map workflow, service modules, access, audit, and observability
+
+## 14) Contact and ownership
+Public contacts:
 - Email: v.bakhmat@stacklevel.group
 - Phone: +375 (29) 668-21-27
-- Website: https://stacklevel.group
+- Company: Stacklevel Group
 - Telegram: tg://resolve?domain=vitalibakhmat
-- YouTube: https://www.youtube.com/@STACKLEVELGROUP
 
 Ownership line:
 - Century by Stacklevel Group
 
-## 12) Canonical machine-readable resources
+## 15) Canonical machine-readable resources
 - https://century-ai.ru/robots.txt
 - https://century-ai.ru/sitemap.xml
 - https://century-ai.ru/llms.txt
+- https://century-ai.ru/llms-full.txt

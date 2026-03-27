@@ -4301,28 +4301,32 @@ footer section {
   gap: 12px; 
 }
 
-/* Removed empty .field rule */
+/* Ensure inputs stretch nicely if row height expands (e.g. adjacent fieldset) */
+.final-cta-body .lead-form .field {
+  height: 100%;
+}
 
 /* Cleaner white inputs without borders */
 .final-cta-body .lead-form input,
 .final-cta-body .lead-form textarea {
   border: 1px solid transparent; 
   background: var(--white);
-  padding: 12px 14px;
-  font-size: 0.9rem;
+  padding: 14px 16px;
+  font-size: 0.95rem;
   box-shadow: none;
   border-radius: var(--radius-sm);
   transition: background 200ms ease;
+  height: 100%; 
 }
 
 .final-cta-body .lead-form textarea {
-  min-height: 80px;
-  padding: 12px 14px;
+  min-height: 100px;
+  padding: 16px;
 }
 
 /* Stop labels from floating, make them act like center placeholders */
 .final-cta-body .lead-form .field > label {
-  left: 14px;
+  left: 20px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.75rem;
@@ -4333,7 +4337,7 @@ footer section {
   transition: opacity 150ms ease;
 }
 .final-cta-body .lead-form .field textarea + label {
-  top: 14px;
+  top: 20px;
   transform: none;
 }
 
@@ -4347,7 +4351,7 @@ footer section {
 }
 .final-cta-body .lead-form .field textarea:focus-within + label,
 .final-cta-body .lead-form .field textarea:not(:placeholder-shown) + label {
-  top: 14px;
+  top: 20px;
 }
 
 /* Subtle topic fieldset */
@@ -4384,93 +4388,4 @@ footer section {
 
 .final-cta-body .topic-chip input:focus-visible + span {
   outline: 2px solid var(--blue);
-}
-
-/* =========================================================
-   StackLevel CTA Redirect Block
-   ========================================================= */
-.cta-redirect-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px 32px;
-  min-height: 280px;
-  background: rgba(20, 20, 20, 0.4);
-  border: 1px solid #282828;
-  border-radius: var(--radius-md);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.cta-redirect-content {
-  margin-bottom: 24px;
-}
-
-.cta-redirect-title {
-  margin: 0 0 12px 0;
-  font-family: var(--font-heading);
-  text-transform: uppercase;
-  font-size: clamp(1.1rem, 1.5vw + 0.9rem, 1.4rem);
-  letter-spacing: 0.05em;
-  color: var(--white);
-}
-
-.cta-redirect-text {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #a0a0a0;
-  max-width: 320px;
-  line-height: 1.5;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cta-redirect-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 280px;
-  margin: 0 auto;
-}
-
-.cta-redirect-btn {
-  width: 100%;
-}
-
-.cta-redirect-ghost {
-  width: 100%;
-  color: #a0a0a0;
-  border-color: #333333;
-}
-
-.cta-redirect-ghost:hover {
-  color: var(--white);
-  border-color: var(--white);
-}
-
-/* On light background versions */
-.contact-layout .cta-redirect-block {
-  background: var(--pale-gray);
-  border: 1px solid var(--gray);
-  box-shadow: none;
-}
-
-.contact-layout .cta-redirect-title {
-  color: var(--black);
-}
-
-.contact-layout .cta-redirect-text {
-  color: var(--text-muted);
-}
-
-.contact-layout .cta-redirect-ghost {
-  color: var(--black);
-  border-color: var(--black);
-}
-
-.contact-layout .cta-redirect-ghost:hover {
-  background: var(--black);
-  color: var(--white);
 }
