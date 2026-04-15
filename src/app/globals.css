@@ -5507,6 +5507,95 @@ footer section {
     bottom: 4.7rem;
   }
 
+  .hero-copy h1,
+  .home-page .hero-copy h1,
+  .hero--page .hero-copy h1 {
+    max-width: none;
+    font-size: clamp(1.95rem, 6.2vw, 2.85rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    text-wrap: balance;
+  }
+
+  .section-head h2,
+  .home-page .section-head h2,
+  .black-accent-top h2,
+  .contact-copy h2,
+  .final-cta-body .contact-copy h2,
+  .cta-redirect-title {
+    font-size: clamp(1.55rem, 5.2vw, 2.35rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    text-wrap: balance;
+  }
+
+  .show-card h3,
+  .black-accent-grid h3,
+  .connectors-head h3,
+  .trust-head h3,
+  .scenario-main h3,
+  .security-accordion-copy h3,
+  .deployment-card h3,
+  .hook-card h3,
+  .trust-card h3,
+  .metric-card h3 {
+    font-size: clamp(1rem, 3.3vw, 1.35rem);
+    line-height: 1.04;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    text-wrap: balance;
+  }
+
+  .home-page .hero-sidepanel-title {
+    max-width: none;
+    max-height: none;
+    margin-bottom: 18px;
+    font-size: clamp(1.32rem, 4.6vw, 1.9rem);
+    line-height: 1.02;
+  }
+
+  .home-page .hero-sidepanel > .hero-lead:first-child {
+    font-size: clamp(0.98rem, 2.8vw, 1.1rem);
+    line-height: 1.5;
+  }
+
+  .home-page .show-card,
+  .hero--page .preview-board-card h3,
+  .hero--page .show-card h3 {
+    min-height: auto;
+    height: auto;
+  }
+
+  .hero--page .preview-board-card .agent-badges li {
+    min-height: 44px;
+  }
+
+  .security-accordion-number {
+    font-size: 1.55rem;
+  }
+
+  .security-accordion-body {
+    height: auto;
+    min-height: 0;
+    max-height: 0;
+    padding-inline: 16px;
+  }
+
+  .security-accordion-card[open] .security-accordion-body {
+    max-height: 320px;
+    padding: 0 16px 18px;
+  }
+
+  .security-accordion-copy p,
+  .security-accordion-body p:last-child {
+    font-size: 0.92rem;
+    line-height: 1.48;
+  }
+
   .section-head>p,
   .black-accent-top p,
   .scenario-aside span,
@@ -5535,6 +5624,54 @@ footer section {
   .site-header {
     top: 8px;
     border-radius: 18px;
+  }
+
+  .hero-copy h1,
+  .home-page .hero-copy h1,
+  .hero--page .hero-copy h1 {
+    font-size: clamp(1.7rem, 7.2vw, 2.2rem);
+    line-height: 0.96;
+  }
+
+  .section-head h2,
+  .home-page .section-head h2,
+  .black-accent-top h2,
+  .contact-copy h2,
+  .final-cta-body .contact-copy h2,
+  .cta-redirect-title {
+    font-size: clamp(1.42rem, 6vw, 1.95rem);
+    line-height: 1;
+  }
+
+  .show-card h3,
+  .black-accent-grid h3,
+  .connectors-head h3,
+  .trust-head h3,
+  .scenario-main h3,
+  .security-accordion-copy h3,
+  .deployment-card h3,
+  .hook-card h3,
+  .trust-card h3,
+  .metric-card h3 {
+    font-size: clamp(0.96rem, 4.2vw, 1.16rem);
+    line-height: 1.08;
+  }
+
+  .home-page .hero-actions .btn,
+  .hero--page .hero-actions .btn {
+    min-height: 60px;
+    padding: 14px 16px;
+  }
+
+  .home-page .show-card {
+    padding: 12px;
+  }
+
+  .home-page .show-card span,
+  .hero--page .preview-board-card > span,
+  .hero--page .show-card > span {
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
   .main-nav {
@@ -5577,6 +5714,35 @@ footer section {
 }
 
 @media (max-width: 375px) {
+  .hero-copy h1,
+  .home-page .hero-copy h1,
+  .hero--page .hero-copy h1 {
+    font-size: 1.56rem;
+    line-height: 0.98;
+  }
+
+  .section-head h2,
+  .home-page .section-head h2,
+  .black-accent-top h2,
+  .contact-copy h2,
+  .final-cta-body .contact-copy h2,
+  .cta-redirect-title {
+    font-size: 1.34rem;
+    line-height: 1.02;
+  }
+
+  .show-card h3,
+  .black-accent-grid h3,
+  .connectors-head h3,
+  .trust-head h3,
+  .scenario-main h3,
+  .security-accordion-copy h3,
+  .deployment-card h3,
+  .hook-card h3,
+  .trust-card h3,
+  .metric-card h3 {
+    font-size: 0.92rem;
+  }
 
   .home-page .hero-actions .btn,
   .mobile-bottom-cta__link,
@@ -5586,5 +5752,233 @@ footer section {
 
   .cta-redirect-block {
     padding-inline: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .final-cta-intro h2,
+  .final-cta-header h2,
+  .brain.section-head h2,
+  .trust .section-head h2,
+  .stage-title {
+    font-size: clamp(1.45rem, 5vw, 2.05rem) !important;
+    line-height: 1 !important;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    text-wrap: balance;
+  }
+
+  .side-drawer-head h3,
+  .connector-card p,
+  .footer-title,
+  .results-heading {
+    font-size: clamp(0.76rem, 2.2vw, 0.9rem) !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .stage-index {
+    font-size: clamp(1.7rem, 5vw, 2.1rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .final-cta-intro h2,
+  .final-cta-header h2,
+  .brain.section-head h2,
+  .trust .section-head h2,
+  .stage-title {
+    font-size: clamp(1.28rem, 5.8vw, 1.72rem) !important;
+    line-height: 1.03 !important;
+  }
+
+  .side-drawer-head h3,
+  .connector-card p,
+  .footer-title,
+  .results-heading {
+    font-size: 0.72rem !important;
+  }
+
+  .stage-index {
+    font-size: 1.45rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .final-cta-intro h2,
+  .final-cta-header h2,
+  .brain.section-head h2,
+  .trust .section-head h2,
+  .stage-title {
+    font-size: 1.18rem !important;
+    line-height: 1.05 !important;
+  }
+
+  .side-drawer-head h3,
+  .connector-card p,
+  .footer-title,
+  .results-heading {
+    font-size: 0.68rem !important;
+  }
+
+  .stage-index {
+    font-size: 1.28rem !important;
+  }
+}
+
+@media (max-width: 1040px) {
+  .home-page .hero {
+    padding: 18px 0 42px;
+  }
+
+  .home-page .hero-copy {
+    display: block;
+    min-height: auto;
+  }
+
+  .home-page .hero-copy::before {
+    display: none;
+  }
+
+  .home-page .hero-main {
+    min-height: auto;
+    height: auto;
+  }
+
+  .home-page .hero-intro-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    height: auto;
+    max-width: none;
+    margin-top: 16px;
+  }
+
+  .home-page .hero-actions {
+    margin-top: 0;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .home-page .hero-actions .btn {
+    min-height: 76px;
+    padding: 16px 18px;
+  }
+
+  .home-page .hero-sidepanel {
+    margin-top: 24px;
+    max-width: none;
+    min-height: auto;
+    gap: 14px;
+  }
+
+  .home-page .hero-sidepanel-title {
+    max-width: none;
+    margin-bottom: 12px;
+  }
+
+  .home-page .hero-showcase {
+    margin-top: 22px;
+    grid-template-columns: 1fr;
+  }
+
+  .home-page > .section {
+    padding: 44px 0 84px;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-page .hero-intro-stack {
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .home-page .hero-actions {
+    margin-top: 0;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .home-page .hero-actions .btn {
+    min-height: 62px;
+    padding: 14px 16px;
+  }
+
+  .home-page .hero-sidepanel {
+    margin-top: 18px;
+    padding: 18px 14px;
+  }
+
+  .home-page .hero-sidepanel-title {
+    margin-bottom: 8px;
+  }
+
+  .home-page .stakeholders-inner {
+    margin-top: 40px;
+  }
+
+  .home-page > .section {
+    padding: 40px 0 72px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page .hero {
+    padding: 16px 0 34px;
+  }
+
+  .home-page .hero > .shell.hero-layout {
+    padding-inline: 10px;
+  }
+
+  .home-page .hero-copy {
+    gap: 0;
+  }
+
+  .home-page .hero .show-type {
+    margin-bottom: 12px;
+  }
+
+  .home-page .hero-lead {
+    max-width: none;
+    line-height: 1.52;
+  }
+
+  .home-page .hero-actions .btn {
+    min-height: 58px;
+  }
+
+  .home-page .show-card {
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .home-page .section-head h2 {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    flex: 1 1 auto;
+    font-size: clamp(1.22rem, 5.2vw, 1.58rem) !important;
+    line-height: 1.04 !important;
+    letter-spacing: -0.022em !important;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .home-page > .section {
+    padding: 36px 0 60px;
+  }
+}
+
+@media (max-width: 375px) {
+  .home-page .section-head h2 {
+    width: 100% !important;
+    max-width: none !important;
+    font-size: 1.12rem !important;
+    line-height: 1.06 !important;
   }
 }
