@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import Link from "next/link";
 import { ActionLink } from "@/components/site/ActionLink";
 import DemoRequestForm from "@/components/site/DemoRequestForm";
@@ -174,6 +174,8 @@ function HomeLikeHero({
   showcase,
   support,
   footerStrip,
+  className,
+  introUnderTitle,
 }: {
   eyebrow?: string;
   title: string;
@@ -183,26 +185,38 @@ function HomeLikeHero({
   showcase: ReactNode;
   support?: string;
   footerStrip?: ReactNode;
+  className?: string;
+  introUnderTitle?: boolean;
 }) {
   return (
-    <section className="hero">
+    <section className={className ? `hero ${className}` : "hero"}>
       <div className="shell hero-layout">
         <div className="hero-copy">
-          {eyebrow ? <p className="show-type">{eyebrow}</p> : null}
-          <h1>{title}</h1>
-          <p className="hero-lead">{description}</p>
-
-          {actions?.length ? <div className="hero-actions">{actions.map((action) => renderAction(action, title))}</div> : null}
-
-          {support ? <p className="hero-lead">{support}</p> : null}
-
-          {badges?.length ? (
-            <ul className="hero-signals" aria-label="Ключевые сигналы">
-              {badges.map((badge) => (
-                <li key={badge}>{badge}</li>
-              ))}
-            </ul>
-          ) : null}
+          <div className="hero-main">
+            {eyebrow ? <p className="show-type">{eyebrow}</p> : null}
+            <h1>{title}</h1>
+            {introUnderTitle ? (
+              <div className="hero-intro-stack">
+                {support ? <p className="hero-lead hero-intro-note">{support}</p> : null}
+                {actions?.length ? <div className="hero-actions">{actions.map((action) => renderAction(action, title))}</div> : null}
+              </div>
+            ) : null}
+          </div>
+          <div className="hero-sidepanel">
+            {introUnderTitle ? <h3 className="hero-sidepanel-title">Единый контур AI-сервисов</h3> : null}
+            <p className="hero-lead">{description}</p>
+            {!introUnderTitle && actions?.length ? (
+              <div className="hero-actions">{actions.map((action) => renderAction(action, title))}</div>
+            ) : null}
+            {!introUnderTitle && support ? <p className="hero-lead">{support}</p> : null}
+            {badges?.length ? (
+              <ul className="hero-signals" aria-label="Ключевые сигналы">
+                {badges.map((badge) => (
+                  <li key={badge}>{badge}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </div>
 
         <div className="hero-showcase">{showcase}</div>
@@ -218,12 +232,12 @@ export function PreviewBoard({ eyebrow, title, items, footer }: PreviewBoardProp
     <article className="show-card show-card-light preview-board-card">
       {eyebrow ? <p className="show-type">{eyebrow}</p> : null}
       <h3>{title}</h3>
+      {footer ? <span>{footer}</span> : null}
       <ul className="agent-badges" aria-label={title}>
         {items.map((item) => (
           <li key={item}>{item}</li>
         ))}
       </ul>
-      {footer ? <span>{footer}</span> : null}
     </article>
   );
 }
@@ -231,6 +245,7 @@ export function PreviewBoard({ eyebrow, title, items, footer }: PreviewBoardProp
 export function PageHero({ eyebrow, title, description, badges, actions, children }: PageHeroProps) {
   return (
     <HomeLikeHero
+      className="hero--page"
       eyebrow={eyebrow}
       title={title}
       description={description}
@@ -264,6 +279,7 @@ export function HeroExecutionPlatform({
       support={support}
       badges={badges}
       actions={actions}
+      introUnderTitle
       showcase={
         <>
           <article className="show-card show-card-light">
