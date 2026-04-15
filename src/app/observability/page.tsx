@@ -46,7 +46,7 @@ export const metadata = createPageMetadata({
 
 export default function ObservabilityPage() {
   return (
-    <>
+    <main className="observability-page">
       <PageHero
         eyebrow="Метрики"
         title="Метрики, стоимость и наблюдаемость Century"
@@ -93,6 +93,6 @@ export default function ObservabilityPage() {
         title="Наблюдаемость поддерживает controlled rollout"
         description="Когда организация переносит первый успешный сценарий в портфель use cases, ей нужен не только новый workflow, но и единая картина нагрузки, стоимости и качества процесса."
       />
-    </>
+    </main>
   );
 }
