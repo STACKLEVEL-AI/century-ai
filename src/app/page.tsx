@@ -41,7 +41,7 @@ export default function Home() {
       <DeploymentModeCards {...deploymentModes} />
       <WorkflowShowcase {...workflowContent} />
       <FeatureGridSection {...serviceCatalogContent} />
-      <VerifiableAnswersSection {...verifiableAnswersContent} />
+       {/* <VerifiableAnswersSection {...verifiableAnswersContent} /> */}
       <AssistantsAndAgentsGrid {...assistantsContent} />
       <ObservabilityDashboardMock {...observabilityContent} />
       <SecurityGovernanceAccordion {...securityContent} />
