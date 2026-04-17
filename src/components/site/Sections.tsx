@@ -63,7 +63,6 @@ type LayerStackSectionProps = {
   title: string;
   description: string;
   layers: LayerItem[];
-  note?: string;
 };
 
 type TextBlock = {
@@ -758,7 +757,7 @@ export function FinalCtaBlock({
   );
 }
 
-export function LayerStackSection({ title, description, layers, note }: LayerStackSectionProps) {
+export function LayerStackSection({ title, description, layers }: LayerStackSectionProps) {
   return (
     <section className="section platform">
       <SectionHead title={title} description={description} />
@@ -775,28 +774,6 @@ export function LayerStackSection({ title, description, layers, note }: LayerSta
               <span>{layer.text}</span>
             </article>
           ))}
-        </div>
-        <div className="connector-grid">
-          {layers.map((layer) => (
-            <article className="connector-card" key={`${layer.label}-mini`}>
-              <p>{layer.label}</p>
-              <span>{layer.title}</span>
-            </article>
-          ))}
-        </div>
-        <div className="connector-principles">
-          <article>
-            <h4>Execution layer</h4>
-            <p>Century соединяет ассистентов, workflow и сервисы как один продуктовый слой исполнения.</p>
-          </article>
-          <article>
-            <h4>Governance layer</h4>
-            <p>Безопасность, роли, audit trail и observability проходят через тот же архитектурный контур.</p>
-          </article>
-          <article>
-            <h4>Industrial rollout</h4>
-            <p>{note || "Архитектура рассчитана на controlled rollout из первого кейса в портфель сценариев."}</p>
-          </article>
         </div>
       </div>
     </section>

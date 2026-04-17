@@ -107,11 +107,11 @@ export default function WorkflowPage() {
         columns={workflowBasics}
       />
 
-      <NarrativeBand
+      {/* <NarrativeBand
         title="Совместимость с n8n"
         description="На сайте Century Workflow описан как совместимый с n8n-подходом к workflow-оркестрации и дополненный собственными модулями Century для корпоративного AI-контура."
         body="Это снимает разрыв между знакомой логикой визуальных цепочек и требованиями закрытого enterprise-контура, где нужны IAM-aware ответы, audit trail, controlled runtime и observability."
-      />
+      /> */}
 
       <FeatureGridSection
         title="Модули Century"
@@ -121,14 +121,10 @@ export default function WorkflowPage() {
       />
 
       <NarrativeBand
-        title="Почему это важно"
+        title="Почему workflow важен для масштабирования"
         description="Для корпорации важна не только генерация ответа, но и сам маршрут до результата: как он построен, как исполняется, где проверяется и как сопровождается."
-      />
-
-      <NarrativeBand
-        title="Как workflow помогает масштабированию"
-        description="Workflow превращает отдельные удачные эксперименты в повторяемые рабочие сценарии, которые можно тиражировать на другие подразделения и процессы."
         body="Это делает controlled rollout частью продукта и снижает зависимость от разовых проектных сборок вокруг каждого нового кейса."
+        note="Workflow превращает отдельные удачные эксперименты в повторяемые рабочие сценарии, которые можно тиражировать на другие подразделения и процессы."
       />
 
       <FinalCtaBlock

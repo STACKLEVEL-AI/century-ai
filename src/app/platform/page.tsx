@@ -1,13 +1,13 @@
 import {
   DeploymentModeCards,
   FeatureGridSection,
+  FinalCtaBlock,
   LayerStackSection,
-  NarrativeBand,
   PageHero,
   PreviewBoard,
 } from "@/components/site/Sections";
 import { createPageMetadata } from "@/lib/site";
-import { deploymentModes } from "@/lib/site-content";
+import { commercialContent, deploymentModes, finalCtaContent } from "@/lib/site-content";
 
 const architectureLayers = [
   {
@@ -123,10 +123,12 @@ export default function PlatformPage() {
 
       <DeploymentModeCards {...deploymentModes} />
 
-      <NarrativeBand
-        title="Платформа рассчитана на портфельное масштабирование"
-        description="Century нужен там, где организация не хочет повторять один и тот же проект внедрения для каждого нового кейса."
-        body="Execution layer, сервисный каталог, административный контур и observability позволяют переносить удачные сценарии в другие процессы без потери контролируемости."
+      <FinalCtaBlock
+        {...finalCtaContent}
+        introTitle={commercialContent.title}
+        introDescription={commercialContent.description}
+        introCards={commercialContent.cards}
+        introNote={commercialContent.note}
       />
     </>
   );
