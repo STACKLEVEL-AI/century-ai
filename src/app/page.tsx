@@ -7,7 +7,6 @@ import {
   HeroExecutionPlatform,
   ObservabilityDashboardMock,
   SecurityGovernanceAccordion,
-  VerifiableAnswersSection,
   WorkflowShowcase,
 } from "@/components/site/Sections";
 import {
@@ -21,7 +20,6 @@ import {
   observabilityContent,
   securityContent,
   serviceCatalogContent,
-  verifiableAnswersContent,
   workflowContent,
 } from "@/lib/site-content";
 import { createPageMetadata } from "@/lib/site";
@@ -29,7 +27,7 @@ import { createPageMetadata } from "@/lib/site";
 export const metadata = createPageMetadata({
   title: "Century — платформа управляемого внедрения корпоративного ИИ",
   description:
-    "Century показывает корпоративный ИИ как execution platform: ассистенты, многоагентные сценарии, workflow, сервисный каталог, observability и governance в закрытом контуре.",
+    "Century показывает корпоративный ИИ как единую платформу: ассистенты, многошаговые сценарии, workflow, сервисный каталог, аудит и метрики в закрытом контуре.",
   path: "/",
 });
 
@@ -41,7 +39,6 @@ export default function Home() {
       <DeploymentModeCards {...deploymentModes} />
       <WorkflowShowcase {...workflowContent} />
       <FeatureGridSection {...serviceCatalogContent} />
-       {/* <VerifiableAnswersSection {...verifiableAnswersContent} /> */}
       <AssistantsAndAgentsGrid {...assistantsContent} />
       <ObservabilityDashboardMock {...observabilityContent} />
       <SecurityGovernanceAccordion {...securityContent} />

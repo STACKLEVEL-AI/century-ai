@@ -21,18 +21,18 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Century — корпоративная AI execution platform",
+  title: "Century — платформа управляемого внедрения корпоративного ИИ",
   description:
-    "Century — корпоративная AI execution platform: ассистенты, многоагентные сценарии, workflow, сервисный каталог, наблюдаемость, аудит и контролируемый запуск в on-prem, air-gapped или hybrid-контуре.",
+    "Century — платформа управляемого внедрения корпоративного ИИ: ассистенты, многошаговые сценарии, workflow, сервисный каталог, аудит и метрики в on-prem, air-gapped или hybrid-контуре.",
   applicationName: SITE_NAME,
   keywords: [
     "century ai",
-    "ai execution platform",
+    "платформа корпоративного ии",
     "enterprise ai platform",
     "on-prem ai",
     "air-gapped ai",
     "workflow orchestration",
-    "ai observability",
+    "метрики и наблюдаемость ии",
   ],
   authors: [{ name: COMPANY_NAME, url: "https://stacklevel.group" }],
   creator: COMPANY_NAME,
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/favicon.png" }],
   },
   openGraph: {
-    title: "Century — корпоративная AI execution platform",
+    title: "Century — платформа управляемого внедрения корпоративного ИИ",
     description:
       "Платформа управляемого внедрения корпоративного ИИ: workflow, готовые сервисы, ассистенты, журнал исполнения и эксплуатационные метрики.",
     url: SITE_URL,
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Century — корпоративная AI execution platform",
+    title: "Century — платформа управляемого внедрения корпоративного ИИ",
     description:
-      "Workflow, сервисный каталог, ассистенты, observability и governance для корпоративного AI-контура.",
+      "Workflow, сервисный каталог, ассистенты, аудит и метрики для корпоративного AI-контура.",
     images: [absoluteUrl(OG_IMAGE_PATH)],
   },
   verification: {
@@ -103,7 +103,7 @@ const structuredData = {
       "@id": `${SITE_URL}/#product`,
       name: SITE_NAME,
       description:
-        "Корпоративная AI execution platform для управляемого внедрения ИИ: ассистенты, workflow, готовые сервисы, observability, audit и контролируемый runtime.",
+        "Платформа управляемого внедрения ИИ: ассистенты, workflow, готовые сервисы, аудит, метрики и управляемое исполнение.",
       brand: {
         "@type": "Brand",
         name: SITE_NAME,
@@ -119,7 +119,7 @@ const structuredData = {
       "@type": "WebPage",
       "@id": `${SITE_URL}/#webpage`,
       url: SITE_URL,
-      name: "Century — корпоративная AI execution platform",
+      name: "Century — платформа управляемого внедрения корпоративного ИИ",
       inLanguage: "ru",
       about: {
         "@id": `${SITE_URL}/#product`,

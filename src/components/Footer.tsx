@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Mail, Phone, Globe, Send, Youtube } from "lucide-react";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_RAW, TELEGRAM_HANDLE } from "@/lib/site";
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -31,18 +32,18 @@ export default function Footer() {
           <article className="footer-col">
             <p className="footer-title">Контакты</p>
             <div className="footer-contacts">
-              <a
-                href="mailto:v.bakhmat@stacklevel.group"
-                className="contact-link"
-                rel="noopener noreferrer"
-              >
+              <a href="mailto:v.bakhmat@stacklevel.group" className="contact-link" rel="noopener noreferrer">
                 <Mail size={16} />
-                <span>v.bakhmat@stacklevel.group</span>
+                <span>
+                  <strong>Email:</strong> {CONTACT_EMAIL}
+                </span>
               </a>
 
-              <a href="tel:+375296682127" className="contact-link">
+              <a href={`tel:${CONTACT_PHONE_RAW}`} className="contact-link">
                 <Phone size={16} />
-                <span>+375 (29) 668-21-27</span>
+                <span>
+                  <strong>Телефон:</strong> {CONTACT_PHONE}
+                </span>
               </a>
 
               <a
@@ -52,17 +53,26 @@ export default function Footer() {
                 className="contact-link"
               >
                 <Globe size={16} />
-                <span>stacklevel.group</span>
+                <span>Перейти на сайт Stacklevel Group</span>
               </a>
 
               <a
-                href="tg://resolve?domain=vitalibakhmat"
+                href={`tg://resolve?domain=${TELEGRAM_HANDLE}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-link"
               >
                 <Send size={16} />
-                <span>Telegram</span>
+                <span>Написать в Telegram</span>
+              </a>
+
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="contact-link"
+                rel="noopener noreferrer"
+              >
+                <Mail size={16} />
+                <span>Написать на email</span>
               </a>
 
               <a
