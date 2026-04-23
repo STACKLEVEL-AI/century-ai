@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { animateElementIntoView } from "@/lib/scroll";
 
 export default function SectionNavigator() {
   const pathname = usePathname();
@@ -65,7 +66,7 @@ export default function SectionNavigator() {
     const section = sectionsRef.current[index];
     if (!section) return;
 
-    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    animateElementIntoView(section, 96);
   };
 
   return (

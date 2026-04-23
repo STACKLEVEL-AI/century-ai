@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const SITE_URL = "https://century-ai.ru";
 export const SITE_NAME = "Century";
-export const SITE_TAGLINE = "Корпоративная AI execution platform";
+export const SITE_TAGLINE = "Платформа управляемого внедрения корпоративного ИИ";
 export const COMPANY_NAME = "Stacklevel Group";
 export const CONTACT_EMAIL = "v.bakhmat@stacklevel.group";
 export const CONTACT_PHONE = "+375 (29) 668-21-27";
@@ -42,13 +42,13 @@ export const footerMaterialLinks = [
 
 const COMMON_KEYWORDS = [
   "century ai",
-  "корпоративная ai platform",
-  "ai execution platform",
+  "платформа корпоративного ии",
+  "корпоративная платформа ии",
   "enterprise ai platform",
   "on-prem ai",
   "air-gapped ai",
   "workflow orchestration",
-  "ai observability",
+  "метрики и наблюдаемость ии",
   "многоагентные системы",
   "корпоративные ассистенты",
   "workflow для llm",

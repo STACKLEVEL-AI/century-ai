@@ -1,6 +1,7 @@
 "use client";
 
-import { CONTACT_EMAIL } from "@/lib/site";
+import { CONTACT_EMAIL, TELEGRAM_HANDLE } from "@/lib/site";
+import { Send } from "lucide-react";
 
 type DemoRequestFormProps = {
   variant?: "default" | "stacklevel";
@@ -21,18 +22,28 @@ export default function DemoRequestForm({ variant = "default" }: DemoRequestForm
       </div>
 
       <div className="lead-form-actions cta-redirect-actions">
-        <a 
-          href="https://stacklevel.group/ru/contact" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href="https://stacklevel.group/ru/contact"
+          target="_blank"
+          rel="noopener noreferrer"
           className="btn btn-blue cta-redirect-btn"
         >
-          Перейти на stacklevel.group
+          Перейти на сайт Stacklevel Group
         </a>
         <a className="btn btn-ghost cta-redirect-ghost" href={`mailto:${CONTACT_EMAIL}`}>
           Написать на email
         </a>
+        <a
+          className="cta-redirect-link"
+          href={`tg://resolve?domain=${TELEGRAM_HANDLE}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Send size={16} />
+          Написать в Telegram
+        </a>
       </div>
+
     </div>
   );
 }

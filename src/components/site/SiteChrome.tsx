@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import SectionNavigator from "@/components/SectionNavigator";
+import ScrollSnapController from "@/components/site/ScrollSnapController";
 import StickyHeader from "@/components/site/StickyHeader";
 import FooterMultiColumn from "@/components/site/FooterMultiColumn";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -12,6 +13,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
   return (
     <div className="site-root">
       <div className="grid-overlay" aria-hidden="true" />
+      <ScrollSnapController />
       <StickyHeader />
       <SectionNavigator />
       <div className="site-root__content">{children}</div>

@@ -145,7 +145,7 @@ function renderAction(action: LinkAction, context: string) {
 }
 
 function renderFeatureBadges(card: FeatureCard) {
-  const badges = card.bullets?.slice(0, 3) ?? [card.title.split(" ")[0], "Century", "Execution"];
+  const badges = card.bullets?.slice(0, 3) ?? ["Ассистенты", "Workflow", "Аудит"];
   return (
     <ul className="agent-badges" aria-label={card.title}>
       {badges.map((badge) => (
@@ -172,6 +172,7 @@ function HomeLikeHero({
   actions,
   showcase,
   support,
+  introBody,
   footerStrip,
   className,
   introUnderTitle,
@@ -183,6 +184,7 @@ function HomeLikeHero({
   actions?: LinkAction[];
   showcase: ReactNode;
   support?: string;
+  introBody?: string;
   footerStrip?: ReactNode;
   className?: string;
   introUnderTitle?: boolean;
@@ -197,12 +199,13 @@ function HomeLikeHero({
             {introUnderTitle ? (
               <div className="hero-intro-stack">
                 {support ? <p className="hero-lead hero-intro-note">{support}</p> : null}
+                {introBody ? <p className="hero-lead hero-intro-copy">{introBody}</p> : null}
                 {actions?.length ? <div className="hero-actions">{actions.map((action) => renderAction(action, title))}</div> : null}
               </div>
             ) : null}
           </div>
           <div className="hero-sidepanel">
-            {introUnderTitle ? <h3 className="hero-sidepanel-title">Единый контур AI-сервисов</h3> : null}
+            {introUnderTitle ? <h3 className="hero-sidepanel-title">Единый контур корпоративного ИИ</h3> : null}
             <p className="hero-lead">{description}</p>
             {!introUnderTitle && actions?.length ? (
               <div className="hero-actions">{actions.map((action) => renderAction(action, title))}</div>
@@ -260,6 +263,7 @@ export function HeroExecutionPlatform({
   title,
   description,
   support,
+  introBody,
   badges,
   actions,
 }: {
@@ -267,6 +271,7 @@ export function HeroExecutionPlatform({
   title: string;
   description: string;
   support: string;
+  introBody?: string;
   badges: string[];
   actions: LinkAction[];
 }) {
@@ -276,6 +281,7 @@ export function HeroExecutionPlatform({
       title={title}
       description={description}
       support={support}
+      introBody={introBody}
       badges={badges}
       actions={actions}
       introUnderTitle
@@ -284,22 +290,22 @@ export function HeroExecutionPlatform({
           <article className="show-card show-card-light">
             <p className="show-type">Проверяемые ответы</p>
             <h3>Ответ с цитатами и доступом</h3>
-            <span>Источники, role-aware выдача и audit-ready результат.</span>
+            <span>Источники, выдача с учётом доступа и проверяемый результат.</span>
           </article>
           <article className="show-card show-card-blue">
-            <p className="show-type">Century Workflow</p>
-            <h3>Многошаговый runtime</h3>
-            <span>Ветвление, service modules, policy gate и human review.</span>
+            <p className="show-type">Workflow</p>
+            <h3>Многошаговое исполнение</h3>
+            <span>Маршрут исполнения, контрольные точки и ручная проверка.</span>
           </article>
           <article className="show-card show-card-black">
             <p className="show-type">Каталог сервисов</p>
             <h3>Готовые модули обработки</h3>
-            <span>Расшифровка, extraction, anonymization и normalization.</span>
+            <span>Расшифровка, извлечение данных, анонимизация и другие сервисы.</span>
           </article>
           <article className="show-card show-card-light">
             <p className="show-type">Метрики</p>
             <h3>Наблюдаемость и стоимость</h3>
-            <span>Нагрузка по моделям, токены, execution log и стоимость.</span>
+            <span>Нагрузка по моделям, токены, журнал исполнения и стоимость.</span>
           </article>
         </>
       }
@@ -316,17 +322,9 @@ export function HeroExecutionPlatform({
                 "Риск-офис",
                 "Комплаенс",
                 "Внутренний аудит",
-                "Бизнес-владельцы",
-                "CDTO",
-                "CIO",
-                "CDO",
-                "Информационная безопасность",
-                "Риск-офис",
-                "Комплаенс",
-                "Внутренний аудит",
-                "Бизнес-владельцы",
-              ].map((item, index) => (
-                <span key={`${item}-${index}`}>{item}</span>
+                "Владельцы бизнес-процессов",
+              ].map((item) => (
+                <span key={item}>{item}</span>
               ))}
             </div>
           </div>
@@ -395,14 +393,18 @@ function ConnectorGridSection({
   description,
   className,
 }: FeatureGridSectionProps) {
+  const isPrepGrid = className?.includes("demo-prep-grid");
+
   return (
     <section id={id} className={`section platform ${className ?? ""}`.trim()}>
       <SectionHead title={title} description={description} />
       <div className="shell platform-panel simple-panel">
-        <div className="connectors-head">
-          <h3>{title}</h3>
-          <p>{description}</p>
-        </div>
+        {!isPrepGrid ? (
+          <div className="connectors-head">
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </div>
+        ) : null}
         <div className="connector-grid">
           {cards.map((card) => (
             <article className="connector-card" key={card.title}>
@@ -420,20 +422,22 @@ function ConnectorGridSection({
             </article>
           ))}
         </div>
-        <div className="connector-principles">
-          <article>
-            <h4>Execution</h4>
-            <p>{note || "Продуктовый слой исполнения встроен в платформу, а не вынесен во внешний проектный контур."}</p>
-          </article>
-          <article>
-            <h4>Governance</h4>
-            <p>Ролевые границы, аудит и допуск к эксплуатации проходят через тот же продуктовый контур.</p>
-          </article>
-          <article>
-            <h4>Rollout</h4>
-            <p>Один рабочий сценарий можно переносить в следующий without rebuilding the platform from scratch.</p>
-          </article>
-        </div>
+        {!isPrepGrid ? (
+          <div className="connector-principles">
+            <article>
+              <h4>Маршрут исполнения</h4>
+              <p>{note || "Логика сценария встроена в платформу и сопровождается как часть рабочего процесса, а не как внешний проектный слой."}</p>
+            </article>
+            <article>
+              <h4>Контроль и правила</h4>
+              <p>Ролевые границы, аудит и допуск к эксплуатации проходят через тот же контур платформы.</p>
+            </article>
+            <article>
+              <h4>Масштабирование</h4>
+              <p>Один рабочий сценарий можно переносить на другие процессы без пересборки всей платформы с нуля.</p>
+            </article>
+          </div>
+        ) : null}
       </div>
       {cta ? <div className="shell section-actions-old">{renderAction(cta, title)}</div> : null}
     </section>
@@ -486,24 +490,24 @@ export function WorkflowShowcase({
       <SectionHead title={title} description={description} />
       <div className="shell platform-panel workflow-panel">
         <div className="connectors-head">
-          <h3>Century Workflow</h3>
+          <h3>Workflow</h3>
           <p>{body}</p>
         </div>
 
         <div className="architecture-grid">
           <article>
             <p>СЛОЙ 1</p>
-            <h4>Визуальный конструктор</h4>
+            <h4>{cards[0]?.title}</h4>
             <span>{cards[0]?.text}</span>
           </article>
           <article>
             <p>СЛОЙ 2</p>
-            <h4>Совместимость с n8n</h4>
+            <h4>{cards[1]?.title}</h4>
             <span>{cards[1]?.text}</span>
           </article>
           <article>
             <p>СЛОЙ 3</p>
-            <h4>Контролируемый runtime</h4>
+            <h4>{cards[2]?.title}</h4>
             <span>{cards[2]?.text}</span>
           </article>
         </div>
@@ -512,7 +516,7 @@ export function WorkflowShowcase({
           {steps.map((step) => (
             <article className="connector-card" key={step}>
               <p>{step}</p>
-              <span>Workflow node в маршруте исполнения Century.</span>
+              <span>Шаг сценария в маршруте исполнения.</span>
             </article>
           ))}
         </div>
@@ -616,7 +620,6 @@ export function ObservabilityDashboardMock({ title, description, cards, caption 
               <p>{String(index + 1).padStart(2, "0")}</p>
               <h3>{card.title}</h3>
               <span>{card.text}</span>
-              <strong>Century observability</strong>
             </article>
           ))}
         </div>

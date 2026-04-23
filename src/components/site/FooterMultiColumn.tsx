@@ -1,12 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Globe, Mail, Phone, Send, Youtube } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import {
   COMPANY_NAME,
   CONTACT_EMAIL,
   CONTACT_PHONE,
   CONTACT_PHONE_RAW,
-  TELEGRAM_HANDLE,
 } from "@/lib/site";
 
 export default function FooterMultiColumn() {
@@ -39,42 +38,16 @@ export default function FooterMultiColumn() {
             <div className="footer-contacts">
               <a href={`mailto:${CONTACT_EMAIL}`} className="contact-link">
                 <Mail size={16} />
-                <span>{CONTACT_EMAIL}</span>
+                <span>
+                  <strong>Email:</strong> {CONTACT_EMAIL}
+                </span>
               </a>
 
               <a href={`tel:${CONTACT_PHONE_RAW}`} className="contact-link">
                 <Phone size={16} />
-                <span>{CONTACT_PHONE}</span>
-              </a>
-
-              <a
-                href="https://stacklevel.group"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link"
-              >
-                <Globe size={16} />
-                <span>{COMPANY_NAME}</span>
-              </a>
-
-              <a
-                href={`tg://resolve?domain=${TELEGRAM_HANDLE}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link"
-              >
-                <Send size={16} />
-                <span>Telegram</span>
-              </a>
-
-              <a
-                href="https://www.youtube.com/@STACKLEVELGROUP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link"
-              >
-                <Youtube size={16} />
-                <span>Youtube</span>
+                <span>
+                  <strong>Телефон:</strong> {CONTACT_PHONE}
+                </span>
               </a>
             </div>
           </article>
