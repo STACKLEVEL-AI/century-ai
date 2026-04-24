@@ -28,7 +28,15 @@ export default function StickyHeader() {
   }, []);
 
   const toggleMenu = useCallback(() => {
-    setMenuOpen((prev) => !prev);
+    setMenuOpen((prev) => {
+      const next = !prev;
+
+      if (next) {
+        setHidden(false);
+      }
+
+      return next;
+    });
   }, []);
 
   const closeMenu = useCallback(() => {
@@ -79,13 +87,6 @@ export default function StickyHeader() {
     window.addEventListener("mousemove", onMouseMove);
     return () => window.removeEventListener("mousemove", onMouseMove);
   }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
 
   return (
     <>

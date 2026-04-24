@@ -2,7 +2,15 @@
 
 import { useEffect } from "react";
 
-const SNAP_DURATION_MS = 600;
+type ScrollProfile = {
+  snapDurationMs: number;
+  snapLockMs: number;
+  intraSectionStepPx: number;
+  afterContentPaddingPx: number;
+  firstBlockOvershootPx: number;
+  touchThresholdPx: number;
+  keyStepFactor: number;
+};
 
 function easeInOutCubic(progress: number) {
   return progress < 0.5
@@ -12,7 +20,7 @@ function easeInOutCubic(progress: number) {
 
 function getSnapOffset() {
   if (typeof window === "undefined") {
-    return 10;
+    return 0;
   }
 
   if (window.innerWidth <= 480) {
@@ -27,35 +35,81 @@ function getSnapOffset() {
     return 64;
   }
 
-  return 10;
+  return 0;
 }
 
-function getSnapIdleDelay() {
+function getScrollProfile(): ScrollProfile {
   if (typeof window === "undefined") {
-    return 260;
+    return {
+      snapDurationMs: 140,
+      snapLockMs: 420,
+      intraSectionStepPx: 72,
+      afterContentPaddingPx: 200,
+      firstBlockOvershootPx: 88,
+      touchThresholdPx: 8,
+      keyStepFactor: 0.3,
+    };
   }
 
-  if (window.innerWidth <= 768) {
-    return 300;
+  const { innerWidth, innerHeight } = window;
+
+  if (innerWidth <= 480) {
+    return {
+      snapDurationMs: 220,
+      snapLockMs: 520,
+      intraSectionStepPx: Math.max(88, Math.round(innerHeight * 0.11)),
+      afterContentPaddingPx: 140,
+      firstBlockOvershootPx: 0,
+      touchThresholdPx: 14,
+      keyStepFactor: 0.2,
+    };
   }
 
-  return 260;
-}
-
-function getSnapThreshold() {
-  if (typeof window === "undefined") {
-    return 0.38;
+  if (innerWidth <= 768) {
+    return {
+      snapDurationMs: 200,
+      snapLockMs: 500,
+      intraSectionStepPx: Math.max(84, Math.round(innerHeight * 0.1)),
+      afterContentPaddingPx: 160,
+      firstBlockOvershootPx: 0,
+      touchThresholdPx: 12,
+      keyStepFactor: 0.22,
+    };
   }
 
-  if (window.innerWidth <= 768) {
-    return 0.44;
+  if (innerWidth <= 1040) {
+    return {
+      snapDurationMs: 180,
+      snapLockMs: 460,
+      intraSectionStepPx: Math.max(80, Math.round(innerHeight * 0.09)),
+      afterContentPaddingPx: 180,
+      firstBlockOvershootPx: 32,
+      touchThresholdPx: 10,
+      keyStepFactor: 0.26,
+    };
   }
 
-  if (window.innerWidth <= 1040) {
-    return 0.4;
+  if (innerHeight <= 940) {
+    return {
+      snapDurationMs: 150,
+      snapLockMs: 420,
+      intraSectionStepPx: Math.max(76, Math.round(innerHeight * 0.085)),
+      afterContentPaddingPx: 200,
+      firstBlockOvershootPx: 88,
+      touchThresholdPx: 8,
+      keyStepFactor: 0.28,
+    };
   }
 
-  return 0.38;
+  return {
+    snapDurationMs: 140,
+    snapLockMs: 420,
+    intraSectionStepPx: 72,
+    afterContentPaddingPx: 200,
+    firstBlockOvershootPx: 88,
+    touchThresholdPx: 8,
+    keyStepFactor: 0.3,
+  };
 }
 
 function getSnapTargets() {
@@ -66,13 +120,61 @@ function getSnapTargets() {
   ).filter((element) => element.offsetHeight > 0);
 }
 
+function getElementTop(element: HTMLElement) {
+  return window.scrollY + element.getBoundingClientRect().top;
+}
+
+function getAlignedTop(element: HTMLElement) {
+  const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  return Math.max(0, Math.min(getElementTop(element) - getSnapOffset(), maxScrollY));
+}
+
+function getCurrentIndex(targets: HTMLElement[], currentY: number) {
+  const adjustedY = currentY + getSnapOffset();
+  let index = 0;
+
+  for (let candidate = 0; candidate < targets.length; candidate += 1) {
+    if (getAlignedTop(targets[candidate]) <= adjustedY + 1) {
+      index = candidate;
+    }
+  }
+
+  return index;
+}
+
+function getAfterContentTriggerY(element: HTMLElement) {
+  const { afterContentPaddingPx } = getScrollProfile();
+  const sectionTop = getElementTop(element);
+  const sectionBottom = sectionTop + Math.max(element.offsetHeight, element.scrollHeight);
+  const trackedContent = element.querySelectorAll<HTMLElement>(
+    ".section-head, .security-accordion-grid, .hook-grid, .black-accent, .black-accent-top, .black-accent-grid, .section-note-old, .section-actions-old",
+  );
+
+  if (trackedContent.length > 0) {
+    const contentBottom = Math.max(
+      ...Array.from(trackedContent, (node) => window.scrollY + node.getBoundingClientRect().bottom),
+    );
+
+    return Math.max(
+      sectionTop + afterContentPaddingPx,
+      contentBottom - window.innerHeight + afterContentPaddingPx,
+    );
+  }
+
+  return Math.max(
+    sectionTop + afterContentPaddingPx,
+    sectionBottom - window.innerHeight + afterContentPaddingPx,
+  );
+}
+
 export default function ScrollSnapController() {
   useEffect(() => {
-    let idleTimer = 0;
     let animationFrame = 0;
     let isAnimating = false;
-    let lastScrollY = window.scrollY;
-    let lastDirection: "down" | "up" = "down";
+    let lockUntil = 0;
+    let touchStartY = 0;
+
+    const isLocked = () => performance.now() < lockUntil || isAnimating;
 
     const stopAnimation = () => {
       if (animationFrame) {
@@ -83,21 +185,24 @@ export default function ScrollSnapController() {
     };
 
     const animateScrollTo = (targetY: number) => {
+      const { snapDurationMs, snapLockMs } = getScrollProfile();
       stopAnimation();
 
       const startY = window.scrollY;
       const delta = targetY - startY;
 
-      if (Math.abs(delta) <= 4) {
+      if (Math.abs(delta) <= 2) {
+        lockUntil = performance.now() + snapLockMs;
         return;
       }
 
       isAnimating = true;
+      lockUntil = performance.now() + snapLockMs;
       const startTime = performance.now();
 
       const tick = (now: number) => {
         const elapsed = now - startTime;
-        const progress = Math.min(elapsed / SNAP_DURATION_MS, 1);
+        const progress = Math.min(elapsed / snapDurationMs, 1);
         const eased = easeInOutCubic(progress);
 
         window.scrollTo(0, startY + delta * eased);
@@ -109,116 +214,132 @@ export default function ScrollSnapController() {
 
         animationFrame = 0;
         isAnimating = false;
-        lastScrollY = window.scrollY;
       };
 
       animationFrame = window.requestAnimationFrame(tick);
     };
 
-    const snapToSectionByDirection = () => {
-      if (isAnimating) {
+    const stepInsideSection = (element: HTMLElement, delta: number) => {
+      const { intraSectionStepPx } = getScrollProfile();
+      const currentY = window.scrollY;
+      const sectionTop = getAlignedTop(element);
+      const triggerY = getAfterContentTriggerY(element);
+      const step = Math.max(intraSectionStepPx, Math.abs(delta));
+
+      if (delta > 0) {
+        window.scrollTo(0, Math.min(triggerY, currentY + step));
+        return true;
+      }
+
+      if (currentY > sectionTop + 1) {
+        window.scrollTo(0, Math.max(sectionTop, currentY - step));
+        return true;
+      }
+
+      return false;
+    };
+
+    const handleDirectionalScroll = (delta: number) => {
+      if (Math.abs(delta) < 2 || isLocked()) {
         return;
       }
 
       const targets = getSnapTargets();
-      if (targets.length < 2) {
+      if (targets.length === 0) {
         return;
       }
 
-      const offset = getSnapOffset();
       const currentY = window.scrollY;
-      const adjustedY = currentY + offset;
-      const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      const targetPositions = targets.map((element) =>
-        Math.max(0, Math.min(window.scrollY + element.getBoundingClientRect().top - offset, maxScrollY)),
-      );
+      const currentIndex = getCurrentIndex(targets, currentY);
+      const currentTarget = targets[currentIndex];
 
-      let lowerIndex = 0;
-      for (let index = 0; index < targetPositions.length; index += 1) {
-        if (targetPositions[index] <= adjustedY) {
-          lowerIndex = index;
-        }
-      }
+      if (delta > 0) {
+        const nextTarget = targets[currentIndex + 1];
 
-      const upperIndex = Math.min(lowerIndex + 1, targetPositions.length - 1);
-      const lowerTarget = targetPositions[lowerIndex];
-      const upperTarget = targetPositions[upperIndex];
-
-      if (lastDirection === "down") {
-        if (upperIndex === lowerIndex || upperTarget <= currentY + 4) {
+        if (!nextTarget) {
           return;
         }
 
-        const distanceBetweenSections = Math.max(1, upperTarget - lowerTarget);
-        const progressToNext = Math.max(0, adjustedY - lowerTarget) / distanceBetweenSections;
+        const triggerY = getAfterContentTriggerY(currentTarget);
 
-        if (progressToNext < getSnapThreshold()) {
+        if (currentY < triggerY - 1) {
+          stepInsideSection(currentTarget, delta);
           return;
         }
 
-        animateScrollTo(upperTarget);
+        animateScrollTo(getAlignedTop(nextTarget));
         return;
       }
 
-      if (upperTarget === lowerTarget || lowerTarget >= currentY - 4) {
+      if (currentIndex === 0) {
+        const { firstBlockOvershootPx } = getScrollProfile();
+        animateScrollTo(Math.max(0, getAlignedTop(currentTarget) - firstBlockOvershootPx));
         return;
       }
 
-      const distanceBetweenSections = Math.max(1, upperTarget - lowerTarget);
-      const progressToPrev = Math.max(0, upperTarget - adjustedY) / distanceBetweenSections;
-
-      if (progressToPrev < getSnapThreshold()) {
+      if (stepInsideSection(currentTarget, delta)) {
         return;
       }
 
-      animateScrollTo(lowerTarget);
+      const previousTarget = targets[currentIndex - 1];
+      if (!previousTarget) {
+        return;
+      }
+
+      animateScrollTo(getAlignedTop(previousTarget));
     };
 
-    const scheduleSnap = () => {
-      const currentY = window.scrollY;
-      const isScrollingDown = currentY > lastScrollY;
-      const isScrollingUp = currentY < lastScrollY;
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      handleDirectionalScroll(event.deltaY);
+    };
 
-      if (isScrollingDown) {
-        lastDirection = "down";
-      } else if (isScrollingUp) {
-        lastDirection = "up";
-      }
+    const handleKeydown = (event: KeyboardEvent) => {
+      const { keyStepFactor } = getScrollProfile();
+      const forwardKeys = new Set(["ArrowDown", "PageDown", " "]);
+      const backwardKeys = new Set(["ArrowUp", "PageUp"]);
 
-      lastScrollY = currentY;
-
-      if (isAnimating) {
+      if (forwardKeys.has(event.key)) {
+        event.preventDefault();
+        handleDirectionalScroll(window.innerHeight * keyStepFactor);
         return;
       }
 
-      window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(snapToSectionByDirection, getSnapIdleDelay());
+      if (backwardKeys.has(event.key)) {
+        event.preventDefault();
+        handleDirectionalScroll(-window.innerHeight * keyStepFactor);
+      }
     };
 
-    const cancelSnap = () => {
-      window.clearTimeout(idleTimer);
-      stopAnimation();
-      lastScrollY = window.scrollY;
+    const handleTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? 0;
     };
 
-    window.addEventListener("scroll", scheduleSnap, { passive: true });
-    window.addEventListener("wheel", cancelSnap, { passive: true });
-    window.addEventListener("touchstart", cancelSnap, { passive: true });
-    window.addEventListener("touchmove", cancelSnap, { passive: true });
-    window.addEventListener("keydown", cancelSnap);
-    window.addEventListener("mousedown", cancelSnap);
-    window.addEventListener("resize", cancelSnap);
+    const handleTouchMove = (event: TouchEvent) => {
+      const { touchThresholdPx } = getScrollProfile();
+      const currentTouchY = event.touches[0]?.clientY ?? touchStartY;
+      const delta = touchStartY - currentTouchY;
+
+      if (Math.abs(delta) < touchThresholdPx) {
+        return;
+      }
+
+      event.preventDefault();
+      handleDirectionalScroll(delta);
+      touchStartY = currentTouchY;
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("keydown", handleKeydown);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
 
     return () => {
-      window.clearTimeout(idleTimer);
       stopAnimation();
-      window.removeEventListener("scroll", scheduleSnap);
-      window.removeEventListener("wheel", cancelSnap);
-      window.removeEventListener("touchstart", cancelSnap);
-      window.removeEventListener("touchmove", cancelSnap);
-      window.removeEventListener("keydown", cancelSnap);
-      window.removeEventListener("mousedown", cancelSnap);
-      window.removeEventListener("resize", cancelSnap);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 

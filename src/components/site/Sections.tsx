@@ -44,6 +44,7 @@ type ObservabilityProps = {
   description: string;
   cards: FeatureCard[];
   caption: string;
+  snapBehavior?: "default" | "after-content";
 };
 
 type SecuritySectionProps = {
@@ -51,6 +52,7 @@ type SecuritySectionProps = {
   description: string;
   cards: FeatureCard[];
   faqs: AccordionItem[];
+  snapBehavior?: "default" | "after-content";
 };
 
 type LayerItem = {
@@ -75,6 +77,8 @@ type TextColumnsSectionProps = {
   title: string;
   description: string;
   columns: TextBlock[];
+  className?: string;
+  snapBehavior?: "default" | "after-content";
 };
 
 type ServiceDetail = {
@@ -107,6 +111,11 @@ type NarrativeBandProps = {
   description: string;
   body?: string;
   note?: string;
+};
+
+type StakeholdersStripProps = {
+  title: string;
+  items: string[];
 };
 
 type PreviewBoardProps = {
@@ -173,7 +182,6 @@ function HomeLikeHero({
   showcase,
   support,
   introBody,
-  footerStrip,
   className,
   introUnderTitle,
 }: {
@@ -185,7 +193,6 @@ function HomeLikeHero({
   showcase: ReactNode;
   support?: string;
   introBody?: string;
-  footerStrip?: ReactNode;
   className?: string;
   introUnderTitle?: boolean;
 }) {
@@ -221,10 +228,8 @@ function HomeLikeHero({
           </div>
         </div>
 
-        <div className="hero-showcase">{showcase}</div>
+        {showcase ? <div className="hero-showcase">{showcase}</div> : null}
       </div>
-
-      {footerStrip ? <div className="shell">{footerStrip}</div> : null}
     </section>
   );
 }
@@ -285,8 +290,16 @@ export function HeroExecutionPlatform({
       badges={badges}
       actions={actions}
       introUnderTitle
-      showcase={
-        <>
+      showcase={null}
+    />
+  );
+}
+
+export function HomeHeroShowcaseSection({ title, items }: StakeholdersStripProps) {
+  return (
+    <section className="section home-hero-showcase-section">
+      <div className="shell">
+        <div className="hero-showcase">
           <article className="show-card show-card-light">
             <p className="show-type">Проверяемые ответы</p>
             <h3>Ответ с цитатами и доступом</h3>
@@ -307,30 +320,19 @@ export function HeroExecutionPlatform({
             <h3>Наблюдаемость и стоимость</h3>
             <span>Нагрузка по моделям, токены, журнал исполнения и стоимость.</span>
           </article>
-        </>
-      }
-      footerStrip={
-        <div className="stakeholders-inner" aria-label="Ключевые участники программы">
-          <p>Ключевые участники</p>
+        </div>
+        <div className="stakeholders-inner" aria-label={title}>
+          <p>{title}</p>
           <div className="stakeholders-marquee">
             <div className="stakeholders-track">
-              {[
-                "CDTO",
-                "CIO",
-                "CDO",
-                "Информационная безопасность",
-                "Риск-офис",
-                "Комплаенс",
-                "Внутренний аудит",
-                "Владельцы бизнес-процессов",
-              ].map((item) => (
+              {items.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>
           </div>
         </div>
-      }
-    />
+      </div>
+    </section>
   );
 }
 
@@ -606,9 +608,15 @@ export function AssistantsAndAgentsGrid({ title, description, cards, note }: Fea
   );
 }
 
-export function ObservabilityDashboardMock({ title, description, cards, caption }: ObservabilityProps) {
+export function ObservabilityDashboardMock({
+  title,
+  description,
+  cards,
+  caption,
+  snapBehavior = "default",
+}: ObservabilityProps) {
   return (
-    <section className="section black-platform">
+    <section className="section black-platform" data-snap-behavior={snapBehavior}>
       <div className="shell black-accent">
         <div className="black-accent-top">
           <h2>{title}</h2>
@@ -629,9 +637,15 @@ export function ObservabilityDashboardMock({ title, description, cards, caption 
   );
 }
 
-export function SecurityGovernanceAccordion({ title, description, cards, faqs }: SecuritySectionProps) {
+export function SecurityGovernanceAccordion({
+  title,
+  description,
+  cards,
+  faqs,
+  snapBehavior = "default",
+}: SecuritySectionProps) {
   return (
-    <section className="section trust">
+    <section className="section trust" data-snap-behavior={snapBehavior}>
       <SectionHead title={title} description={description} />
       <div className="shell security-accordion-grid">
         {cards.map((card, index) => {
@@ -783,9 +797,18 @@ export function LayerStackSection({ title, description, layers }: LayerStackSect
   );
 }
 
-export function TextColumnsSection({ title, description, columns }: TextColumnsSectionProps) {
+export function TextColumnsSection({
+  title,
+  description,
+  columns,
+  className,
+  snapBehavior = "default",
+}: TextColumnsSectionProps) {
   return (
-    <section className="section hooks">
+    <section
+      className={`section hooks ${className ?? ""}`.trim()}
+      data-snap-behavior={snapBehavior}
+    >
       <SectionHead title={title} description={description} />
       <div className="shell hook-grid">
         {columns.map((column, index) => (
