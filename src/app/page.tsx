@@ -5,6 +5,7 @@ import {
   FeatureGridSection,
   FinalCtaBlock,
   HeroExecutionPlatform,
+  HomeHeroShowcaseSection,
   ObservabilityDashboardMock,
   SecurityGovernanceAccordion,
   WorkflowShowcase,
@@ -35,6 +36,19 @@ export default function Home() {
   return (
     <main className="home-page">
       <HeroExecutionPlatform {...homeHero} />
+      <HomeHeroShowcaseSection
+        title="Ключевые участники"
+        items={[
+          "CDTO",
+          "CIO",
+          "CDO",
+          "Информационная безопасность",
+          "Риск-офис",
+          "Комплаенс",
+          "Внутренний аудит",
+          "Владельцы бизнес-процессов",
+        ]}
+      />
       <FeatureGridSection {...homeCapabilities} />
       <DeploymentModeCards {...deploymentModes} />
       <WorkflowShowcase {...workflowContent} />

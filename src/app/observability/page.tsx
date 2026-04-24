@@ -87,6 +87,7 @@ export default function ObservabilityPage() {
         description="Century делает эксплуатационную картину продукта прозрачной: от пользовательской активности до модели, токенов, стоимости и журнала исполнения."
         cards={observabilityCards}
         caption="Наблюдаемость нужна для сопровождения, оптимизации и допуска сценариев к масштабированию."
+        snapBehavior="after-content"
       />
 
       <NarrativeBand

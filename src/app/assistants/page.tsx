@@ -100,6 +100,8 @@ export default function AssistantsPage() {
       </PageHero>
 
       <TextColumnsSection
+        className="assistants-columns"
+        snapBehavior="after-content"
         title="Ассистенты и агентные процессы как продуктовый слой"
         description="Century объединяет пользовательские ассистенты и многошаговые сценарии в одной платформе. Ассистенты работают с документами и корпоративными знаниями, используют разрешённые источники, встраиваются в workflow и при необходимости проходят контрольные точки и ручную проверку."
         columns={assistantSections}

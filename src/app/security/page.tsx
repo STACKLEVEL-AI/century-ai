@@ -80,6 +80,7 @@ export default function SecurityPage() {
       </PageHero>
 
       <SecurityGovernanceAccordion
+        snapBehavior="after-content"
         title="Безопасность и контроль по умолчанию"
         description="Безопасность в Century встроена в продукт. Права доступа, источники данных, журнал исполнения, контрольные точки и метрики работают внутри платформы, поэтому сценарии можно не только запускать, но и проверять, сопровождать и постепенно выводить в промышленную эксплуатацию."
         cards={securityBlocks}
