@@ -91,7 +91,7 @@ function GroupCard({
 
 export default function SecuritySection() {
   return (
-    <section className="hero-grid w-full pb-16 pt-10 sm:pb-20 lg:pb-25">
+    <section className="hero-grid w-full pb-16 pt-10 sm:pb-20 lg:pt-25 lg:pb-25">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
         <div className="mx-0 rounded-[20px] border border-dashed border-[#240CFF] bg-[#240CFF08] pb-5 sm:pb-8">
           <div className="relative -mt-4 ml-4 w-[calc(100%-2rem)] max-w-[242px] rounded-full bg-white px-2 py-2 text-[14px] leading-none tracking-[-0.02em] text-[#1C1C1C] sm:ml-8 sm:text-[16px]">
