@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 type ScrollProfile = {
   snapDurationMs: number;
@@ -168,7 +169,13 @@ function getAfterContentTriggerY(element: HTMLElement) {
 }
 
 export default function ScrollSnapController() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (pathname === "/" && document.querySelector(".century-home-page")) {
+      return;
+    }
+
     let animationFrame = 0;
     let isAnimating = false;
     let lockUntil = 0;
@@ -341,7 +348,7 @@ export default function ScrollSnapController() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

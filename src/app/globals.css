@@ -1,8 +1,18 @@
+@import "tailwindcss";
+
 /* =========================================================
    Design Tokens
    ========================================================= */
 :root {
   /* Color */
+  --background: #ffffff;
+  --foreground: #13151b;
+  --color-ink: #13151b;
+  --color-muted: #666c78;
+  --color-line: rgba(19, 21, 27, 0.1);
+  --color-line-strong: rgba(19, 21, 27, 0.16);
+  --color-accent: #7c86ff;
+  --dot-color: #acacac4d;
   --color-primary-600: #210dff;
   --color-primary-700: #1608cf;
   --color-primary-200: #cfd6ff;
@@ -79,6 +89,13 @@
   --md-body: var(--type-body);
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lato);
+  --font-mono: var(--font-manrope);
+}
+
 /* =========================================================
    Reset & Base
    ========================================================= */
@@ -143,6 +160,116 @@ svg {
 
 a {
   color: inherit;
+}
+
+/* =========================================================
+   New Home Page
+   ========================================================= */
+.century-home-page {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-lato), var(--font-manrope), sans-serif;
+  overflow-x: hidden;
+}
+
+.hero-grid {
+  background-color: var(--background);
+  background-image: radial-gradient(circle, var(--dot-color) 1.7px, transparent 1.8px);
+  background-position: 0 34px;
+  background-size: 40px 40px;
+}
+
+.slide-fade-in {
+  animation: slideFadeIn 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-fade-in {
+  animation: mediaFadeIn 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cy-flow {
+  stroke-dasharray: 4 8;
+  stroke-dashoffset: 0;
+  animation: cy-flow 1.4s linear infinite;
+  will-change: stroke-dashoffset;
+}
+
+.cy-circlet {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cy-halo 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.cy-node-pulse {
+  animation: cy-node 2.6s ease-out infinite;
+  will-change: opacity, transform;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mediaFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cy-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+@keyframes cy-node {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+@keyframes cy-halo {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
 }
 
 /* =========================================================
