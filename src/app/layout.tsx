@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Lato, Manrope, Montserrat } from "next/font/google";
 import SiteChrome from "@/components/site/SiteChrome";
 import {
   COMPANY_NAME,
@@ -16,6 +16,20 @@ import "./globals.css";
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
   variable: "--font-manrope",
+  display: "swap",
+});
+
+const lato = Lato({
+  subsets: ["latin"],
+  variable: "--font-lato",
+  weight: ["300", "400", "700", "900"],
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-montserrat",
+  weight: ["600"],
   display: "swap",
 });
 
@@ -137,7 +151,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={manrope.variable}>
+    <html lang="ru" className={`${manrope.variable} ${lato.variable} ${montserrat.variable}`}>
       <body>
         <SiteChrome>{children}</SiteChrome>
         <script

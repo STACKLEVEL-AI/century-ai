@@ -8,8 +8,8 @@ export default function SectionNavigator() {
   const pathname = usePathname();
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionsRef = useRef<HTMLElement[]>([]);
-  const sectionsCount = pathname === "/" ? 12 : 0;
-  const contrastSectionIndices = [7];
+  const sectionsCount = pathname === "/" ? 6 : 0;
+  const contrastSectionIndices = [5];
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -18,7 +18,9 @@ export default function SectionNavigator() {
     }
 
     const sections = Array.from(
-      document.querySelectorAll(".home-page > section, .site-root__content > section"),
+      document.querySelectorAll(
+        ".century-home-page > section, .home-page > section, .site-root__content > section",
+      ),
     ) as HTMLElement[];
     sectionsRef.current = sections;
 
@@ -71,13 +73,7 @@ export default function SectionNavigator() {
 
   return (
     <div className="section-dots-container">
-      {Array.from({ length: sectionsCount }).map((_, i) => (
-        <div
-          key={i}
-          className={`section-dot ${i === activeIndex ? "active" : ""} ${contrastSectionIndices.includes(activeIndex) ? "contrast" : ""}`}
-          onClick={() => handleDotClick(i)}
-        />
-      ))}
+
     </div>
   );
 }
