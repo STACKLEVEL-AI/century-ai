@@ -94,7 +94,7 @@ export default function SecuritySection() {
     <section className="hero-grid w-full pb-16 pt-10 sm:pb-20 lg:pt-25 lg:pb-25">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
         <div className="mx-0 rounded-[20px] border border-dashed border-[#240CFF] bg-[#240CFF08] pb-5 sm:pb-8">
-          <div className="relative -mt-4 ml-4 w-[calc(100%-2rem)] max-w-[242px] rounded-full bg-white px-2 py-2 text-[14px] leading-none tracking-[-0.02em] text-[#1C1C1C] sm:ml-8 sm:text-[16px]">
+          <div className="relative -mt-2 ml-4 w-[calc(100%-2rem)] max-w-[242px] rounded-full bg-white text-[14px] leading-none tracking-[0.02em] text-[#1C1C1C] sm:ml-7 sm:text-[16px]">
             Защищённый контур компании
           </div>
 
@@ -106,7 +106,7 @@ export default function SecuritySection() {
               backgroundSize: "42px 42px",
             }}
           >
-            <div className="mt-8 flex h-auto flex-col overflow-hidden sm:mt-10 lg:mt-13 xl:max-h-[300px] lg:overflow-hidden">
+            <div className="mt-6 flex h-auto flex-col overflow-hidden sm:mt-8 lg:mt-11 xl:max-h-[300px] lg:overflow-hidden">
               <div className="relative z-10 grid gap-5 px-4 sm:grid-cols-2 sm:px-6 lg:px-10 max-xl:mb-10 xl:grid-cols-3">
                 {departmentGroups.map((group) => (
                   <GroupCard
@@ -169,7 +169,7 @@ export default function SecuritySection() {
               </div>
             </div>
 
-            <div className="relative mx-3 rounded-[20px] border border-[#9B9B9B] bg-[#240CFF0A] px-3 py-[17px] sm:mx-[18px] sm:px-[18px]">
+            <div className="relative mx-3 rounded-[20px] border border-[#9B9B9B] bg-[#240CFF0A] px-3 pt-[17px] pb-[12px] sm:mx-[18px] sm:px-[18px]">
               <div className="absolute left-1/2 top-0 h-7 w-px -translate-x-1/2 -translate-y-full bg-[#AFAFAF]" />
               <div
                 aria-hidden="true"
@@ -222,7 +222,7 @@ export default function SecuritySection() {
                 {platformBenefits.map((item) => (
                   <article
                     key={item.title}
-                    className="border-b border-[#B8B8B8] p-4 last:border-b-0 sm:p-5 lg:border-b-0 lg:border-r lg:last:border-r-0"
+                    className="border-b border-[#B8B8B8] last:border-b-0 sm:mt-3 sm:mb-4 sm:ml-3.5 lg:border-b-0 border-r lg:last:border-r-0"
                   >
                     <div className="flex items-center gap-3">
                       <span className="h-2 w-2 shrink-0 rounded-full bg-[#240CFF]" />

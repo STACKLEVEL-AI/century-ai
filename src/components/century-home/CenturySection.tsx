@@ -11,7 +11,7 @@ const centurySlides = [
     lead: "Сводим данные о клиентах из всех источников в один прозрачный профиль.",
     body: "Как общаются, как платят, что пишут в поддержку, как ведут себя в цифровом пространстве: все в одном профиле. Бизнес видит, где узкие места в воронке, что оптимизировать и какое решение принять на данных.",
     tags: ["ROI ПО КАНАЛАМ", "ТОЧКИ ОТТОКА", "РЕШЕНИЕ ПО БЮДЖЕТУ"],
-    mediaSrc: "/slider-image/analytics-preview.png",
+    mediaSrc: "/slider-image/analytics-preview.webp",
   },
   {
     step: "02",
@@ -19,7 +19,7 @@ const centurySlides = [
     lead: "Клиенты и сотрудники получают ответ, без очереди и ожидания.",
     body: "ИИ принимает обращения круглосуточно, отвечает на типовые вопросы, оформляет заявки и передает сложные кейсы человеку. Поддержка перестает заниматься рутиной и занимается тем, где нужен живой специалист.",
     tags: ["ПЕРВАЯ ЛИНИЯ 24/7", "УМНАЯ ЭСКАЛАЦИЯ", "АВТОЗАКРЫТИЕ ОБРАЩЕНИЙ"],
-    mediaSrc: "/slider-image/image-2.png",
+    mediaSrc: "/slider-image/image-2.webp",
   },
   {
     step: "03",
@@ -27,7 +27,7 @@ const centurySlides = [
     lead: "Спрашиваете своими словами, получаете точный ответ со ссылкой на документ.",
     body: "Регламенты, инструкции, договоры, переписка: все знания компании в одном поиске. Новый сотрудник входит в курс за дни, а не за месяцы, и экспертиза не уходит вместе с людьми.",
     tags: ["ОТВЕТ СО ССЫЛКОЙ", "ОНБОРДИНГ ЗА ДНИ", "ЕДИНЫЙ ИСТОЧНИК ПРАВДЫ"],
-    mediaSrc: "/slider-image/image-3.png",
+    mediaSrc: "/slider-image/image-3.webp",
   },
   {
     step: "04",
@@ -35,7 +35,7 @@ const centurySlides = [
     lead: "Вопрос на обычном языке превращаем в точный ответ и готовый дашборд.",
     body: "Оценка последнего звонка, сводка возражений, детали из CRM, следующий шаг по клиенту: спрашиваете в чате, ответ приходит цифрой и дашбордом. Руководитель продаж видит скоринг сделок и риск оттока, СЕО видит прогнозы и сквозные выводы: на что смотреть и какое решение принять.",
     tags: ["СКОРИНГ СДЕЛОК", "ПРОГНОЗЫ ДЛЯ CEO", "РИСК ОТТОКА И LTV"],
-    mediaSrc: "/slider-image/image-4.png",
+    mediaSrc: "/slider-image/image-4.webp",
   },
   {
     step: "05",
@@ -43,7 +43,7 @@ const centurySlides = [
     lead: "Каждый запрос виден: кто, какая модель, сколько токенов и денег.",
     body: "Логирование по каждому обращению, разграничение доступа, защита от утечек и prompt injection, работа on-premise. Вы управляете тем, что ИИ может и не может делать, и проходите аудит без сюрпризов.",
     tags: ["ДОСТУП ПО РОЛЯМ", "ON-PREMISE", "СТОИМОСТЬ ПО ЗАПРОСУ"],
-    mediaSrc: "/slider-image/image-5.png",
+    mediaSrc: "/slider-image/image-5.webp",
   },
 ] as const;
 
@@ -318,8 +318,8 @@ export default function CenturySection() {
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                      <div className="flex min-h-0 flex-col pt-0 lg:h-full lg:overflow-hidden lg:pl-25">
-                      <div className="min-h-0 overflow-visible lg:overflow-hidden">
+                      <div className="flex h-full justify-between min-h-[370px] flex-col pt-0 lg:overflow-hidden lg:pl-25 max-sm:min-h-[483px]">
+                      <div className="overflow-visible lg:overflow-hidden">
                         <h2 className="max-w-[560px] text-[34px] font-bold uppercase leading-[1.02] tracking-[0] text-[#240CFF] sm:text-[44px] lg:max-w-[335px] lg:text-[56px]">
                           {slide.title}
                         </h2>
@@ -328,7 +328,7 @@ export default function CenturySection() {
                           {slide.lead}
                         </p>
 
-                        <p className="mt-6 max-w-[560px] text-[15px] font-light leading-6 tracking-[0.5] text-[#4F4F4F] lg:mt-10 lg:max-w-[392px] xl:mt-10 xl:text-[16px]">
+                        <p className="mt-6 max-w-[560px] h-full min-h-[96px] text-[15px] font-light leading-6 tracking-[0.5] text-[#4F4F4F] lg:mt-10 lg:max-w-[392px] xl:mt-10 xl:text-[16px]">
                           {slide.body}
                         </p>
                       </div>

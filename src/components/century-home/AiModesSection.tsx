@@ -74,11 +74,11 @@ export default function AiModesSection() {
   const activeMode = modes[activeIndex];
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col bg-white">
+    <section className="relative hero-grid flex min-h-[100svh] flex-col bg-white">
 
       <div className="h-px w-full bg-[var(--color-line)]" />
 
-      <div className="hero-grid mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 pb-14 pt-9 sm:px-8 lg:px-[100px] lg:pb-20 lg:pt-8">
+      <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 pb-14 pt-9 sm:px-8 lg:px-[100px] lg:pb-20 lg:pt-8">
         <div className=" w-full max-w-[1440px]">
           <h2 className="max-w-[860px] text-[34px] font-bold leading-[1.08] tracking-[0] text-black sm:text-[44px] lg:text-[56px]">
             Пять режимов работы с ИИ

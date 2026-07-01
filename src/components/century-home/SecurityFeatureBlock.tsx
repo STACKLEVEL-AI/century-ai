@@ -31,7 +31,7 @@ export default function SecurityFeatureBlock() {
         backgroundImage:
           "radial-gradient(circle, rgba(154, 162, 198, 0.38) 1.7px, transparent 1.8px)",
         backgroundPosition: "0 0",
-        backgroundSize: "65px 46px",
+        backgroundSize: "40px 40px",
       }}
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
@@ -79,8 +79,8 @@ export default function SecurityFeatureBlock() {
           style={{
             backgroundImage:
               "radial-gradient(circle, rgba(154, 162, 198, 0.28) 1.7px, transparent 1.8px)",
-            backgroundPosition: "0 10px",
-            backgroundSize: "65px 46px",
+            backgroundPosition: "0 0",
+            backgroundSize: "40px 40px",
           }}
         >
           <Image
