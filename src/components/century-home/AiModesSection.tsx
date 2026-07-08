@@ -74,7 +74,11 @@ export default function AiModesSection() {
   const activeMode = modes[activeIndex];
 
   return (
-    <section className="relative hero-grid flex min-h-[100svh] flex-col bg-white">
+    <section
+      id="modes"
+      data-landing-section
+      className="relative hero-grid flex min-h-[100svh] flex-col bg-white"
+    >
 
       <div className="h-px w-full bg-[var(--color-line)]" />
 
@@ -114,7 +118,7 @@ export default function AiModesSection() {
               })}
             </div>
 
-            <article className="h-full min-h-0 w-full max-w-[600px] overflow-hidden rounded-[12px] border border-[#A7A7A7] bg-white lg:min-h-[640px]">
+            <article className="h-full max-h-[640px] min-h-0 w-full max-w-[600px] overflow-hidden rounded-[12px] border border-[#A7A7A7] bg-white lg:min-h-[640px]">
               <div className="flex min-h-[220px] items-center justify-center border-b border-[#A7A7A7] py-8 sm:h-[320px] lg:h-[350px]">
                 <div key={activeMode.visual} className="flex media-fade-in h-full w-full items-center justify-center">
                   <ModeIllustration variant={activeMode.visual} />

@@ -3,7 +3,7 @@ import SectionNavigator from "@/components/SectionNavigator";
 import SectionRevealController from "@/components/site/SectionRevealController";
 import ScrollSnapController from "@/components/site/ScrollSnapController";
 import StickyHeader from "@/components/site/StickyHeader";
-import FooterMultiColumn from "@/components/site/FooterMultiColumn";
+import FooterLeadCapture from "@/components/site/FooterLeadCapture";
 import ScrollToTop from "@/components/ScrollToTop";
 
 type SiteChromeProps = {
@@ -19,8 +19,7 @@ export default function SiteChrome({ children }: SiteChromeProps) {
       <StickyHeader />
       <SectionNavigator />
       <div className="site-root__content">{children}</div>
-      <FooterMultiColumn />
-      <ScrollToTop />
+      <FooterLeadCapture />
     </div>
   );
 }

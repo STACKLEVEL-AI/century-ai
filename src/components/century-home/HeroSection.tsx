@@ -1,17 +1,56 @@
 export default function HeroSection() {
   return (
-    <section className="relative hero-grid flex h-screen  flex-col lg:pt-10">
-      <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-between px-5 sm:px-8 lg:px-[100px]">
-        <div className="flex justify-end">
-          <h1 className="max-w-[604px] text-right text-[clamp(34px,8vw,60px)] font-normal uppercase leading-[1] tracking-[0.02em] [font-family:var(--font-lato)]">
-            Бизнес будущего
-          </h1>
-        </div>
+    <section
+      id="hero"
+      className="century-home-hero relative flex flex-col overflow-hidden pt-5 sm:pt-6 lg:pt-10"
+    >
+      <div className="mx-auto flex w-full max-w-[1440px] flex-1 px-5 pb-5 sm:px-8 sm:pb-6 lg:px-[100px] lg:pb-8">
+        <div className="relative hero-grid flex flex-1 flex-col justify-between border border-[#D9D9D9] px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 lg:px-[20px] lg:pb-[20px] lg:pt-[20px]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[-1px] top-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[-1px] top-[-1px] h-px w-[20px] bg-[#240CFF] lg:w-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-[-1px] top-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-[-1px] top-[-1px] h-px w-[20px] bg-[#240CFF] lg:w-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-1px] left-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-1px] left-[-1px] h-px w-[20px] bg-[#240CFF] lg:w-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-1px] right-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-1px] right-[-1px] h-px w-[20px] bg-[#240CFF] lg:w-[30px]"
+          />
 
-        <div className="mb-14 pt-16 sm:mb-20 sm:pt-24 lg:mb-[100px] lg:pt-32">
-          <p className="select-none text-[clamp(64px,15vw,180px)] font-[600] uppercase leading-[0.92] tracking-[0] [font-family:var(--font-lato)]">
-            Century
-          </p>
+          <div className="flex justify-end">
+            <h1 className="max-w-[260px] text-right text-[48px] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)] sm:max-w-[300px] lg:max-w-[292px]">
+              <span className="block">Бизнес</span>
+              <span className="block">будущего</span>
+            </h1>
+          </div>
+
+          <div className="pt-12 sm:pt-16 lg:pt-20">
+            <p className="select-none text-[160px] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)]">
+              Century
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -2,6 +2,8 @@ export default function CasesIntroSection() {
   return (
     <section
       id="cases-intro"
+      data-landing-section
+      data-nav-section="cases"
       className="hero-grid min-h-[100svh] w-full overflow-hidden bg-white"
     >
       <div className="mx-auto flex min-h-[100svh] w-full max-w-[1440px] flex-col px-5 pb-10 pt-16 sm:px-8 sm:pt-24 lg:px-[100px] lg:pb-[100px] lg:pt-[100px]">
@@ -22,10 +24,6 @@ export default function CasesIntroSection() {
               результат для бизнеса
             </p>
           </div>
-        </div>
-
-        <div className="flex justify-end text-[14px] font-medium uppercase leading-none tracking-[0.02em] text-[#8E8E8E]">
-          5 ПРИМЕРОВ ДАЛЕЕ
         </div>
       </div>
     </section>

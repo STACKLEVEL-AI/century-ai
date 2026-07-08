@@ -91,21 +91,18 @@ function GroupCard({
 
 export default function SecuritySection() {
   return (
-    <section className="hero-grid w-full pb-16 pt-10 sm:pb-20 lg:pt-25 lg:pb-25">
+    <section
+      id="platform"
+      data-landing-section
+      className="hero-grid w-full pb-16 pt-10 sm:pb-20 lg:pt-25 lg:pb-25"
+    >
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
         <div className="mx-0 rounded-[20px] border border-dashed border-[#240CFF] bg-[#240CFF08] pb-5 sm:pb-8">
           <div className="relative -mt-2 ml-4 w-[calc(100%-2rem)] max-w-[242px] rounded-full bg-white text-[14px] leading-none tracking-[0.02em] text-[#1C1C1C] sm:ml-7 sm:text-[16px]">
             Защищённый контур компании
           </div>
 
-          <div
-            className="rounded-[24px]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at center, rgba(82, 79, 255, 0.18) 1.4px, transparent 1.4px)",
-              backgroundSize: "42px 42px",
-            }}
-          >
+          <div className="rounded-[24px]">
             <div className="mt-6 flex h-auto flex-col overflow-hidden sm:mt-8 lg:mt-11 xl:max-h-[300px] lg:overflow-hidden">
               <div className="relative z-10 grid gap-5 px-4 sm:grid-cols-2 sm:px-6 lg:px-10 max-xl:mb-10 xl:grid-cols-3">
                 {departmentGroups.map((group) => (
@@ -205,12 +202,12 @@ export default function SecuritySection() {
                   {platformCapabilities.map((item) => (
                     <article
                       key={item.title}
-                      className="rounded-[5px] bg-white px-[14px] pb-[20px] pt-[10px] text-[#1A1A1A]"
+                      className="rounded-[5px] max-h-[96px] bg-white px-[14px] pb-[20px] pt-[10px] text-[#1A1A1A]"
                     >
-                      <h4 className="text-[24px] font-bold tracking-[0.04em] text-[#240CFF] lg:text-[28px]">
+                      <h4 className="text-[28px] font-bold tracking-[0.03em] text-[#240CFF]">
                         {item.title}
                       </h4>
-                      <p className="mt-4 text-[16px] leading-[1.2] tracking-[0.02em] text-[#000000]">
+                      <p className="mt-[6px] text-[16px] leading-[1.2] tracking-[0.03em] text-[#000000]">
                         {item.description}
                       </p>
                     </article>
@@ -249,9 +246,9 @@ export default function SecuritySection() {
                 {platformBase.map((item) => (
                   <article
                     key={item.title}
-                    className="rounded-[10px] border border-[#9B9B9B] bg-white px-2.5 py-3.5"
+                    className="rounded-[10px] border border-[#9B9B9B] bg-white px-[14px] py-3.5"
                   >
-                    <h4 className="text-[24px] font-bold leading-none tracking-[0.04em] text-[#240CFF] lg:text-[28px]">
+                    <h4 className="text-[24px] font-bold leading-[100%] tracking-[0.04em] text-[#240CFF] lg:text-[28px]">
                       {item.title}
                     </h4>
                     <p className="mt-3 text-[16px] leading-[1.2] tracking-[0.02em] text-[#000000]">

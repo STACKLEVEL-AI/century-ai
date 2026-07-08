@@ -20,8 +20,8 @@
   --color-focus: #210dff;
 
   /* Typography */
-  --font-heading: var(--font-manrope);
-  --font-body: var(--font-manrope);
+  --font-heading: var(--font-lato);
+  --font-body: var(--font-lato);
   --type-label: 0.875rem;
   --type-body-sm: 0.9375rem;
   --type-body: 1rem;
