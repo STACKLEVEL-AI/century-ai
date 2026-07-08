@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 
 type ActionLinkProps = {
   href: string;
@@ -13,7 +13,7 @@ type ActionLinkProps = {
   ariaLabel?: string;
   target?: string;
   rel?: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 declare global {
@@ -71,11 +71,11 @@ export function ActionLink({
 }: ActionLinkProps) {
   const classes = getClassName(variant, className);
 
-  const handleClick = () => {
+  const handleClick: MouseEventHandler<HTMLAnchorElement> = (event) => {
     if (trackingLabel) {
       trackCtaClick(trackingLabel, trackingContext, href);
     }
-    onClick?.();
+    onClick?.(event);
   };
 
   if (isExternal(href)) {

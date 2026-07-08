@@ -34,7 +34,7 @@
 
   <path d="M0 107V106C0 98.3 6.3 92 14 92H1028C1045.1 92 1059 105.9 1059 123" stroke="#C9C6EA" stroke-width="1.2"/>
   <rect x="22" y="84" width="163" height="19" rx="9.5" fill="#F7F6FF"/>
-  <text x="32" y="96" fill="#240CFF" font-family="Consolas, 'IBM Plex Mono', monospace" font-size="10" font-weight="600" letter-spacing="2.2">ЕДИНЫЙ СЛОЙ CENTURY</text>
+  <text x="32" y="96" fill="#240CFF" font-family="'Lato', sans-serif" font-size="10" font-weight="600" letter-spacing="2.2">ЕДИНЫЙ СЛОЙ CENTURY</text>
 
   <g transform="translate(516.5 94.5)">
     <circle r="13.2" fill="#CFCBFF" opacity=".55"/>

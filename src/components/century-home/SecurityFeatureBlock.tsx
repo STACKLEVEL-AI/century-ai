@@ -26,12 +26,16 @@ const securityFeatures = [
 export default function SecurityFeatureBlock() {
   return (
     <section
-      className="w-full bg-[#070A1F] py-16 sm:py-20 lg:py-[130px]"
+      id="security"
+      data-landing-section
+      className="w-full py-16 sm:py-20 lg:py-[130px]"
       style={{
         backgroundImage:
-          "radial-gradient(circle, rgba(154, 162, 198, 0.38) 1.7px, transparent 1.8px)",
-        backgroundPosition: "0 0",
-        backgroundSize: "40px 40px",
+          "radial-gradient(circle, rgba(154, 162, 198, 0.38) 1.7px, transparent 1.8px), linear-gradient(to top right, #0B0F28 0%, #080A19 100%)",
+        backgroundPosition: "0 0, center",
+        backgroundSize: "40px 40px, cover",
+        backgroundRepeat: "repeat, no-repeat",
+        backgroundColor: "#0B0F28",
       }}
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
@@ -54,7 +58,7 @@ export default function SecurityFeatureBlock() {
             {securityFeatures.map((feature, index) => (
               <article
                 key={feature.number}
-                className={`px-4 pb-12 pt-4 sm:px-5 sm:pb-16 lg:min-h-[312px] lg:px-3.5 lg:pb-23 lg:pt-3.5 ${
+                className={`px-4 pb-12 pt-4 sm:px-5 sm:pb-16 lg:min-h-[312px] lg:px-3.5 lg:pb-17 lg:pt-3.5 ${
                   index > 0 ? "lg:border-l lg:border-[#343942]" : ""
                 } ${index > 1 ? "md:border-t md:border-[#343942] lg:border-t-0" : ""}`}
               >
@@ -62,7 +66,7 @@ export default function SecurityFeatureBlock() {
                   {feature.number}
                 </div>
 
-                <h3 className="mt-5 whitespace-pre-line text-[20px] font-bold uppercase leading-[1.12] text-white sm:text-[22px] lg:mt-6 lg:min-h-[64px] lg:text-[24px]">
+                <h3 className="mt-5 whitespace-pre-line text-[20px] font-bold uppercase leading-[1.12] text-white sm:text-[22px] lg:mt-6 sm:min-h-[64px] lg:text-[24px]">
                   {feature.title}
                 </h3>
 
@@ -75,14 +79,7 @@ export default function SecurityFeatureBlock() {
         </div>
 
         <aside
-          className="mt-14 grid gap-8 rounded-[6px] bg-[#12104A] px-6 py-9 shadow-[0_28px_70px_rgba(0,0,0,0.28)] sm:mt-[75px] sm:px-8 sm:py-10 lg:mt-[100px] lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:px-6 lg:py-[34px]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(154, 162, 198, 0.28) 1.7px, transparent 1.8px)",
-            backgroundPosition: "0 0",
-            backgroundSize: "40px 40px",
-          }}
-        >
+          className="mt-14 border border-[#ACACAC4D] shadow-[0_4px_4px_rgba(0,0,0,0.25)] grid gap-8 bg-[linear-gradient(to_top_right,#080A19_0%,#0B0F28_100%)] rounded-[6px] px-6 pt-9 sm:mt-[75px] sm:px-8 sm:pt-10 lg:mt-[75px] lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:px-6 lg:pt-[34px] pb-[24px]">
           <Image
             src="/hoster-icon.svg"
             alt="hoster.by"
@@ -96,7 +93,7 @@ export default function SecurityFeatureBlock() {
               Стратегический инфраструктурный партнёр
             </h3>
 
-            <p className="mt-5 max-w-[1000px] text-[16px] font-light leading-[1.28] text-[#C6C5D7] sm:mt-6 sm:text-[18px] sm:leading-[1.22]">
+            <p className="mt-5 max-w-[1000px] text-[16px] font-light leading-[1.28] text-[#C6C5D7] sm:text-[18px] sm:leading-[1.22]">
               Крупнейший локальный облачный провайдер. Совместное предложение
               для клиентов: платформа + инфраструктура в одном пакете.
             </p>

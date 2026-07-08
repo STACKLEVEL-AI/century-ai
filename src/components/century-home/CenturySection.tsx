@@ -50,6 +50,29 @@ const centurySlides = [
 const SWIPE_MAX_WIDTH = 1024;
 const SWIPE_MIN_DISTANCE = 48;
 const SWIPE_DIRECTION_RATIO = 1.2;
+const HEADER_SUPPRESS_CLASS = "century-slider-active";
+const SECTION_ENTRY_THRESHOLD_PX = 120;
+const SECTION_ALIGN_TOLERANCE_PX = 2;
+const ENTRY_WHEEL_LOCK_MS = 640;
+const ENTRY_ABSORB_IDLE_MS = 680;
+const SLIDE_WHEEL_LOCK_MS = 720;
+const SLIDER_RELEASE_LOCK_MS = 520;
+const EDGE_RELEASE_IDLE_SECONDS = 0.42;
+const ANCHOR_NAVIGATION_BYPASS_MS = 1200;
+
+type SliderObserver = {
+  deltaY: number;
+  event: Event;
+  disable: () => void;
+  enable: () => SliderObserver;
+  kill: () => void;
+};
+
+type SliderScrollTrigger = {
+  start: number;
+  end: number;
+  kill: () => void;
+};
 
 function Stepper({
   activeIndex,
@@ -107,7 +130,6 @@ function MobileSliderNav({
 }) {
   return (
     <div className="mt-6 flex items-center justify-center gap-4 md:hidden">
-
       <div className="flex min-w-0 items-center justify-center gap-2">
         {centurySlides.map((slide, index) => {
           const isActive = index === activeIndex;
@@ -140,7 +162,7 @@ function MediaFrame({
   currentStep: string;
 }) {
   return (
-    <div className="ml-auto h-full min-h-0 w-full lg:pr-25">
+    <div className="ml-auto h-full min-h-0 max-h-[554px] w-full lg:pr-25">
       <div
         key={currentStep}
         className="media-fade-in relative h-full overflow-hidden rounded-[18px] border border-black bg-white shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
@@ -162,8 +184,6 @@ function MediaFrame({
 export default function CenturySection() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const activeIndexRef = useRef(0);
-  const wheelLockRef = useRef(false);
-  const snapLockRef = useRef(false);
   const swipeStartRef = useRef<{ pointerId: number; x: number; y: number } | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -218,84 +238,438 @@ export default function CenturySection() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    const ENTRY_THRESHOLD_PX = 120;
 
-    // Старт горизонтального скролла только когда центр секции совпал с центром экрана
-    // (получается слишком строго? поставь большее значение, напр. 25)
-    const isSectionActive = (direction: number) => {
+    let frame = 0;
+
+    const updateHeaderSuppression = () => {
+      frame = 0;
+
       const rect = section.getBoundingClientRect();
-
-      if (direction > 0) {
-        return rect.top <= ENTRY_THRESHOLD_PX && rect.bottom > ENTRY_THRESHOLD_PX;
-      }
-
-      return (
-        rect.top <= ENTRY_THRESHOLD_PX &&
-        rect.bottom > ENTRY_THRESHOLD_PX
+      const suppressThreshold = Math.max(
+        SECTION_ENTRY_THRESHOLD_PX,
+        Math.round(window.innerHeight * 0.35),
       );
+      const shouldSuppressHeader =
+        rect.top <= suppressThreshold && rect.bottom > SECTION_ENTRY_THRESHOLD_PX;
+
+      document.body.classList.toggle(HEADER_SUPPRESS_CLASS, shouldSuppressHeader);
     };
 
-    const snapSectionIntoPlace = () => {
-      const rect = section.getBoundingClientRect();
-      const targetTop = window.scrollY + rect.top;
+    const queueHeaderSuppressionUpdate = () => {
+      if (frame) return;
 
-      if (Math.abs(targetTop - window.scrollY) < 1) return;
-
-      snapLockRef.current = true;
-      window.scrollTo({ top: targetTop, behavior: "auto" });
-
-      window.setTimeout(() => {
-        snapLockRef.current = false;
-      }, 80);
+      frame = window.requestAnimationFrame(updateHeaderSuppression);
     };
 
-    const handleWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      const direction = event.deltaY > 0 ? 1 : -1;
-      if (!isSectionActive(direction)) return;
-
-      const currentIndex = activeIndexRef.current;
-      const isFirstSlide = currentIndex === 0;
-      const isLastSlide = currentIndex === centurySlides.length - 1;
-
-      const canLeaveSection =
-        (direction < 0 && isFirstSlide) || (direction > 0 && isLastSlide);
-
-      if (canLeaveSection) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      if (snapLockRef.current || wheelLockRef.current) return;
-
-      snapSectionIntoPlace();
-
-      const nextIndex = currentIndex + direction;
-      wheelLockRef.current = true;
-      scrollToSlide(nextIndex);
-
-      window.setTimeout(() => {
-        wheelLockRef.current = false;
-      }, 720);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    queueHeaderSuppressionUpdate();
+    window.addEventListener("scroll", queueHeaderSuppressionUpdate, { passive: true });
+    window.addEventListener("resize", queueHeaderSuppressionUpdate);
 
     return () => {
-      window.removeEventListener("wheel", handleWheel);
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+
+      document.body.classList.remove(HEADER_SUPPRESS_CLASS);
+      window.removeEventListener("scroll", queueHeaderSuppressionUpdate);
+      window.removeEventListener("resize", queueHeaderSuppressionUpdate);
+    };
+  }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let cleanupGsap: (() => void) | null = null;
+    let gestureLockTimer: number | null = null;
+    let entryAbsorbTimer: number | null = null;
+    let releaseLockTimer: number | null = null;
+    let isMounted = true;
+    let anchorNavigationBypassUntil = 0;
+    let forceReleaseCurrentSlider: (() => void) | null = null;
+
+    const isAnchorNavigationBypassed = () => Date.now() < anchorNavigationBypassUntil;
+    const handleAnchorNavigationStart = () => {
+      anchorNavigationBypassUntil = Date.now() + ANCHOR_NAVIGATION_BYPASS_MS;
+      forceReleaseCurrentSlider?.();
+    };
+
+    const clearGestureLock = () => {
+      if (gestureLockTimer !== null) {
+        window.clearTimeout(gestureLockTimer);
+        gestureLockTimer = null;
+      }
+    };
+
+    const clearReleaseLock = () => {
+      if (releaseLockTimer !== null) {
+        window.clearTimeout(releaseLockTimer);
+        releaseLockTimer = null;
+      }
+    };
+
+    const clearEntryAbsorb = () => {
+      if (entryAbsorbTimer !== null) {
+        window.clearTimeout(entryAbsorbTimer);
+        entryAbsorbTimer = null;
+      }
+    };
+
+    window.addEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+
+    void (async () => {
+      const [{ default: gsap }, { ScrollTrigger }, { Observer }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+        import("gsap/Observer"),
+      ]);
+
+      if (!isMounted) return;
+
+      gsap.registerPlugin(ScrollTrigger, Observer);
+
+      let interactionObserver: SliderObserver | null = null;
+      let entryObserver: SliderObserver | null = null;
+      let sliderTrigger: SliderScrollTrigger | null = null;
+      let isGestureLocked = false;
+      let isCaptured = false;
+      let isEntryAbsorbing = false;
+      let edgeReleaseReady = false;
+      let releaseLockedUntil = 0;
+      let releaseLockDirection: 1 | -1 | null = null;
+
+      const lastSlideIndex = centurySlides.length - 1;
+      const setHeaderSuppressed = (suppressed: boolean) => {
+        document.body.classList.toggle(HEADER_SUPPRESS_CLASS, suppressed);
+      };
+
+      const getSliderStart = () =>
+        sliderTrigger?.start ?? window.scrollY + section.getBoundingClientRect().top;
+      const getSliderEnd = () =>
+        sliderTrigger?.end ?? getSliderStart() + Math.max(window.innerHeight, section.offsetHeight);
+      const isReleaseLocked = (direction?: 1 | -1) => {
+        const locked = performance.now() < releaseLockedUntil;
+
+        if (!locked) return false;
+
+        return direction === undefined || releaseLockDirection === direction;
+      };
+      const canReleaseSlider = (direction: 1 | -1) =>
+        direction < 0
+          ? activeIndexRef.current === 0
+          : activeIndexRef.current === lastSlideIndex;
+      const getViewportEscapeDirection = () => {
+        const currentY = window.scrollY;
+        const sliderStart = getSliderStart();
+        const sliderEnd = getSliderEnd();
+
+        if (currentY < sliderStart - SECTION_ENTRY_THRESHOLD_PX) {
+          return -1;
+        }
+
+        if (currentY > sliderEnd + SECTION_ENTRY_THRESHOLD_PX) {
+          return 1;
+        }
+
+        return 0;
+      };
+
+      const lockGestures = (durationMs: number) => {
+        isGestureLocked = true;
+        clearGestureLock();
+
+        gestureLockTimer = window.setTimeout(() => {
+          isGestureLocked = false;
+          gestureLockTimer = null;
+        }, durationMs);
+      };
+
+      const lockRelease = (direction: 1 | -1) => {
+        releaseLockedUntil = performance.now() + SLIDER_RELEASE_LOCK_MS;
+        releaseLockDirection = direction;
+        clearReleaseLock();
+
+        releaseLockTimer = window.setTimeout(() => {
+          releaseLockedUntil = 0;
+          releaseLockDirection = null;
+          releaseLockTimer = null;
+        }, SLIDER_RELEASE_LOCK_MS);
+      };
+
+      const preventGesture = (observer?: SliderObserver | null) => {
+        const event = observer?.event;
+
+        if (event?.cancelable) {
+          event.preventDefault();
+        }
+
+        event?.stopPropagation();
+      };
+
+      const stopEntryAbsorb = () => {
+        isEntryAbsorbing = false;
+        clearEntryAbsorb();
+      };
+
+      const refreshEntryAbsorb = () => {
+        clearEntryAbsorb();
+
+        entryAbsorbTimer = window.setTimeout(() => {
+          stopEntryAbsorb();
+        }, ENTRY_ABSORB_IDLE_MS);
+      };
+
+      const startEntryAbsorb = () => {
+        isEntryAbsorbing = true;
+        refreshEntryAbsorb();
+      };
+
+      const snapToSlider = (targetSlide?: number) => {
+        if (targetSlide !== undefined) {
+          scrollToSlide(targetSlide);
+        }
+
+        const targetY = getSliderStart();
+
+        if (Math.abs(window.scrollY - targetY) > SECTION_ALIGN_TOLERANCE_PX) {
+          window.scrollTo({ top: targetY, behavior: "auto" });
+        }
+      };
+
+      const holdPinnedPosition = () => {
+        if (!isCaptured) return;
+
+        snapToSlider();
+      };
+
+      const captureSlider = (entryDirection: 1 | -1, observer?: SliderObserver | null) => {
+        if (isReleaseLocked(entryDirection) || isAnchorNavigationBypassed()) return;
+
+        preventGesture(observer);
+        isCaptured = true;
+        edgeReleaseReady = false;
+        setHeaderSuppressed(true);
+        interactionObserver?.enable();
+        startEntryAbsorb();
+        snapToSlider(entryDirection > 0 ? 0 : lastSlideIndex);
+        lockGestures(ENTRY_WHEEL_LOCK_MS);
+      };
+
+      const recaptureCurrentSlide = () => {
+        if (isAnchorNavigationBypassed()) return;
+
+        isCaptured = true;
+        edgeReleaseReady = false;
+        setHeaderSuppressed(true);
+        interactionObserver?.enable();
+        startEntryAbsorb();
+        snapToSlider();
+        lockGestures(ENTRY_WHEEL_LOCK_MS);
+      };
+
+      const forceReleaseSlider = () => {
+        isCaptured = false;
+        isGestureLocked = false;
+        stopEntryAbsorb();
+        edgeReleaseReady = false;
+        releaseLockedUntil = 0;
+        releaseLockDirection = null;
+        clearGestureLock();
+        clearReleaseLock();
+        setHeaderSuppressed(false);
+        interactionObserver?.disable();
+      };
+
+      forceReleaseCurrentSlider = forceReleaseSlider;
+
+      const releaseSlider = (direction: 1 | -1) => {
+        if (!canReleaseSlider(direction)) {
+          recaptureCurrentSlide();
+          return;
+        }
+
+        isCaptured = false;
+        stopEntryAbsorb();
+        edgeReleaseReady = false;
+        setHeaderSuppressed(false);
+        interactionObserver?.disable();
+        lockRelease(direction);
+
+        const targetY =
+          direction > 0
+            ? getSliderEnd() + SECTION_ENTRY_THRESHOLD_PX
+            : Math.max(0, getSliderStart() - SECTION_ENTRY_THRESHOLD_PX);
+
+        window.scrollTo({ top: targetY, behavior: "auto" });
+      };
+
+      const handleSlideGesture = (direction: 1 | -1, observer: SliderObserver) => {
+        preventGesture(observer);
+
+        if (isEntryAbsorbing) {
+          refreshEntryAbsorb();
+          snapToSlider();
+          return;
+        }
+
+        if (isGestureLocked) return;
+
+        const currentIndex = activeIndexRef.current;
+        const canMoveInside =
+          (direction > 0 && currentIndex < lastSlideIndex) ||
+          (direction < 0 && currentIndex > 0);
+
+        if (!canMoveInside) {
+          if (!edgeReleaseReady) {
+            lockGestures(ENTRY_WHEEL_LOCK_MS);
+            return;
+          }
+
+          releaseSlider(direction);
+          return;
+        }
+
+        edgeReleaseReady = false;
+        scrollToSlide(currentIndex + direction);
+        lockGestures(SLIDE_WHEEL_LOCK_MS);
+      };
+
+      const handleEntryGesture = (direction: 1 | -1, observer: SliderObserver) => {
+        if (
+          isAnchorNavigationBypassed() ||
+          isCaptured ||
+          isReleaseLocked(direction) ||
+          Math.abs(observer.deltaY) < 2
+        ) {
+          return;
+        }
+
+        const currentY = window.scrollY;
+        const projectedY = Math.max(0, currentY + observer.deltaY);
+        const sliderStart = getSliderStart();
+        const sliderEnd = getSliderEnd();
+        const enteringFromAbove =
+          direction > 0 &&
+          currentY < sliderStart - SECTION_ALIGN_TOLERANCE_PX &&
+          projectedY >= sliderStart - SECTION_ENTRY_THRESHOLD_PX;
+        const enteringFromBelow =
+          direction < 0 &&
+          currentY > sliderEnd + SECTION_ALIGN_TOLERANCE_PX &&
+          projectedY <= sliderEnd + SECTION_ENTRY_THRESHOLD_PX;
+
+        if (enteringFromAbove || enteringFromBelow) {
+          captureSlider(direction, observer);
+        }
+      };
+
+      interactionObserver = Observer.create({
+        target: window,
+        type: "wheel,touch",
+        preventDefault: true,
+        tolerance: 12,
+        debounce: false,
+        onStopDelay: EDGE_RELEASE_IDLE_SECONDS,
+        onDown: (observer) => handleSlideGesture(1, observer),
+        onUp: (observer) => handleSlideGesture(-1, observer),
+        onStop: () => {
+          if (isEntryAbsorbing) {
+            stopEntryAbsorb();
+            return;
+          }
+
+          edgeReleaseReady = true;
+        },
+      });
+      interactionObserver.disable();
+
+      entryObserver = Observer.create({
+        target: window,
+        type: "wheel,touch",
+        capture: true,
+        debounce: false,
+        preventDefault: false,
+        passive: false,
+        tolerance: 4,
+        onDown: (observer) => handleEntryGesture(1, observer),
+        onUp: (observer) => handleEntryGesture(-1, observer),
+      } as Parameters<typeof Observer.create>[0] & { passive: boolean });
+
+      sliderTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: () => `+=${Math.max(window.innerHeight, section.offsetHeight)}`,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        onEnter: () => captureSlider(1),
+        onEnterBack: () => captureSlider(-1),
+        onLeave: () => {
+          if (isAnchorNavigationBypassed()) {
+            forceReleaseSlider();
+            return;
+          }
+
+          if (getViewportEscapeDirection() > 0) {
+            forceReleaseSlider();
+            return;
+          }
+
+          if (!isReleaseLocked(1) || !canReleaseSlider(1)) recaptureCurrentSlide();
+        },
+        onLeaveBack: () => {
+          if (isAnchorNavigationBypassed()) {
+            forceReleaseSlider();
+            return;
+          }
+
+          if (getViewportEscapeDirection() < 0) {
+            forceReleaseSlider();
+            return;
+          }
+
+          if (!isReleaseLocked(-1) || !canReleaseSlider(-1)) recaptureCurrentSlide();
+        },
+        onUpdate: holdPinnedPosition,
+      });
+
+      ScrollTrigger.refresh();
+
+      cleanupGsap = () => {
+        clearGestureLock();
+        clearEntryAbsorb();
+        clearReleaseLock();
+        interactionObserver?.kill();
+        entryObserver?.kill();
+        sliderTrigger?.kill();
+        setHeaderSuppressed(false);
+        forceReleaseCurrentSlider = null;
+        window.removeEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+      };
+    })();
+
+    return () => {
+      isMounted = false;
+      cleanupGsap?.();
+      clearGestureLock();
+      clearReleaseLock();
+      forceReleaseCurrentSlider = null;
+      window.removeEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+      document.body.classList.remove(HEADER_SUPPRESS_CLASS);
     };
   }, []);
 
   return (
     <section
+      id="cases"
       ref={sectionRef}
+      data-landing-section
+      data-nav-section="cases"
       className="relative hero-grid flex flex-col overflow-hidden pb-16 sm:pb-24 lg:pb-[235px]"
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col">
-
         <div className="h-px w-full bg-[var(--color-line)]" />
 
-        <div className="hero-grid flex min-h-0 flex-1 flex-col px-5 pb-5 pt-5 sm:px-8 lg:px-0 lg:pb-6 lg:pt-27">
+        <div className="hero-grid flex min-h-0 flex-1 flex-col px-5 pt-5 sm:px-8 lg:px-0">
           <Stepper activeIndex={activeIndex} onStepClick={scrollToSlide} />
 
           <div
@@ -318,17 +692,17 @@ export default function CenturySection() {
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                      <div className="flex h-full justify-between min-h-[370px] flex-col pt-0 lg:overflow-hidden lg:pl-25 max-sm:min-h-[483px]">
-                      <div className="overflow-visible lg:overflow-hidden">
-                        <h2 className="max-w-[560px] text-[34px] font-bold uppercase leading-[1.02] tracking-[0] text-[#240CFF] sm:text-[44px] lg:max-w-[335px] lg:text-[56px]">
+                    <div className="flex h-full justify-between min-h-[370px] max-h-[554px] flex-col pt-0 lg:overflow-hidden lg:pl-25 max-sm:min-h-[483px]">
+                      <div className="flex flex-col justify-between overflow-visible lg:overflow-hidden">
+                        <h2 className="max-w-[560px] text-[34px] font-bold uppercase leading-[100%] tracking-[0.03em] text-[#240CFF] sm:text-[40px] lg:max-w-[335px] lg:text-[40px]">
                           {slide.title}
                         </h2>
 
-                        <p className="mt-7 max-w-[520px] text-[22px] font-normal leading-[1.12] tracking-[0.1px] text-black sm:text-[24px] lg:mt-[40px] lg:max-w-[400px] xl:mt-10 xl:text-[28px]">
+                        <p className="mt-7 max-w-[520px] text-[22px] font-normal leading-[30px] tracking-[0.02em] text-black sm:text-[24px] lg:mt-[40px] lg:max-w-[400px] xl:mt-10 xl:text-[28px]">
                           {slide.lead}
                         </p>
 
-                        <p className="mt-6 max-w-[560px] h-full min-h-[96px] text-[15px] font-light leading-6 tracking-[0.5] text-[#4F4F4F] lg:mt-10 lg:max-w-[392px] xl:mt-10 xl:text-[16px]">
+                        <p className=" max-w-[560px] h-full min-h-[96px] text-[16px] font-normal leading-[22px] tracking-[0.02em] text-[#4F4F4F] lg:mt-5 lg:max-w-[392px]">
                           {slide.body}
                         </p>
                       </div>
@@ -337,7 +711,7 @@ export default function CenturySection() {
                         {slide.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="max-w-full rounded-full border border-[#3028FF] px-4 py-3 text-[12px] font-bold uppercase leading-none tracking-[0] text-[#240CFF] sm:text-[14px] xl:px-6 xl:py-4"
+                            className="max-w-full rounded-[20px] border border-[#3028FF] px-[9px] py-[6px] text-[12px] font-bold uppercase leading-[24px] tracking-[0.02em] text-[#240CFF] sm:text-[14px]"
                           >
                             {tag}
                           </span>
@@ -354,16 +728,15 @@ export default function CenturySection() {
                 );
               })}
             </div>
-          <MobileSliderNav
-            activeIndex={activeIndex}
-            onPrevious={() => scrollToSlide(activeIndex - 1)}
-            onNext={() => scrollToSlide(activeIndex + 1)}
-            onStepClick={scrollToSlide}
-          />
+            <MobileSliderNav
+              activeIndex={activeIndex}
+              onPrevious={() => scrollToSlide(activeIndex - 1)}
+              onNext={() => scrollToSlide(activeIndex + 1)}
+              onStepClick={scrollToSlide}
+            />
           </div>
         </div>
       </div>
     </section>
   );
 }
-

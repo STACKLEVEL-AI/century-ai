@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lato, Manrope, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import SiteChrome from "@/components/site/SiteChrome";
 import {
   COMPANY_NAME,
@@ -13,23 +13,45 @@ import {
 } from "@/lib/site";
 import "./globals.css";
 
-const manrope = Manrope({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-const lato = Lato({
-  subsets: ["latin"],
+const lato = localFont({
+  src: [
+    {
+      path: "./fonts/Lato-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Semibold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Heavy.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Lato-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
   variable: "--font-lato",
-  weight: ["300", "400", "700", "900"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-montserrat",
-  weight: ["600"],
   display: "swap",
 });
 
@@ -151,7 +173,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${manrope.variable} ${lato.variable} ${montserrat.variable}`}>
+    <html lang="ru" className={lato.variable}>
       <body>
         <SiteChrome>{children}</SiteChrome>
         <script

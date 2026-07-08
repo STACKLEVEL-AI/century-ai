@@ -13,17 +13,14 @@ export const OG_IMAGE_PATH = "/og/century-ai-og.svg";
 export type NavItem = {
   href: string;
   label: string;
+  sectionId?: string;
 };
 
 export const siteNavigation: NavItem[] = [
-  { href: "/platform", label: "Платформа" },
-  { href: "/workflow", label: "Workflow" },
-  { href: "/services", label: "Сервисы" },
-  { href: "/assistants", label: "Ассистенты" },
-  { href: "/security", label: "Безопасность" },
-  { href: "/observability", label: "Метрики" },
-  { href: "/cases", label: "Кейсы" },
-  { href: "/pricing", label: "Стоимость" },
+  { href: "/#platform", label: "Платформа", sectionId: "platform" },
+  { href: "/#cases", label: "Кейсы", sectionId: "cases" },
+  { href: "/#modes", label: "Режимы", sectionId: "modes" },
+  { href: "/#security", label: "Безопасность", sectionId: "security" },
 ];
 
 export const footerProductLinks = [
