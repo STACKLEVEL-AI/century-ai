@@ -22,14 +22,26 @@ const teamMembers = [
   {
     src: "/footer-image/Vitali.png",
     alt: "Vitali",
+    objectPosition: "50% 50%",
+    scale: 1.36,
+    translateX: -4,
+    translateY: 12,
   },
   {
-    src: "/footer-image/Vadim.png",
+    src: "/footer-image/Vadim.jpg",
     alt: "Vadim",
+    objectPosition: "50% 30%",
+    scale: 1.1,
+    translateX: 3,
+    translateY: -1,
   },
   {
     src: "/footer-image/Egor.png",
     alt: "Egor",
+    objectPosition: "50% 50%",
+    scale: 1.15,
+    translateX: 0,
+    translateY: 0,
   },
 ];
 
@@ -42,12 +54,12 @@ export default function FooterLeadCapture() {
       <section className="site-footer__surface overflow-hidden bg-white" aria-labelledby="footer-brief-title">
         <div className="shell py-[clamp(34px,7vw,100px)] max-w-[1440px] px-[100px]">
           <div className="grid grid-cols-1 gap-[clamp(28px,4vw,84px)] min-[1081px]:grid-cols-[minmax(240px,340px)_minmax(0,1fr)]">
-            <aside className="grid min-w-0 content-start gap-6 sm:gap-7" aria-label="Контакты Century">
+            <aside className="grid min-w-0 content-start" aria-label="Контакты Century">
               <div
-                className="flex w-full flex-wrap items-center gap-[clamp(12px,3vw,39px)] border-b border-[rgba(19,21,27,0.14)] pb-3 sm:pb-2.5"
+                className="flex flex-wrap items-center gap-[clamp(12px,3vw,39px)] border-b border-[rgba(19,21,27,0.14)] pb-3 sm:pb-2.5"
                 aria-label="Команда Century"
               >
-                {teamMembers.map(({ src, alt }) => (
+                {teamMembers.map(({ src, alt, objectPosition, scale, translateX, translateY }) => (
                   <div
                     key={src}
                     className="footer-team-photo-frame relative h-[clamp(64px,5vw,80px)] w-[clamp(64px,5vw,80px)] shrink-0 overflow-hidden rounded-full bg-[#d8d8dc] shadow-[inset_0_0_0_1px_rgba(19,21,27,0.06)]"
@@ -56,18 +68,23 @@ export default function FooterLeadCapture() {
                       src={src}
                       alt={alt}
                       fill
-                      sizes="(max-width: 720px) 64px, 80px"
+                      quality={100}
+                      sizes="(max-width: 720px) 120px, 160px"
                       className="footer-team-photo object-cover"
                       style={{
-                        filter: "grayscale(1) contrast(1.08) brightness(0.96)",
-                        transform: "scale(1.02)",
+                        objectPosition,
+                        transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
+                        transformOrigin: "center",
+                        filter: "grayscale(1) contrast(1.12) brightness(0.94)",
                       }}
                     />
+                    <span aria-hidden="true" className="footer-team-photo-mask" />
+                    <span aria-hidden="true" className="footer-team-photo-ring" />
                   </div>
                 ))}
               </div>
 
-              <div className="mt-1 grid w-full gap-3 border-b border-[rgba(19,21,27,0.14)] pb-5 sm:mt-0 sm:gap-[11px] sm:pb-6.5">
+              <div className="grid w-full mt-6.5 gap-3 border-b border-[rgba(19,21,27,0.14)] pb-5 sm:gap-[11px] sm:pb-6.5">
                 {contactLinks.map(({ href, label, iconSrc, iconAlt, external }) => (
                   <a
                     key={href}
@@ -84,28 +101,28 @@ export default function FooterLeadCapture() {
                 ))}
               </div>
 
-              <div className="mt-1 grid gap-1 pt-[2px] sm:mt-2">
+              <div className="mt-4 grid gap-1 pt-[2px]">
                 <Link
                   href="/#hero"
-                  className="w-fit text-[clamp(2.45rem,7vw,3.6rem)] leading-[0.9] font-bold tracking-[-0.07em] text-black no-underline"
+                  className="w-fit text-[40px] leading-[100%] font-semibold tracking-[0] text-black no-underline"
                   aria-label="Century home"
                 >
                   CENTURY
                 </Link>
-                <p className="m-0 max-w-[340px] text-[15px] font-medium leading-[100%] tracking-[0.02em] text-[#151515] sm:text-[16px]">
+                <p className="m-0 max-w-[340px] text-[16px] font-medium leading-[100%] tracking-[2%] text-[#000000]">
                   Корпоративная ИИ-платформа будущего
                 </p>
               </div>
             </aside>
 
-            <div className="w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[280px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
+            <div className="w-full min-w-[820px] max-h-[280px] justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[280px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
               <h2
                 id="footer-brief-title"
-                className="m-0 max-w-[700px] text-[clamp(2rem,4vw,40px)] leading-[100%] font-semibold tracking-[0.02em] text-black"
+                className="m-0 max-w-[700px] text-[clamp(2rem,4vw,40px)] leading-[100%] font-semibold tracking-[2%] text-black"
               >
                 Начните с цифр, а не с презентаций
               </h2>
-              <p className="mt-3 max-w-[720px] text-[clamp(1rem,2vw,20px)] font-normal leading-[100%] tracking-[0.001em] text-[#000000] max-[720px]:max-w-none">
+              <p className="mt-3 w-full min-w-[720px] text-[clamp(1rem,2vw,20px)] font-normal leading-[100%] tracking-[0.02em] text-[#000000] max-[720px]:max-w-none">
                 Отправим 3-5 сценариев внедрения ИИ под вашу компанию — с расчетом бизнес-эффекта по
                 каждому
               </p>
@@ -127,18 +144,37 @@ export default function FooterLeadCapture() {
                     Получить сценарии
                   </button>
                 </div>
-                <div className="flex w-full items-start gap-2 text-[13px] font-normal leading-[1.3] text-[#000000] sm:text-[14px]">
-                  <label className="mt-[2px] flex shrink-0 items-start">
+                <div className="flex w-full items-center gap-2 text-[13px] font-normal leading-[1.3] text-[#000000] sm:text-[14px]">
+                  <label className="flex shrink-0 cursor-pointer items-start">
                     <input
-                      className="h-[17px] w-[17px] shrink-0 cursor-pointer rounded-none accent-[var(--color-primary-600)]"
+                      className="peer sr-only"
                       type="checkbox"
                       name="consent"
                     />
+                    <span
+                      aria-hidden="true"
+                      className="flex h-[20px] w-[20px] shrink-0 items-center justify-center border border-[#9B9B9B80] bg-white text-transparent transition-colors duration-[180ms] peer-checked:border-[var(--color-primary-600)] peer-checked:bg-[var(--color-primary-600)] peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[rgba(33,13,255,0.18)]"
+                    >
+                      <svg
+                        viewBox="0 0 12 10"
+                        className="h-[10px] w-[12px]"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1 5L4.5 8.5L11 1.5"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </label>
-                  <div className="min-w-0">
+                  <div className="min-w-0 h-[20px] items-center text-center">
                     Нажимая на кнопку, я даю{" "}
                     <Link className="underline decoration-[#240CFF] underline-offset-2" href="/">
-                      <span className="text-[#240CFF] ">согласие</span>
+                      <span className="text-[#240CFF]">согласие</span>
                     </Link>
                     {" "}на обработку персональных данных
                   </div>
