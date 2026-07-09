@@ -16,7 +16,7 @@ export default function CasesIntroSection() {
           <div className="w-full text-center">
             <h2 className="text-[clamp(54px,12vw,160px)] font-bold leading-[0.9] tracking-[0] text-black">
               <span className="block">ИИ, который</span>
-              <span className="block text-[#240CFF]">работает.</span>
+              <span className="block text-[#240CFF]">работает</span>
             </h2>
 
             <p className="mx-auto mt-9 max-w-[850px] text-[20px] font-normal leading-[1.2] tracking-[0] text-[#868686] sm:mt-12 sm:text-[22px] lg:mt-[81px] lg:text-[26px]">

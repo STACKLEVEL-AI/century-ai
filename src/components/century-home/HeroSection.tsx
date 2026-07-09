@@ -5,7 +5,7 @@ export default function HeroSection() {
       className="century-home-hero relative flex flex-col overflow-hidden pt-5 sm:pt-6 lg:pt-10"
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 px-5 pb-5 sm:px-8 sm:pb-6 lg:px-[100px] lg:pb-8">
-        <div className="relative hero-grid flex flex-1 flex-col justify-between border border-[#D9D9D9] px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 lg:px-[20px] lg:pb-[20px] lg:pt-[20px]">
+        <div className="relative hero-grid-30 flex flex-1 flex-col justify-between border border-[#D9D9D9] px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 lg:px-[20px] lg:pb-[20px] lg:pt-[20px]">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute left-[-1px] top-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"

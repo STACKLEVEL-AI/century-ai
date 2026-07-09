@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouse
 import { ActionLink } from "@/components/site/ActionLink";
 import { siteNavigation } from "@/lib/site";
 
+const LANDING_SCROLL_RESTORE_KEY = "century:landing-scroll-y";
+
 export default function StickyHeader() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -156,8 +158,22 @@ export default function StickyHeader() {
     }
 
     const getSectionKey = (section: HTMLElement) => section.dataset.navSection || section.id;
+    const shouldPreserveReloadScroll = () => {
+      const navigationEntry = performance.getEntriesByType("navigation")[0] as
+        | PerformanceNavigationTiming
+        | undefined;
+
+      const isRestoreNavigation =
+        navigationEntry?.type === "reload" || navigationEntry?.type === "back_forward";
+
+      return isRestoreNavigation && sessionStorage.getItem(LANDING_SCROLL_RESTORE_KEY) !== null;
+    };
 
     const centerTargetFromHash = () => {
+      if (shouldPreserveReloadScroll()) {
+        return;
+      }
+
       const hash = window.location.hash.replace(/^#/, "");
 
       if (!hash) {

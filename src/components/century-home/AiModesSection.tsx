@@ -84,11 +84,11 @@ export default function AiModesSection() {
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-5 pb-14 pt-9 sm:px-8 lg:px-[100px] lg:pb-20 lg:pt-8">
         <div className=" w-full max-w-[1440px]">
-          <h2 className="max-w-[860px] text-[34px] font-bold leading-[1.08] tracking-[0] text-black sm:text-[44px] lg:text-[56px]">
+          <h2 className="max-w-[542px] text-[40px] font-bold leading-[100%] tracking-[2%] text-black">
             Пять режимов работы с ИИ
           </h2>
 
-          <p className="mt-5 max-w-[1040px] text-[20px] font-normal leading-[1.2] tracking-[0] text-black sm:mt-6 sm:text-[28px] lg:text-[36px]">
+          <p className="mt-5 max-w-[860px] text-[28px] font-normal leading-[100%] tracking-[0] text-black sm:mt-6">
             Выберите режим: посмотрите, как он устроен и что даёт бизнесу.
           </p>
 

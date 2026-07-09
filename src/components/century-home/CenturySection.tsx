@@ -55,10 +55,15 @@ const SECTION_ENTRY_THRESHOLD_PX = 120;
 const SECTION_ALIGN_TOLERANCE_PX = 2;
 const ENTRY_WHEEL_LOCK_MS = 640;
 const ENTRY_ABSORB_IDLE_MS = 680;
-const SLIDE_WHEEL_LOCK_MS = 720;
+const SLIDE_TRANSITION_MS = 920;
+const SLIDE_TRANSITION_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const SLIDE_WHEEL_LOCK_MS = SLIDE_TRANSITION_MS + 120;
 const SLIDER_RELEASE_LOCK_MS = 520;
 const EDGE_RELEASE_IDLE_SECONDS = 0.42;
 const ANCHOR_NAVIGATION_BYPASS_MS = 1200;
+const LANDING_SCROLL_RESTORE_KEY = "century:landing-scroll-y";
+const LANDING_SLIDER_INDEX_RESTORE_KEY = "century:landing-slider-index";
+const LANDING_SCROLL_RESTORE_DELAYS_MS = [0, 120, 320, 700] as const;
 
 type SliderObserver = {
   deltaY: number;
@@ -87,8 +92,12 @@ function Stepper({
     <div className="relative mx-auto hidden w-full max-w-[1730px] md:block">
       <div className="absolute left-[128px] right-[86px] top-[25px] z-[1] h-px bg-[rgba(17,17,17,0.18)]" />
       <div
-        className="absolute left-[124px] top-[25px] z-[1] h-px bg-black transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{ width: `calc((100% - 212px) * ${progress / 100})` }}
+        className="absolute left-[124px] top-[25px] z-[1] h-px bg-black transition-[width]"
+        style={{
+          width: `calc((100% - 212px) * ${progress / 100})`,
+          transitionDuration: `${SLIDE_TRANSITION_MS}ms`,
+          transitionTimingFunction: SLIDE_TRANSITION_EASE,
+        }}
       />
 
       <div className="flex items-start justify-between px-[86px]">
@@ -191,6 +200,22 @@ export default function CenturySection() {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+    const sectionEnd = sectionTop + Math.max(window.innerHeight, section.offsetHeight);
+    const currentY = window.scrollY;
+    const isInsideSliderRange =
+      currentY >= sectionTop - SECTION_ALIGN_TOLERANCE_PX &&
+      currentY <= sectionEnd + SECTION_ALIGN_TOLERANCE_PX;
+
+    if (!isInsideSliderRange) return;
+
+    sessionStorage.setItem(LANDING_SLIDER_INDEX_RESTORE_KEY, String(activeIndex));
+  }, [activeIndex]);
+
   const scrollToSlide = (index: number) => {
     const nextIndex = Math.max(0, Math.min(index, centurySlides.length - 1));
     activeIndexRef.current = nextIndex;
@@ -287,11 +312,133 @@ export default function CenturySection() {
     let isMounted = true;
     let anchorNavigationBypassUntil = 0;
     let forceReleaseCurrentSlider: (() => void) | null = null;
+    let hasUserScrollIntent = false;
+    let scrollRestoreFrame = 0;
+    let scrollRestoreTimers: number[] = [];
+    let saveScrollFrame = 0;
+    let restoreCompletionTimer: number | null = null;
+    let canSaveScrollPosition = false;
+    const previousScrollRestoration = window.history.scrollRestoration;
 
     const isAnchorNavigationBypassed = () => Date.now() < anchorNavigationBypassUntil;
     const handleAnchorNavigationStart = () => {
       anchorNavigationBypassUntil = Date.now() + ANCHOR_NAVIGATION_BYPASS_MS;
       forceReleaseCurrentSlider?.();
+    };
+    const isInsideSliderRange = () => {
+      const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+      const sectionEnd = sectionTop + Math.max(window.innerHeight, section.offsetHeight);
+      const currentY = window.scrollY;
+
+      return (
+        currentY >= sectionTop - SECTION_ALIGN_TOLERANCE_PX &&
+        currentY <= sectionEnd + SECTION_ALIGN_TOLERANCE_PX
+      );
+    };
+    const saveScrollPosition = () => {
+      sessionStorage.setItem(LANDING_SCROLL_RESTORE_KEY, String(window.scrollY));
+
+      if (isInsideSliderRange()) {
+        sessionStorage.setItem(
+          LANDING_SLIDER_INDEX_RESTORE_KEY,
+          String(activeIndexRef.current),
+        );
+        return;
+      }
+
+      sessionStorage.removeItem(LANDING_SLIDER_INDEX_RESTORE_KEY);
+    };
+    const queueScrollPositionSave = () => {
+      if (!canSaveScrollPosition) return;
+      if (saveScrollFrame) return;
+
+      saveScrollFrame = window.requestAnimationFrame(() => {
+        saveScrollFrame = 0;
+        saveScrollPosition();
+      });
+    };
+    const clearPendingScrollRestore = () => {
+      if (scrollRestoreFrame) {
+        window.cancelAnimationFrame(scrollRestoreFrame);
+        scrollRestoreFrame = 0;
+      }
+
+      if (saveScrollFrame) {
+        window.cancelAnimationFrame(saveScrollFrame);
+        saveScrollFrame = 0;
+      }
+
+      if (restoreCompletionTimer !== null) {
+        window.clearTimeout(restoreCompletionTimer);
+        restoreCompletionTimer = null;
+      }
+
+      scrollRestoreTimers.forEach((timer) => window.clearTimeout(timer));
+      scrollRestoreTimers = [];
+    };
+    const finishScrollRestore = () => {
+      canSaveScrollPosition = true;
+      queueScrollPositionSave();
+    };
+    const enableUserScrollIntent = () => {
+      hasUserScrollIntent = true;
+      clearPendingScrollRestore();
+      finishScrollRestore();
+    };
+    const isScrollCaptureAllowed = () => hasUserScrollIntent;
+    const shouldRestoreSavedScroll = () => {
+      const navigationEntry = performance.getEntriesByType("navigation")[0] as
+        | PerformanceNavigationTiming
+        | undefined;
+
+      return (
+        navigationEntry?.type === "reload" ||
+        navigationEntry?.type === "back_forward"
+      );
+    };
+    const restoreSavedScroll = () => {
+      if (!shouldRestoreSavedScroll()) {
+        finishScrollRestore();
+        return;
+      }
+
+      const savedScrollY = Number(sessionStorage.getItem(LANDING_SCROLL_RESTORE_KEY));
+      if (!Number.isFinite(savedScrollY)) {
+        finishScrollRestore();
+        return;
+      }
+
+      const savedSlideIndex = Number(sessionStorage.getItem(LANDING_SLIDER_INDEX_RESTORE_KEY));
+      if (Number.isFinite(savedSlideIndex)) {
+        scrollToSlide(savedSlideIndex);
+      }
+
+      const applyScrollRestore = () => {
+        if (!isMounted || hasUserScrollIntent) return;
+
+        window.scrollTo({ top: savedScrollY, behavior: "auto" });
+      };
+
+      clearPendingScrollRestore();
+
+      scrollRestoreFrame = window.requestAnimationFrame(() => {
+        scrollRestoreFrame = window.requestAnimationFrame(() => {
+          scrollRestoreFrame = 0;
+          applyScrollRestore();
+        });
+      });
+
+      scrollRestoreTimers = LANDING_SCROLL_RESTORE_DELAYS_MS.map((delay) =>
+        window.setTimeout(() => {
+          applyScrollRestore();
+        }, delay),
+      );
+
+      restoreCompletionTimer = window.setTimeout(() => {
+        restoreCompletionTimer = null;
+        applyScrollRestore();
+        finishScrollRestore();
+      }, Math.max(...LANDING_SCROLL_RESTORE_DELAYS_MS) + 120);
     };
 
     const clearGestureLock = () => {
@@ -316,6 +463,12 @@ export default function CenturySection() {
     };
 
     window.addEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+    window.addEventListener("scroll", queueScrollPositionSave, { passive: true });
+    window.addEventListener("wheel", enableUserScrollIntent, { passive: true, capture: true });
+    window.addEventListener("touchstart", enableUserScrollIntent, { passive: true, capture: true });
+    window.addEventListener("pointerdown", enableUserScrollIntent, { passive: true, capture: true });
+    window.addEventListener("keydown", enableUserScrollIntent, { capture: true });
+    window.history.scrollRestoration = "manual";
 
     void (async () => {
       const [{ default: gsap }, { ScrollTrigger }, { Observer }] = await Promise.all([
@@ -443,6 +596,7 @@ export default function CenturySection() {
       };
 
       const captureSlider = (entryDirection: 1 | -1, observer?: SliderObserver | null) => {
+        if (!isScrollCaptureAllowed()) return;
         if (isReleaseLocked(entryDirection) || isAnchorNavigationBypassed()) return;
 
         preventGesture(observer);
@@ -456,6 +610,7 @@ export default function CenturySection() {
       };
 
       const recaptureCurrentSlide = () => {
+        if (!isScrollCaptureAllowed()) return;
         if (isAnchorNavigationBypassed()) return;
 
         isCaptured = true;
@@ -633,11 +788,13 @@ export default function CenturySection() {
       });
 
       ScrollTrigger.refresh();
+      restoreSavedScroll();
 
       cleanupGsap = () => {
         clearGestureLock();
         clearEntryAbsorb();
         clearReleaseLock();
+        clearPendingScrollRestore();
         interactionObserver?.kill();
         entryObserver?.kill();
         sliderTrigger?.kill();
@@ -652,8 +809,15 @@ export default function CenturySection() {
       cleanupGsap?.();
       clearGestureLock();
       clearReleaseLock();
+      clearPendingScrollRestore();
       forceReleaseCurrentSlider = null;
+      window.history.scrollRestoration = previousScrollRestoration;
       window.removeEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+      window.removeEventListener("scroll", queueScrollPositionSave);
+      window.removeEventListener("wheel", enableUserScrollIntent, true);
+      window.removeEventListener("touchstart", enableUserScrollIntent, true);
+      window.removeEventListener("pointerdown", enableUserScrollIntent, true);
+      window.removeEventListener("keydown", enableUserScrollIntent, true);
       document.body.classList.remove(HEADER_SUPPRESS_CLASS);
     };
   }, []);
@@ -679,8 +843,12 @@ export default function CenturySection() {
             onPointerCancel={handlePointerCancel}
           >
             <div
-              className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              className="flex h-full transform-gpu will-change-transform transition-transform"
+              style={{
+                transform: `translateX(-${activeIndex * 100}%)`,
+                transitionDuration: `${SLIDE_TRANSITION_MS}ms`,
+                transitionTimingFunction: SLIDE_TRANSITION_EASE,
+              }}
             >
               {centurySlides.map((slide, index) => {
                 const isActive = index === activeIndex;
@@ -688,9 +856,13 @@ export default function CenturySection() {
                 return (
                   <article
                     key={slide.step}
-                    className={`grid h-full min-h-0 w-full shrink-0 gap-8 transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] lg:min-h-[600px] lg:grid-cols-[480px_minmax(0,1fr)] lg:items-start lg:gap-14 xl:grid-cols-[520px_minmax(0,1fr)] xl:gap-20 ${
+                    className={`grid h-full min-h-0 w-full shrink-0 gap-8 will-change-opacity transition-opacity lg:min-h-[600px] lg:grid-cols-[480px_minmax(0,1fr)] lg:items-start lg:gap-14 xl:grid-cols-[520px_minmax(0,1fr)] xl:gap-20 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
+                    style={{
+                      transitionDuration: `${SLIDE_TRANSITION_MS}ms`,
+                      transitionTimingFunction: SLIDE_TRANSITION_EASE,
+                    }}
                   >
                     <div className="flex h-full justify-between min-h-[370px] max-h-[554px] flex-col pt-0 lg:overflow-hidden lg:pl-25 max-sm:min-h-[483px]">
                       <div className="flex flex-col justify-between overflow-visible lg:overflow-hidden">
@@ -702,7 +874,7 @@ export default function CenturySection() {
                           {slide.lead}
                         </p>
 
-                        <p className=" max-w-[560px] h-full min-h-[96px] text-[16px] font-normal leading-[22px] tracking-[0.02em] text-[#4F4F4F] lg:mt-5 lg:max-w-[392px]">
+                        <p className=" max-w-[560px] h-full min-h-[96px] text-[16px] font-normal leading-[22px] tracking-[0.002em] text-[#4F4F4F] lg:mt-5 lg:max-w-[392px]">
                           {slide.body}
                         </p>
                       </div>
