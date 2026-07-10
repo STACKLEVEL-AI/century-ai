@@ -93,7 +93,7 @@ export default function SecurityFeatureBlock() {
               Стратегический инфраструктурный партнёр
             </h3>
 
-            <p className="mt-5 w-full max-w-[1000px] text-[18px] font-light leading-[100%] tracking-[2%] text-[#C6C5D7]">
+            <p className="mt-5 w-full max-w-[1014px] text-[18px] font-light leading-[100%] tracking-[2%] text-[#C6C5D7]">
               Крупнейший локальный облачный провайдер. Совместное предложение
               для клиентов: платформа + инфраструктура в одном пакете.
             </p>
