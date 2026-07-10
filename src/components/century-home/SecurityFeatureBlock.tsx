@@ -79,7 +79,7 @@ export default function SecurityFeatureBlock() {
         </div>
 
         <aside
-          className="mt-14 border border-[#ACACAC4D] shadow-[0_4px_4px_rgba(0,0,0,0.25)] grid gap-8 bg-[linear-gradient(to_top_right,#080A19_0%,#0B0F28_100%)] rounded-[6px] px-6 pt-9 sm:mt-[75px] sm:px-8 sm:pt-10 lg:mt-[75px] lg:grid-cols-[220px_minmax(0,1fr)] lg:items-center lg:px-6 lg:pt-[34px] pb-[24px]">
+          className="mt-14 border border-[#ACACAC4D] shadow-[0_4px_4px_rgba(0,0,0,0.25)] grid gap-8 bg-[linear-gradient(to_top_right,#080A19_0%,#0B0F28_100%)] rounded-[6px] px-6 pt-9 sm:mt-[75px] sm:px-8 sm:pt-10 lg:mt-[75px] lg:grid-cols-[150px_minmax(0,1fr)] lg:items-center lg:px-6 lg:pt-[34px] pb-[24px]">
           <Image
             src="/hoster-icon.svg"
             alt="hoster.by"
@@ -93,7 +93,7 @@ export default function SecurityFeatureBlock() {
               Стратегический инфраструктурный партнёр
             </h3>
 
-            <p className="mt-5 max-w-[1000px] text-[16px] font-light leading-[1.28] text-[#C6C5D7] sm:text-[18px] sm:leading-[1.22]">
+            <p className="mt-5 w-full max-w-[1000px] text-[18px] font-light leading-[100%] tracking-[2%] text-[#C6C5D7]">
               Крупнейший локальный облачный провайдер. Совместное предложение
               для клиентов: платформа + инфраструктура в одном пакете.
             </p>
