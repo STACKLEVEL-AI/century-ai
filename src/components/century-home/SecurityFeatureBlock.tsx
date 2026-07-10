@@ -79,7 +79,7 @@ export default function SecurityFeatureBlock() {
         </div>
 
         <aside
-          className="mt-14 border border-[#ACACAC4D] shadow-[0_4px_4px_rgba(0,0,0,0.25)] grid gap-8 bg-[linear-gradient(to_top_right,#080A19_0%,#0B0F28_100%)] rounded-[6px] px-6 pt-9 sm:mt-[75px] sm:px-8 sm:pt-10 lg:mt-[75px] lg:grid-cols-[150px_minmax(0,1fr)] lg:items-center lg:px-6 lg:pt-[34px] pb-[24px]">
+          className="mt-14 h-full min-h-[156px] border border-[#ACACAC4D] shadow-[0_4px_4px_rgba(0,0,0,0.25)] grid gap-8 bg-[linear-gradient(to_top_right,#080A19_0%,#0B0F28_100%)] rounded-[6px] px-6 pt-9 sm:mt-[75px] sm:px-8 sm:pt-10 lg:mt-[75px] lg:grid-cols-[150px_minmax(0,1fr)] lg:items-center lg:px-6 lg:pt-[34px] pb-[24px]">
           <Image
             src="/hoster-icon.svg"
             alt="hoster.by"
