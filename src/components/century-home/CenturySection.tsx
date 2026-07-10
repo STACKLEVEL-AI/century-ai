@@ -60,6 +60,7 @@ const SLIDE_TRANSITION_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const SLIDE_WHEEL_LOCK_MS = SLIDE_TRANSITION_MS + 120;
 const SLIDER_RELEASE_LOCK_MS = 520;
 const EDGE_RELEASE_IDLE_SECONDS = 0.42;
+const EDGE_RELEASE_CONTINUE_DISTANCE_PX = 42;
 const ANCHOR_NAVIGATION_BYPASS_MS = 1200;
 const LANDING_SCROLL_RESTORE_KEY = "century:landing-scroll-y";
 const LANDING_SLIDER_INDEX_RESTORE_KEY = "century:landing-slider-index";
@@ -488,6 +489,8 @@ export default function CenturySection() {
       let isCaptured = false;
       let isEntryAbsorbing = false;
       let edgeReleaseReady = false;
+      let edgeReleaseDistance = 0;
+      let edgeReleaseDirection: 1 | -1 | null = null;
       let releaseLockedUntil = 0;
       let releaseLockDirection: 1 | -1 | null = null;
 
@@ -511,20 +514,22 @@ export default function CenturySection() {
         direction < 0
           ? activeIndexRef.current === 0
           : activeIndexRef.current === lastSlideIndex;
-      const getViewportEscapeDirection = () => {
-        const currentY = window.scrollY;
-        const sliderStart = getSliderStart();
-        const sliderEnd = getSliderEnd();
-
-        if (currentY < sliderStart - SECTION_ENTRY_THRESHOLD_PX) {
-          return -1;
+      const resetEdgeRelease = () => {
+        edgeReleaseReady = false;
+        edgeReleaseDistance = 0;
+        edgeReleaseDirection = null;
+      };
+      const registerEdgeReleaseIntent = (direction: 1 | -1, deltaY: number) => {
+        if (edgeReleaseDirection !== direction) {
+          edgeReleaseDirection = direction;
+          edgeReleaseDistance = 0;
         }
 
-        if (currentY > sliderEnd + SECTION_ENTRY_THRESHOLD_PX) {
-          return 1;
-        }
+        edgeReleaseDistance += Math.abs(deltaY);
 
-        return 0;
+        if (edgeReleaseDistance >= EDGE_RELEASE_CONTINUE_DISTANCE_PX) {
+          edgeReleaseReady = true;
+        }
       };
 
       const lockGestures = (durationMs: number) => {
@@ -601,7 +606,7 @@ export default function CenturySection() {
 
         preventGesture(observer);
         isCaptured = true;
-        edgeReleaseReady = false;
+        resetEdgeRelease();
         setHeaderSuppressed(true);
         interactionObserver?.enable();
         startEntryAbsorb();
@@ -614,7 +619,7 @@ export default function CenturySection() {
         if (isAnchorNavigationBypassed()) return;
 
         isCaptured = true;
-        edgeReleaseReady = false;
+        resetEdgeRelease();
         setHeaderSuppressed(true);
         interactionObserver?.enable();
         startEntryAbsorb();
@@ -626,7 +631,7 @@ export default function CenturySection() {
         isCaptured = false;
         isGestureLocked = false;
         stopEntryAbsorb();
-        edgeReleaseReady = false;
+        resetEdgeRelease();
         releaseLockedUntil = 0;
         releaseLockDirection = null;
         clearGestureLock();
@@ -645,7 +650,7 @@ export default function CenturySection() {
 
         isCaptured = false;
         stopEntryAbsorb();
-        edgeReleaseReady = false;
+        resetEdgeRelease();
         setHeaderSuppressed(false);
         interactionObserver?.disable();
         lockRelease(direction);
@@ -675,8 +680,10 @@ export default function CenturySection() {
           (direction < 0 && currentIndex > 0);
 
         if (!canMoveInside) {
+          registerEdgeReleaseIntent(direction, observer.deltaY);
+
           if (!edgeReleaseReady) {
-            lockGestures(ENTRY_WHEEL_LOCK_MS);
+            snapToSlider();
             return;
           }
 
@@ -684,7 +691,7 @@ export default function CenturySection() {
           return;
         }
 
-        edgeReleaseReady = false;
+        resetEdgeRelease();
         scrollToSlide(currentIndex + direction);
         lockGestures(SLIDE_WHEEL_LOCK_MS);
       };
@@ -764,12 +771,12 @@ export default function CenturySection() {
             return;
           }
 
-          if (getViewportEscapeDirection() > 0) {
+          if (isReleaseLocked(1) && canReleaseSlider(1)) {
             forceReleaseSlider();
             return;
           }
 
-          if (!isReleaseLocked(1) || !canReleaseSlider(1)) recaptureCurrentSlide();
+          recaptureCurrentSlide();
         },
         onLeaveBack: () => {
           if (isAnchorNavigationBypassed()) {
@@ -777,12 +784,12 @@ export default function CenturySection() {
             return;
           }
 
-          if (getViewportEscapeDirection() < 0) {
+          if (isReleaseLocked(-1) && canReleaseSlider(-1)) {
             forceReleaseSlider();
             return;
           }
 
-          if (!isReleaseLocked(-1) || !canReleaseSlider(-1)) recaptureCurrentSlide();
+          recaptureCurrentSlide();
         },
         onUpdate: holdPinnedPosition,
       });
