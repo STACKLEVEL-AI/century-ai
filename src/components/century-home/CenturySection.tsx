@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
+
+const SLIDE_VIDEO_SRC = "/slider-image/video/communicating_with_data.mp4";
 
 const centurySlides = [
   {
@@ -11,7 +12,7 @@ const centurySlides = [
     lead: "Сводим данные о клиентах из всех источников в один прозрачный профиль.",
     body: "Как общаются, как платят, что пишут в поддержку, как ведут себя в цифровом пространстве: все в одном профиле. Бизнес видит, где узкие места в воронке, что оптимизировать и какое решение принять на данных.",
     tags: ["ROI ПО КАНАЛАМ", "ТОЧКИ ОТТОКА", "РЕШЕНИЕ ПО БЮДЖЕТУ"],
-    mediaSrc: "/slider-image/analytics-preview.webp",
+    mediaSrc: SLIDE_VIDEO_SRC,
   },
   {
     step: "02",
@@ -19,7 +20,7 @@ const centurySlides = [
     lead: "Клиенты и сотрудники получают ответ, без очереди и ожидания.",
     body: "ИИ принимает обращения круглосуточно, отвечает на типовые вопросы, оформляет заявки и передает сложные кейсы человеку. Поддержка перестает заниматься рутиной и занимается тем, где нужен живой специалист.",
     tags: ["ПЕРВАЯ ЛИНИЯ 24/7", "УМНАЯ ЭСКАЛАЦИЯ", "АВТОЗАКРЫТИЕ ОБРАЩЕНИЙ"],
-    mediaSrc: "/slider-image/image-2.webp",
+    mediaSrc: SLIDE_VIDEO_SRC,
   },
   {
     step: "03",
@@ -27,7 +28,7 @@ const centurySlides = [
     lead: "Спрашиваете своими словами, получаете точный ответ со ссылкой на документ.",
     body: "Регламенты, инструкции, договоры, переписка: все знания компании в одном поиске. Новый сотрудник входит в курс за дни, а не за месяцы, и экспертиза не уходит вместе с людьми.",
     tags: ["ОТВЕТ СО ССЫЛКОЙ", "ОНБОРДИНГ ЗА ДНИ", "ЕДИНЫЙ ИСТОЧНИК ПРАВДЫ"],
-    mediaSrc: "/slider-image/image-3.webp",
+    mediaSrc: SLIDE_VIDEO_SRC,
   },
   {
     step: "04",
@@ -35,7 +36,7 @@ const centurySlides = [
     lead: "Вопрос на обычном языке превращаем в точный ответ и готовый дашборд.",
     body: "Оценка последнего звонка, сводка возражений, детали из CRM, следующий шаг по клиенту: спрашиваете в чате, ответ приходит цифрой и дашбордом. Руководитель продаж видит скоринг сделок и риск оттока, СЕО видит прогнозы и сквозные выводы: на что смотреть и какое решение принять.",
     tags: ["СКОРИНГ СДЕЛОК", "ПРОГНОЗЫ ДЛЯ CEO", "РИСК ОТТОКА И LTV"],
-    mediaSrc: "/slider-image/image-4.webp",
+    mediaSrc: SLIDE_VIDEO_SRC,
   },
   {
     step: "05",
@@ -43,7 +44,7 @@ const centurySlides = [
     lead: "Каждый запрос виден: кто, какая модель, сколько токенов и денег.",
     body: "Логирование по каждому обращению, разграничение доступа, защита от утечек и prompt injection, работа on-premise. Вы управляете тем, что ИИ может и не может делать, и проходите аудит без сюрпризов.",
     tags: ["ДОСТУП ПО РОЛЯМ", "ON-PREMISE", "СТОИМОСТЬ ПО ЗАПРОСУ"],
-    mediaSrc: "/slider-image/image-5.webp",
+    mediaSrc: SLIDE_VIDEO_SRC,
   },
 ] as const;
 
@@ -53,30 +54,16 @@ const SWIPE_DIRECTION_RATIO = 1.2;
 const HEADER_SUPPRESS_CLASS = "century-slider-active";
 const SECTION_ENTRY_THRESHOLD_PX = 120;
 const SECTION_ALIGN_TOLERANCE_PX = 2;
-const ENTRY_WHEEL_LOCK_MS = 640;
-const ENTRY_ABSORB_IDLE_MS = 680;
+const SCROLL_SNAP_DURATION_SECONDS = { min: 0.2, max: 0.55 };
 const SLIDE_TRANSITION_MS = 920;
+const SLIDE_SWITCH_DELAY_MS = 300;
 const SLIDE_TRANSITION_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const SLIDE_WHEEL_LOCK_MS = SLIDE_TRANSITION_MS + 120;
-const SLIDER_RELEASE_LOCK_MS = 520;
-const EDGE_RELEASE_IDLE_SECONDS = 0.42;
-const EDGE_RELEASE_CONTINUE_DISTANCE_PX = 42;
-const ANCHOR_NAVIGATION_BYPASS_MS = 1200;
-const LANDING_SCROLL_RESTORE_KEY = "century:landing-scroll-y";
 const LANDING_SLIDER_INDEX_RESTORE_KEY = "century:landing-slider-index";
-const LANDING_SCROLL_RESTORE_DELAYS_MS = [0, 120, 320, 700] as const;
-
-type SliderObserver = {
-  deltaY: number;
-  event: Event;
-  disable: () => void;
-  enable: () => SliderObserver;
-  kill: () => void;
-};
 
 type SliderScrollTrigger = {
   start: number;
   end: number;
+  progress: number;
   kill: () => void;
 };
 
@@ -166,11 +153,27 @@ function MediaFrame({
   src,
   alt,
   currentStep,
+  isActive,
 }: {
   src: string;
   alt: string;
   currentStep: string;
+  isActive: boolean;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isActive) {
+      void video.play().catch(() => undefined);
+      return;
+    }
+
+    video.pause();
+  }, [isActive]);
+
   return (
     <div className="ml-auto h-full min-h-0 max-h-[554px] w-full lg:pr-25">
       <div
@@ -178,13 +181,20 @@ function MediaFrame({
         className="media-fade-in relative h-full overflow-hidden rounded-[18px] border border-black bg-white shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
       >
         <div className="relative h-full min-h-[240px] w-full bg-[#F7F7F7] sm:min-h-[320px] lg:min-h-[420px] xl:min-h-[480px]">
-          <Image src={src} alt={alt} fill className="object-contain object-center" />
+          <video
+            ref={videoRef}
+            aria-label={alt}
+            autoPlay={isActive}
+            loop
+            muted
+            playsInline
+            preload={isActive ? "auto" : "metadata"}
+            className="absolute inset-0 h-full w-full object-fill"
+          >
+            <source src={src} type="video/mp4" />
+          </video>
 
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.03))]" />
-
-          <div className="absolute bottom-5 left-5 rounded-full border border-[rgba(17,17,17,0.1)] bg-white/90 px-4 py-2 text-[12px] text-[#5C5C5C] shadow-[0_8px_18px_rgba(0,0,0,0.06)]">
-            {currentStep} / poster / future video
-          </div>
         </div>
       </div>
     </div>
@@ -193,12 +203,22 @@ function MediaFrame({
 
 export default function CenturySection() {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const sliderTriggerRef = useRef<SliderScrollTrigger | null>(null);
   const activeIndexRef = useRef(0);
   const swipeStartRef = useRef<{ pointerId: number; x: number; y: number } | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [displayedIndex, setDisplayedIndex] = useState(0);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDisplayedIndex(activeIndex);
+    }, SLIDE_SWITCH_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -217,11 +237,22 @@ export default function CenturySection() {
     sessionStorage.setItem(LANDING_SLIDER_INDEX_RESTORE_KEY, String(activeIndex));
   }, [activeIndex]);
 
-  const scrollToSlide = (index: number) => {
+  const scrollToSlide = useCallback((index: number, syncScrollPosition = true) => {
     const nextIndex = Math.max(0, Math.min(index, centurySlides.length - 1));
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
-  };
+
+    if (!syncScrollPosition || window.innerWidth <= SWIPE_MAX_WIDTH) return;
+
+    const trigger = sliderTriggerRef.current;
+    if (!trigger) return;
+
+    const progress = nextIndex / (centurySlides.length - 1);
+    window.scrollTo({
+      top: trigger.start + (trigger.end - trigger.start) * progress,
+      behavior: "smooth",
+    });
+  }, []);
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (window.innerWidth > SWIPE_MAX_WIDTH || !event.isPrimary) return;
@@ -275,8 +306,11 @@ export default function CenturySection() {
         SECTION_ENTRY_THRESHOLD_PX,
         Math.round(window.innerHeight * 0.35),
       );
-      const shouldSuppressHeader =
-        rect.top <= suppressThreshold && rect.bottom > SECTION_ENTRY_THRESHOLD_PX;
+      const trigger = sliderTriggerRef.current;
+      const shouldSuppressHeader = trigger
+        ? window.scrollY >= trigger.start - SECTION_ALIGN_TOLERANCE_PX &&
+          window.scrollY <= trigger.end + SECTION_ALIGN_TOLERANCE_PX
+        : rect.top <= suppressThreshold && rect.bottom > SECTION_ENTRY_THRESHOLD_PX;
 
       document.body.classList.toggle(HEADER_SUPPRESS_CLASS, shouldSuppressHeader);
     };
@@ -306,528 +340,70 @@ export default function CenturySection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    let cleanupGsap: (() => void) | null = null;
-    let gestureLockTimer: number | null = null;
-    let entryAbsorbTimer: number | null = null;
-    let releaseLockTimer: number | null = null;
     let isMounted = true;
-    let anchorNavigationBypassUntil = 0;
-    let forceReleaseCurrentSlider: (() => void) | null = null;
-    let hasUserScrollIntent = false;
-    let scrollRestoreFrame = 0;
-    let scrollRestoreTimers: number[] = [];
-    let saveScrollFrame = 0;
-    let restoreCompletionTimer: number | null = null;
-    let canSaveScrollPosition = false;
-    const previousScrollRestoration = window.history.scrollRestoration;
-
-    const isAnchorNavigationBypassed = () => Date.now() < anchorNavigationBypassUntil;
-    const handleAnchorNavigationStart = () => {
-      anchorNavigationBypassUntil = Date.now() + ANCHOR_NAVIGATION_BYPASS_MS;
-      forceReleaseCurrentSlider?.();
-    };
-    const isInsideSliderRange = () => {
-      const sectionTop = window.scrollY + section.getBoundingClientRect().top;
-      const sectionEnd = sectionTop + Math.max(window.innerHeight, section.offsetHeight);
-      const currentY = window.scrollY;
-
-      return (
-        currentY >= sectionTop - SECTION_ALIGN_TOLERANCE_PX &&
-        currentY <= sectionEnd + SECTION_ALIGN_TOLERANCE_PX
-      );
-    };
-    const saveScrollPosition = () => {
-      sessionStorage.setItem(LANDING_SCROLL_RESTORE_KEY, String(window.scrollY));
-
-      if (isInsideSliderRange()) {
-        sessionStorage.setItem(
-          LANDING_SLIDER_INDEX_RESTORE_KEY,
-          String(activeIndexRef.current),
-        );
-        return;
-      }
-
-      sessionStorage.removeItem(LANDING_SLIDER_INDEX_RESTORE_KEY);
-    };
-    const queueScrollPositionSave = () => {
-      if (!canSaveScrollPosition) return;
-      if (saveScrollFrame) return;
-
-      saveScrollFrame = window.requestAnimationFrame(() => {
-        saveScrollFrame = 0;
-        saveScrollPosition();
-      });
-    };
-    const clearPendingScrollRestore = () => {
-      if (scrollRestoreFrame) {
-        window.cancelAnimationFrame(scrollRestoreFrame);
-        scrollRestoreFrame = 0;
-      }
-
-      if (saveScrollFrame) {
-        window.cancelAnimationFrame(saveScrollFrame);
-        saveScrollFrame = 0;
-      }
-
-      if (restoreCompletionTimer !== null) {
-        window.clearTimeout(restoreCompletionTimer);
-        restoreCompletionTimer = null;
-      }
-
-      scrollRestoreTimers.forEach((timer) => window.clearTimeout(timer));
-      scrollRestoreTimers = [];
-    };
-    const finishScrollRestore = () => {
-      canSaveScrollPosition = true;
-      queueScrollPositionSave();
-    };
-    const enableUserScrollIntent = () => {
-      hasUserScrollIntent = true;
-      clearPendingScrollRestore();
-      finishScrollRestore();
-    };
-    const isScrollCaptureAllowed = () => hasUserScrollIntent;
-    const shouldRestoreSavedScroll = () => {
-      const navigationEntry = performance.getEntriesByType("navigation")[0] as
-        | PerformanceNavigationTiming
-        | undefined;
-
-      return (
-        navigationEntry?.type === "reload" ||
-        navigationEntry?.type === "back_forward"
-      );
-    };
-    const restoreSavedScroll = () => {
-      if (!shouldRestoreSavedScroll()) {
-        finishScrollRestore();
-        return;
-      }
-
-      const savedScrollY = Number(sessionStorage.getItem(LANDING_SCROLL_RESTORE_KEY));
-      if (!Number.isFinite(savedScrollY)) {
-        finishScrollRestore();
-        return;
-      }
-
-      const savedSlideIndex = Number(sessionStorage.getItem(LANDING_SLIDER_INDEX_RESTORE_KEY));
-      if (Number.isFinite(savedSlideIndex)) {
-        scrollToSlide(savedSlideIndex);
-      }
-
-      const applyScrollRestore = () => {
-        if (!isMounted || hasUserScrollIntent) return;
-
-        window.scrollTo({ top: savedScrollY, behavior: "auto" });
-      };
-
-      clearPendingScrollRestore();
-
-      scrollRestoreFrame = window.requestAnimationFrame(() => {
-        scrollRestoreFrame = window.requestAnimationFrame(() => {
-          scrollRestoreFrame = 0;
-          applyScrollRestore();
-        });
-      });
-
-      scrollRestoreTimers = LANDING_SCROLL_RESTORE_DELAYS_MS.map((delay) =>
-        window.setTimeout(() => {
-          applyScrollRestore();
-        }, delay),
-      );
-
-      restoreCompletionTimer = window.setTimeout(() => {
-        restoreCompletionTimer = null;
-        applyScrollRestore();
-        finishScrollRestore();
-      }, Math.max(...LANDING_SCROLL_RESTORE_DELAYS_MS) + 120);
-    };
-
-    const clearGestureLock = () => {
-      if (gestureLockTimer !== null) {
-        window.clearTimeout(gestureLockTimer);
-        gestureLockTimer = null;
-      }
-    };
-
-    const clearReleaseLock = () => {
-      if (releaseLockTimer !== null) {
-        window.clearTimeout(releaseLockTimer);
-        releaseLockTimer = null;
-      }
-    };
-
-    const clearEntryAbsorb = () => {
-      if (entryAbsorbTimer !== null) {
-        window.clearTimeout(entryAbsorbTimer);
-        entryAbsorbTimer = null;
-      }
-    };
-
-    window.addEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
-    window.addEventListener("scroll", queueScrollPositionSave, { passive: true });
-    window.addEventListener("wheel", enableUserScrollIntent, { passive: true, capture: true });
-    window.addEventListener("touchstart", enableUserScrollIntent, { passive: true, capture: true });
-    window.addEventListener("pointerdown", enableUserScrollIntent, { passive: true, capture: true });
-    window.addEventListener("keydown", enableUserScrollIntent, { capture: true });
-    window.history.scrollRestoration = "manual";
+    let cleanupDesktopSlider: (() => void) | null = null;
 
     void (async () => {
-      const [{ default: gsap }, { ScrollTrigger }, { Observer }] = await Promise.all([
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
         import("gsap"),
         import("gsap/ScrollTrigger"),
-        import("gsap/Observer"),
       ]);
 
       if (!isMounted) return;
 
-      gsap.registerPlugin(ScrollTrigger, Observer);
-
-      let interactionObserver: SliderObserver | null = null;
-      let entryObserver: SliderObserver | null = null;
-      let sliderTrigger: SliderScrollTrigger | null = null;
-      let isGestureLocked = false;
-      let isCaptured = false;
-      let isEntryAbsorbing = false;
-      let edgeReleaseReady = false;
-      let edgeReleaseDistance = 0;
-      let edgeReleaseDirection: 1 | -1 | null = null;
-      let releaseLockedUntil = 0;
-      let releaseLockDirection: 1 | -1 | null = null;
+      gsap.registerPlugin(ScrollTrigger);
 
       const lastSlideIndex = centurySlides.length - 1;
-      const setHeaderSuppressed = (suppressed: boolean) => {
-        document.body.classList.toggle(HEADER_SUPPRESS_CLASS, suppressed);
-      };
+      const desktopMediaQuery = window.matchMedia(`(min-width: ${SWIPE_MAX_WIDTH + 1}px)`);
+      let sliderTrigger: SliderScrollTrigger | null = null;
 
-      const getSliderStart = () =>
-        sliderTrigger?.start ?? window.scrollY + section.getBoundingClientRect().top;
-      const getSliderEnd = () =>
-        sliderTrigger?.end ?? getSliderStart() + Math.max(window.innerHeight, section.offsetHeight);
-      const isReleaseLocked = (direction?: 1 | -1) => {
-        const locked = performance.now() < releaseLockedUntil;
-
-        if (!locked) return false;
-
-        return direction === undefined || releaseLockDirection === direction;
-      };
-      const canReleaseSlider = (direction: 1 | -1) =>
-        direction < 0
-          ? activeIndexRef.current === 0
-          : activeIndexRef.current === lastSlideIndex;
-      const resetEdgeRelease = () => {
-        edgeReleaseReady = false;
-        edgeReleaseDistance = 0;
-        edgeReleaseDirection = null;
-      };
-      const registerEdgeReleaseIntent = (direction: 1 | -1, deltaY: number) => {
-        if (edgeReleaseDirection !== direction) {
-          edgeReleaseDirection = direction;
-          edgeReleaseDistance = 0;
-        }
-
-        edgeReleaseDistance += Math.abs(deltaY);
-
-        if (edgeReleaseDistance >= EDGE_RELEASE_CONTINUE_DISTANCE_PX) {
-          edgeReleaseReady = true;
-        }
-      };
-
-      const lockGestures = (durationMs: number) => {
-        isGestureLocked = true;
-        clearGestureLock();
-
-        gestureLockTimer = window.setTimeout(() => {
-          isGestureLocked = false;
-          gestureLockTimer = null;
-        }, durationMs);
-      };
-
-      const lockRelease = (direction: 1 | -1) => {
-        releaseLockedUntil = performance.now() + SLIDER_RELEASE_LOCK_MS;
-        releaseLockDirection = direction;
-        clearReleaseLock();
-
-        releaseLockTimer = window.setTimeout(() => {
-          releaseLockedUntil = 0;
-          releaseLockDirection = null;
-          releaseLockTimer = null;
-        }, SLIDER_RELEASE_LOCK_MS);
-      };
-
-      const preventGesture = (observer?: SliderObserver | null) => {
-        const event = observer?.event;
-
-        if (event?.cancelable) {
-          event.preventDefault();
-        }
-
-        event?.stopPropagation();
-      };
-
-      const stopEntryAbsorb = () => {
-        isEntryAbsorbing = false;
-        clearEntryAbsorb();
-      };
-
-      const refreshEntryAbsorb = () => {
-        clearEntryAbsorb();
-
-        entryAbsorbTimer = window.setTimeout(() => {
-          stopEntryAbsorb();
-        }, ENTRY_ABSORB_IDLE_MS);
-      };
-
-      const startEntryAbsorb = () => {
-        isEntryAbsorbing = true;
-        refreshEntryAbsorb();
-      };
-
-      const snapToSlider = (targetSlide?: number) => {
-        if (targetSlide !== undefined) {
-          scrollToSlide(targetSlide);
-        }
-
-        const targetY = getSliderStart();
-
-        if (Math.abs(window.scrollY - targetY) > SECTION_ALIGN_TOLERANCE_PX) {
-          window.scrollTo({ top: targetY, behavior: "auto" });
-        }
-      };
-
-      const holdPinnedPosition = () => {
-        if (!isCaptured) return;
-
-        snapToSlider();
-      };
-
-      const captureSlider = (entryDirection: 1 | -1, observer?: SliderObserver | null) => {
-        if (!isScrollCaptureAllowed()) return;
-        if (isReleaseLocked(entryDirection) || isAnchorNavigationBypassed()) return;
-
-        preventGesture(observer);
-        isCaptured = true;
-        resetEdgeRelease();
-        setHeaderSuppressed(true);
-        interactionObserver?.enable();
-        startEntryAbsorb();
-        snapToSlider(entryDirection > 0 ? 0 : lastSlideIndex);
-        lockGestures(ENTRY_WHEEL_LOCK_MS);
-      };
-
-      const recaptureCurrentSlide = () => {
-        if (!isScrollCaptureAllowed()) return;
-        if (isAnchorNavigationBypassed()) return;
-
-        isCaptured = true;
-        resetEdgeRelease();
-        setHeaderSuppressed(true);
-        interactionObserver?.enable();
-        startEntryAbsorb();
-        snapToSlider();
-        lockGestures(ENTRY_WHEEL_LOCK_MS);
-      };
-
-      const forceReleaseSlider = () => {
-        isCaptured = false;
-        isGestureLocked = false;
-        stopEntryAbsorb();
-        resetEdgeRelease();
-        releaseLockedUntil = 0;
-        releaseLockDirection = null;
-        clearGestureLock();
-        clearReleaseLock();
-        setHeaderSuppressed(false);
-        interactionObserver?.disable();
-      };
-
-      forceReleaseCurrentSlider = forceReleaseSlider;
-
-      const releaseSlider = (direction: 1 | -1) => {
-        if (!canReleaseSlider(direction)) {
-          recaptureCurrentSlide();
-          return;
-        }
-
-        isCaptured = false;
-        stopEntryAbsorb();
-        resetEdgeRelease();
-        setHeaderSuppressed(false);
-        interactionObserver?.disable();
-        lockRelease(direction);
-
-        const targetY =
-          direction > 0
-            ? getSliderEnd() + SECTION_ENTRY_THRESHOLD_PX
-            : Math.max(0, getSliderStart() - SECTION_ENTRY_THRESHOLD_PX);
-
-        window.scrollTo({ top: targetY, behavior: "auto" });
-      };
-
-      const handleSlideGesture = (direction: 1 | -1, observer: SliderObserver) => {
-        preventGesture(observer);
-
-        if (isEntryAbsorbing) {
-          refreshEntryAbsorb();
-          snapToSlider();
-          return;
-        }
-
-        if (isGestureLocked) return;
-
-        const currentIndex = activeIndexRef.current;
-        const canMoveInside =
-          (direction > 0 && currentIndex < lastSlideIndex) ||
-          (direction < 0 && currentIndex > 0);
-
-        if (!canMoveInside) {
-          registerEdgeReleaseIntent(direction, observer.deltaY);
-
-          if (!edgeReleaseReady) {
-            snapToSlider();
-            return;
-          }
-
-          releaseSlider(direction);
-          return;
-        }
-
-        resetEdgeRelease();
-        scrollToSlide(currentIndex + direction);
-        lockGestures(SLIDE_WHEEL_LOCK_MS);
-      };
-
-      const handleEntryGesture = (direction: 1 | -1, observer: SliderObserver) => {
-        if (
-          isAnchorNavigationBypassed() ||
-          isCaptured ||
-          isReleaseLocked(direction) ||
-          Math.abs(observer.deltaY) < 2
-        ) {
-          return;
-        }
-
-        const currentY = window.scrollY;
-        const projectedY = Math.max(0, currentY + observer.deltaY);
-        const sliderStart = getSliderStart();
-        const sliderEnd = getSliderEnd();
-        const enteringFromAbove =
-          direction > 0 &&
-          currentY < sliderStart - SECTION_ALIGN_TOLERANCE_PX &&
-          projectedY >= sliderStart - SECTION_ENTRY_THRESHOLD_PX;
-        const enteringFromBelow =
-          direction < 0 &&
-          currentY > sliderEnd + SECTION_ALIGN_TOLERANCE_PX &&
-          projectedY <= sliderEnd + SECTION_ENTRY_THRESHOLD_PX;
-
-        if (enteringFromAbove || enteringFromBelow) {
-          captureSlider(direction, observer);
-        }
-      };
-
-      interactionObserver = Observer.create({
-        target: window,
-        type: "wheel,touch",
-        preventDefault: true,
-        tolerance: 12,
-        debounce: false,
-        onStopDelay: EDGE_RELEASE_IDLE_SECONDS,
-        onDown: (observer) => handleSlideGesture(1, observer),
-        onUp: (observer) => handleSlideGesture(-1, observer),
-        onStop: () => {
-          if (isEntryAbsorbing) {
-            stopEntryAbsorb();
-            return;
-          }
-
-          edgeReleaseReady = true;
-        },
-      });
-      interactionObserver.disable();
-
-      entryObserver = Observer.create({
-        target: window,
-        type: "wheel,touch",
-        capture: true,
-        debounce: false,
-        preventDefault: false,
-        passive: false,
-        tolerance: 4,
-        onDown: (observer) => handleEntryGesture(1, observer),
-        onUp: (observer) => handleEntryGesture(-1, observer),
-      } as Parameters<typeof Observer.create>[0] & { passive: boolean });
-
-      sliderTrigger = ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: () => `+=${Math.max(window.innerHeight, section.offsetHeight)}`,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        onEnter: () => captureSlider(1),
-        onEnterBack: () => captureSlider(-1),
-        onLeave: () => {
-          if (isAnchorNavigationBypassed()) {
-            forceReleaseSlider();
-            return;
-          }
-
-          if (isReleaseLocked(1) && canReleaseSlider(1)) {
-            forceReleaseSlider();
-            return;
-          }
-
-          recaptureCurrentSlide();
-        },
-        onLeaveBack: () => {
-          if (isAnchorNavigationBypassed()) {
-            forceReleaseSlider();
-            return;
-          }
-
-          if (isReleaseLocked(-1) && canReleaseSlider(-1)) {
-            forceReleaseSlider();
-            return;
-          }
-
-          recaptureCurrentSlide();
-        },
-        onUpdate: holdPinnedPosition,
-      });
-
-      ScrollTrigger.refresh();
-      restoreSavedScroll();
-
-      cleanupGsap = () => {
-        clearGestureLock();
-        clearEntryAbsorb();
-        clearReleaseLock();
-        clearPendingScrollRestore();
-        interactionObserver?.kill();
-        entryObserver?.kill();
+      const setupDesktopSlider = () => {
         sliderTrigger?.kill();
-        setHeaderSuppressed(false);
-        forceReleaseCurrentSlider = null;
-        window.removeEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
+        sliderTrigger = null;
+        sliderTriggerRef.current = null;
+
+        if (!desktopMediaQuery.matches) return;
+
+        sliderTrigger = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: () => `+=${window.innerHeight * lastSlideIndex}`,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          snap: {
+            snapTo: 1 / lastSlideIndex,
+            duration: SCROLL_SNAP_DURATION_SECONDS,
+            delay: 0.05,
+            ease: "power2.out",
+          },
+          onUpdate: (trigger) => {
+            scrollToSlide(Math.round(trigger.progress * lastSlideIndex), false);
+          },
+        });
+
+        sliderTriggerRef.current = sliderTrigger;
+        scrollToSlide(Math.round(sliderTrigger.progress * lastSlideIndex), false);
+        ScrollTrigger.refresh();
+      };
+
+      setupDesktopSlider();
+      desktopMediaQuery.addEventListener("change", setupDesktopSlider);
+
+      cleanupDesktopSlider = () => {
+        desktopMediaQuery.removeEventListener("change", setupDesktopSlider);
+        sliderTrigger?.kill();
+        sliderTriggerRef.current = null;
       };
     })();
 
     return () => {
       isMounted = false;
-      cleanupGsap?.();
-      clearGestureLock();
-      clearReleaseLock();
-      clearPendingScrollRestore();
-      forceReleaseCurrentSlider = null;
-      window.history.scrollRestoration = previousScrollRestoration;
-      window.removeEventListener("century:anchor-navigation-start", handleAnchorNavigationStart);
-      window.removeEventListener("scroll", queueScrollPositionSave);
-      window.removeEventListener("wheel", enableUserScrollIntent, true);
-      window.removeEventListener("touchstart", enableUserScrollIntent, true);
-      window.removeEventListener("pointerdown", enableUserScrollIntent, true);
-      window.removeEventListener("keydown", enableUserScrollIntent, true);
-      document.body.classList.remove(HEADER_SUPPRESS_CLASS);
+      cleanupDesktopSlider?.();
+      sliderTriggerRef.current = null;
     };
-  }, []);
+  }, [scrollToSlide]);
 
   return (
     <section
@@ -852,13 +428,13 @@ export default function CenturySection() {
             <div
               className="flex h-full transform-gpu will-change-transform transition-transform"
               style={{
-                transform: `translateX(-${activeIndex * 100}%)`,
+                transform: `translateX(-${displayedIndex * 100}%)`,
                 transitionDuration: `${SLIDE_TRANSITION_MS}ms`,
                 transitionTimingFunction: SLIDE_TRANSITION_EASE,
               }}
             >
               {centurySlides.map((slide, index) => {
-                const isActive = index === activeIndex;
+                const isActive = index === displayedIndex;
 
                 return (
                   <article
@@ -902,6 +478,7 @@ export default function CenturySection() {
                       src={slide.mediaSrc}
                       alt={slide.title}
                       currentStep={slide.step}
+                      isActive={isActive}
                     />
                   </article>
                 );
