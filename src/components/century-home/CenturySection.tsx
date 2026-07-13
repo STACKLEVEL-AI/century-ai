@@ -56,7 +56,7 @@ const SECTION_ENTRY_THRESHOLD_PX = 120;
 const SECTION_ALIGN_TOLERANCE_PX = 2;
 const SCROLL_SNAP_DURATION_SECONDS = { min: 0.2, max: 0.55 };
 const SLIDE_TRANSITION_MS = 920;
-const SLIDE_SWITCH_DELAY_MS = 300;
+const SLIDE_SWITCH_LOCK_MS = SLIDE_TRANSITION_MS;
 const SLIDE_TRANSITION_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const LANDING_SLIDER_INDEX_RESTORE_KEY = "century:landing-slider-index";
 
@@ -207,18 +207,9 @@ export default function CenturySection() {
   const activeIndexRef = useRef(0);
   const swipeStartRef = useRef<{ pointerId: number; x: number; y: number } | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [displayedIndex, setDisplayedIndex] = useState(0);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setDisplayedIndex(activeIndex);
-    }, SLIDE_SWITCH_DELAY_MS);
-
-    return () => window.clearTimeout(timer);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -356,8 +347,38 @@ export default function CenturySection() {
       const lastSlideIndex = centurySlides.length - 1;
       const desktopMediaQuery = window.matchMedia(`(min-width: ${SWIPE_MAX_WIDTH + 1}px)`);
       let sliderTrigger: SliderScrollTrigger | null = null;
+      let slideTransitionLockTimer: number | null = null;
+      let isSlideTransitionLocked = false;
+
+      const clearSlideTransitionLock = () => {
+        if (slideTransitionLockTimer !== null) {
+          window.clearTimeout(slideTransitionLockTimer);
+          slideTransitionLockTimer = null;
+        }
+
+        isSlideTransitionLocked = false;
+      };
+
+      const lockSlideTransition = () => {
+        clearSlideTransitionLock();
+        isSlideTransitionLocked = true;
+        slideTransitionLockTimer = window.setTimeout(() => {
+          isSlideTransitionLocked = false;
+          slideTransitionLockTimer = null;
+        }, SLIDE_SWITCH_LOCK_MS);
+      };
+
+      const scrollToSlidePosition = (trigger: SliderScrollTrigger, index: number) => {
+        const targetY =
+          trigger.start + ((trigger.end - trigger.start) * index) / lastSlideIndex;
+
+        if (Math.abs(window.scrollY - targetY) > SECTION_ALIGN_TOLERANCE_PX) {
+          window.scrollTo({ top: targetY, behavior: "smooth" });
+        }
+      };
 
       const setupDesktopSlider = () => {
+        clearSlideTransitionLock();
         sliderTrigger?.kill();
         sliderTrigger = null;
         sliderTriggerRef.current = null;
@@ -379,7 +400,19 @@ export default function CenturySection() {
             ease: "power2.out",
           },
           onUpdate: (trigger) => {
-            scrollToSlide(Math.round(trigger.progress * lastSlideIndex), false);
+            const requestedIndex = Math.round(trigger.progress * lastSlideIndex);
+            const currentIndex = activeIndexRef.current;
+
+            if (requestedIndex === currentIndex) return;
+
+            if (isSlideTransitionLocked) {
+              return;
+            }
+
+            const nextIndex = currentIndex + Math.sign(requestedIndex - currentIndex);
+            scrollToSlide(nextIndex, false);
+            lockSlideTransition();
+            scrollToSlidePosition(trigger, nextIndex);
           },
         });
 
@@ -391,8 +424,39 @@ export default function CenturySection() {
       setupDesktopSlider();
       desktopMediaQuery.addEventListener("change", setupDesktopSlider);
 
+      const handleWheel = (event: WheelEvent) => {
+        if (!sliderTrigger || Math.abs(event.deltaY) < 1) return;
+
+        const isInsideSliderRange =
+          window.scrollY >= sliderTrigger.start - SECTION_ALIGN_TOLERANCE_PX &&
+          window.scrollY <= sliderTrigger.end + SECTION_ALIGN_TOLERANCE_PX;
+
+        if (!isInsideSliderRange) return;
+
+        const direction = event.deltaY > 0 ? 1 : -1;
+        const currentIndex = activeIndexRef.current;
+        const nextIndex = currentIndex + direction;
+        const canMoveInsideSlider = nextIndex >= 0 && nextIndex <= lastSlideIndex;
+
+        if (isSlideTransitionLocked) {
+          event.preventDefault();
+          return;
+        }
+
+        if (!canMoveInsideSlider) return;
+
+        event.preventDefault();
+        scrollToSlide(nextIndex, false);
+        lockSlideTransition();
+        scrollToSlidePosition(sliderTrigger, nextIndex);
+      };
+
+      window.addEventListener("wheel", handleWheel, { passive: false });
+
       cleanupDesktopSlider = () => {
         desktopMediaQuery.removeEventListener("change", setupDesktopSlider);
+        window.removeEventListener("wheel", handleWheel);
+        clearSlideTransitionLock();
         sliderTrigger?.kill();
         sliderTriggerRef.current = null;
       };
@@ -428,13 +492,13 @@ export default function CenturySection() {
             <div
               className="flex h-full transform-gpu will-change-transform transition-transform"
               style={{
-                transform: `translateX(-${displayedIndex * 100}%)`,
+                transform: `translateX(-${activeIndex * 100}%)`,
                 transitionDuration: `${SLIDE_TRANSITION_MS}ms`,
                 transitionTimingFunction: SLIDE_TRANSITION_EASE,
               }}
             >
               {centurySlides.map((slide, index) => {
-                const isActive = index === displayedIndex;
+                const isActive = index === activeIndex;
 
                 return (
                   <article
