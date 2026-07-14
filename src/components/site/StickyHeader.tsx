@@ -98,8 +98,9 @@ export default function StickyHeader() {
       }
 
       const current = window.scrollY;
+      const hero = document.getElementById("hero");
 
-      if (document.getElementById("hero")?.getBoundingClientRect().bottom > 0) {
+      if (hero && hero.getBoundingClientRect().bottom > 0) {
         downScrollAccum.current = 0;
         setHidden(false);
         lastScrollY.current = current;
