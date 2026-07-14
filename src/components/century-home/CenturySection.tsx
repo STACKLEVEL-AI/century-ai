@@ -178,7 +178,7 @@ function MediaFrame({
     <div className="ml-auto h-full min-h-0 max-h-[554px] w-full lg:pr-25">
       <div
         key={currentStep}
-        className="media-fade-in relative h-full overflow-hidden rounded-[18px] border border-black bg-white shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
+        className="media-fade-in relative h-full overflow-hidden rounded-[10px] border border-black bg-white shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
       >
         <div className="relative h-full min-h-[240px] w-full bg-[#F7F7F7] sm:min-h-[320px] lg:min-h-[420px] xl:min-h-[480px]">
           <video
@@ -503,7 +503,7 @@ export default function CenturySection() {
                 return (
                   <article
                     key={slide.step}
-                    className={`grid h-full min-h-0 w-full shrink-0 gap-8 will-change-opacity transition-opacity lg:min-h-[600px] lg:grid-cols-[480px_minmax(0,1fr)] lg:items-start lg:gap-14 xl:grid-cols-[520px_minmax(0,1fr)] xl:gap-20 ${
+                    className={`grid h-full min-h-0 w-full shrink-0 gap-8 will-change-opacity transition-opacity lg:min-h-[600px] lg:grid-cols-[480px_minmax(0,1fr)] lg:items-start lg:gap-14 xl:grid-cols-[520px_minmax(0,1fr)] xl:gap-[26px] ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                     style={{
