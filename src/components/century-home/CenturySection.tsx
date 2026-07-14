@@ -206,11 +206,31 @@ export default function CenturySection() {
   const sliderTriggerRef = useRef<SliderScrollTrigger | null>(null);
   const activeIndexRef = useRef(0);
   const swipeStartRef = useRef<{ pointerId: number; x: number; y: number } | null>(null);
+  const bypassAnchorNavigationRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
+
+  useEffect(() => {
+    const handleAnchorNavigationStart = (event: Event) => {
+      const targetId = (event as CustomEvent<{ targetId?: string }>).detail?.targetId;
+      bypassAnchorNavigationRef.current = targetId !== "cases";
+    };
+
+    window.addEventListener(
+      "century:anchor-navigation-start",
+      handleAnchorNavigationStart as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "century:anchor-navigation-start",
+        handleAnchorNavigationStart as EventListener,
+      );
+    };
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -402,6 +422,22 @@ export default function CenturySection() {
           onUpdate: (trigger) => {
             const requestedIndex = Math.round(trigger.progress * lastSlideIndex);
             const currentIndex = activeIndexRef.current;
+            const isInsideSliderRange =
+              window.scrollY >= trigger.start - SECTION_ALIGN_TOLERANCE_PX &&
+              window.scrollY <= trigger.end + SECTION_ALIGN_TOLERANCE_PX;
+
+            if (bypassAnchorNavigationRef.current) {
+              if (requestedIndex !== currentIndex) {
+                activeIndexRef.current = requestedIndex;
+                setActiveIndex(requestedIndex);
+              }
+
+              if (!isInsideSliderRange) {
+                bypassAnchorNavigationRef.current = false;
+              }
+
+              return;
+            }
 
             if (requestedIndex === currentIndex) return;
 
@@ -426,6 +462,7 @@ export default function CenturySection() {
 
       const handleWheel = (event: WheelEvent) => {
         if (!sliderTrigger || Math.abs(event.deltaY) < 1) return;
+        if (bypassAnchorNavigationRef.current) return;
 
         const isInsideSliderRange =
           window.scrollY >= sliderTrigger.start - SECTION_ALIGN_TOLERANCE_PX &&
