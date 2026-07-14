@@ -366,7 +366,7 @@ a {
     0 10px 28px rgba(17, 25, 40, 0.08),
     0 2px 8px rgba(17, 25, 40, 0.04);
   transition:
-    transform var(--duration-base) var(--ease-standard),
+    transform 334ms var(--ease-standard),
     background var(--duration-base) var(--ease-standard),
     backdrop-filter var(--duration-base) var(--ease-standard),
     box-shadow var(--duration-base) var(--ease-standard),
