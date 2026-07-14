@@ -74,7 +74,11 @@ export default function StickyHeader() {
       event.preventDefault();
       setHidden(false);
       setActiveSection(targetId);
-      window.dispatchEvent(new CustomEvent("century:anchor-navigation-start"));
+      window.dispatchEvent(
+        new CustomEvent("century:anchor-navigation-start", {
+          detail: { targetId },
+        }),
+      );
 
       const nextUrl = `${window.location.pathname}#${targetId}`;
 
@@ -187,6 +191,12 @@ export default function StickyHeader() {
       if (!target) {
         return;
       }
+
+      window.dispatchEvent(
+        new CustomEvent("century:anchor-navigation-start", {
+          detail: { targetId: hash },
+        }),
+      );
 
       window.requestAnimationFrame(() => {
         window.requestAnimationFrame(() => {
