@@ -14,7 +14,6 @@ export default function StickyHeader() {
   const [hidden, setHidden] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const lastScrollY = useRef(0);
-  const upScrollAccum = useRef(0);
   const downScrollAccum = useRef(0);
 
   useEffect(() => {
@@ -99,10 +98,17 @@ export default function StickyHeader() {
       }
 
       const current = window.scrollY;
+
+      if (document.getElementById("hero")?.getBoundingClientRect().bottom > 0) {
+        downScrollAccum.current = 0;
+        setHidden(false);
+        lastScrollY.current = current;
+        return;
+      }
+
       const delta = current - lastScrollY.current;
 
       if (delta > 0) {
-        upScrollAccum.current = 0;
         downScrollAccum.current += delta;
 
         if (downScrollAccum.current >= 40 && current > 80) {
@@ -110,11 +116,6 @@ export default function StickyHeader() {
         }
       } else {
         downScrollAccum.current = 0;
-        upScrollAccum.current += Math.abs(delta);
-
-        if (upScrollAccum.current >= 40) {
-          setHidden(false);
-        }
       }
 
       lastScrollY.current = current;
