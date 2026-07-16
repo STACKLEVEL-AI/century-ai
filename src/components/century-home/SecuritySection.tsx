@@ -118,14 +118,31 @@ export default function SecuritySection() {
                       aria-label={`${copy.showLayer} ${step}: ${layer.title}`}
                       aria-pressed={index === activeIndex}
                       tabIndex={index === activeIndex ? 0 : -1}
-                      className={`platform-layer-card${index === activeIndex ? " is-active" : ""}`}
-                      style={{ "--layer-index": index } as CSSProperties}
+                      className={`platform-layer-card${index === activeIndex ? " is-current-slot" : ""}`}
+                      style={
+                        {
+                          "--layer-index": index,
+                        } as CSSProperties
+                      }
                       onClick={() => selectLayer(index)}
                     >
                       <PlatformLayerArtwork index={index} locale={locale} />
                     </button>
                   );
                 })}
+
+                <div
+                  key={activeIndex}
+                  className="platform-layer-card platform-layer-card--active"
+                  style={
+                    {
+                      "--active-index": activeIndex,
+                    } as CSSProperties
+                  }
+                  aria-hidden="true"
+                >
+                  <PlatformLayerArtwork index={activeIndex} locale={locale} />
+                </div>
               </div>
 
               <div className="platform-architecture__counter" aria-hidden="true">
