@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/home-i18n";
 type LayerVisualProps = {
   index: number;
   locale: Locale;
+  variant?: "slot" | "active";
 };
 
 export function PlatformLayerIcon({ index }: { index: number }) {
@@ -218,15 +219,58 @@ function LayerFive({ locale }: { locale: Locale }) {
   );
 }
 
-export function PlatformLayerArtwork({ index, locale }: LayerVisualProps) {
+export function PlatformLayerArtwork({ index, locale, variant = "slot" }: LayerVisualProps) {
+  if (index === 0 && locale === "ru") {
+    return (
+      <svg
+        className="platform-layer-artwork"
+        viewBox="0 0 739 486"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <image
+          href={
+            variant === "active"
+              ? "/figma-platform/layer-glass@2x.png"
+              : "/figma-platform/layer-01-vector.svg"
+          }
+          width="739"
+          height="486"
+          preserveAspectRatio="xMidYMid meet"
+        />
+      </svg>
+    );
+  }
+
   return (
     <svg
       className="platform-layer-artwork"
-      viewBox="0 0 400 400"
+      viewBox="0 0 739 486"
       aria-hidden="true"
       focusable="false"
     >
-      <g className="platform-layer-artwork__surface">
+      <rect
+        width="402.194"
+        height="402.194"
+        rx="22"
+        transform="matrix(0.847732 -0.530425 0.847732 0.530425 28.1226 224)"
+        fill="white"
+        fillOpacity="0.1"
+      />
+      <rect
+        x="0.847732"
+        width="401.194"
+        height="401.194"
+        rx="21.5"
+        transform="matrix(0.847732 -0.530425 0.847732 0.530425 28.2517 224.45)"
+        fill="none"
+        stroke="#240cff"
+        strokeOpacity="0.35"
+      />
+      <g
+        className="platform-layer-artwork__surface"
+        transform="matrix(0.849064 -0.52829 0.849064 0.52829 37.4094 222.664)"
+      >
         {index === 0 ? <LayerOne locale={locale} /> : null}
         {index === 1 ? <LayerTwo locale={locale} /> : null}
         {index === 2 ? <LayerThree locale={locale} /> : null}

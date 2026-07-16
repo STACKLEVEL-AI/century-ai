@@ -81,6 +81,7 @@ export default function SecuritySection() {
                     id={`platform-layer-tab-${step}`}
                     type="button"
                     role="tab"
+                    aria-label={`${copy.layerLabel} ${step}: ${layer.title}`}
                     aria-selected={isActive}
                     aria-controls="platform-layer-panel"
                     tabIndex={isActive ? 0 : -1}
@@ -149,7 +150,10 @@ export default function SecuritySection() {
                   }
                   aria-hidden="true"
                 >
-                  <PlatformLayerArtwork index={activeIndex} locale={locale} />
+                  {activeIndex !== 0 || locale !== "ru" ? (
+                    <span className="platform-layer-glass" />
+                  ) : null}
+                  <PlatformLayerArtwork index={activeIndex} locale={locale} variant="active" />
                 </div>
               </div>
 
