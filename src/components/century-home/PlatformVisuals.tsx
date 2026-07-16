@@ -73,7 +73,7 @@ function Tag({ x, y, width, children }: { x: number; y: number; width: number; c
 }
 
 function CardFrame({ fill = "#fff", stroke = "#240cff" }: { fill?: string; stroke?: string }) {
-  return <rect x="3" y="3" width="394" height="394" rx="24" fill={fill} stroke={stroke} strokeWidth="2" />;
+  return <rect x="5" y="5" width="390" height="390" rx="22" fill={fill} stroke={stroke} strokeWidth="0.5" />;
 }
 
 function LayerOne({ locale }: { locale: Locale }) {

@@ -7,6 +7,13 @@ import { useScrollDrivenSteps } from "@/hooks/useScrollDrivenSteps";
 import { homeCopy } from "@/lib/home-i18n";
 
 const layerSteps = ["01", "02", "03", "04", "05"] as const;
+const layerOffsets = [
+  "0px",
+  "clamp(34px, 5.44vw, 68px)",
+  "clamp(68px, 10.88vw, 136px)",
+  "clamp(102px, 17.76vw, 222px)",
+  "clamp(136px, 23.52vw, 294px)",
+] as const;
 
 export default function SecuritySection() {
   const { locale } = useLanguage();
@@ -122,6 +129,7 @@ export default function SecuritySection() {
                       style={
                         {
                           "--layer-index": index,
+                          "--layer-offset": layerOffsets[index],
                         } as CSSProperties
                       }
                       onClick={() => selectLayer(index)}
@@ -136,7 +144,7 @@ export default function SecuritySection() {
                   className="platform-layer-card platform-layer-card--active"
                   style={
                     {
-                      "--active-index": activeIndex,
+                      "--active-slot-offset": layerOffsets[activeIndex],
                     } as CSSProperties
                   }
                   aria-hidden="true"
