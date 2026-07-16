@@ -7491,7 +7491,7 @@ html:has(.century-home-page) .century-home-hero {
   overflow: visible;
   font-family: var(--font-lato), sans-serif;
   shape-rendering: geometricPrecision;
-  text-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
   pointer-events: none;
 }
 

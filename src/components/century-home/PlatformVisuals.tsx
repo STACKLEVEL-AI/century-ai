@@ -66,7 +66,7 @@ function Tag({ x, y, width, children }: { x: number; y: number; width: number; c
   return (
     <g>
       <rect x={x} y={y} width={width} height="18" rx="4" fill="#f7f7f8" stroke="#dedee5" />
-      <text x={x + 8} y={y + 12.2} fill="#2d2d35" fontSize="8.5">
+      <text x={x + 8} y={y + 12.4} fill="#25252d" fontSize="9" fontWeight="600">
         {children}
       </text>
     </g>
@@ -121,29 +121,44 @@ function LayerOne({ locale }: { locale: Locale }) {
 
 function LayerTwo({ locale }: { locale: Locale }) {
   const isEn = locale === "en";
+  const cards = isEn
+    ? [
+        { x: 32, width: 96, title: "Chat", lines: ["Employees", "work with AI"] },
+        { x: 140, width: 120, title: "Builder", lines: ["Build", "automations"] },
+        { x: 272, width: 96, title: "API", lines: ["Connect to", "any system"] },
+      ]
+    : [
+        { x: 32, width: 96, title: "Чат", lines: ["Сотрудники", "общаются с ИИ"] },
+        { x: 140, width: 120, title: "Конструктор", lines: ["Автоматизации", "создаёте сами"] },
+        { x: 272, width: 96, title: "API", lines: ["Интеграция", "со всем"] },
+      ];
 
   return (
     <>
       <CardFrame fill="#240cff" stroke="#fff" />
       <rect x="31" y="20" width="81" height="17" rx="3" fill="none" stroke="#fff" />
-      <text x="39" y="32" fill="#fff" fontSize="9">02 CENTURY</text>
+      <text x="39" y="32" fill="#fff" fontSize="9.5" fontWeight="600">02 CENTURY</text>
       <text x="31" y="72" fill="#fff" fontSize="27" fontWeight="800">CENTURY</text>
-      <text x="31" y="95" fill="#fff" fontSize="14" fontWeight="700">
+      <text x="31" y="95" fill="#fff" fontSize="14.5" fontWeight="700">
         {isEn ? "One entry point for AI" : "Единая точка входа для ИИ"}
       </text>
       <rect x="31" y="111" width={isEn ? 145 : 175} height="19" rx="3" fill="none" stroke="#fff" />
-      <text x="40" y="124" fill="#fff" fontSize="8.5">
+      <text x="40" y="124" fill="#fff" fontSize="9" fontWeight="500">
         {isEn ? "> ask AI anything" : "> спросите ИИ о чём угодно"}
       </text>
-      {[
-        { x: 32, title: isEn ? "Chat" : "Чат", text: isEn ? "Employees work with AI" : "Сотрудники общаются с ИИ" },
-        { x: 140, title: isEn ? "Builder" : "Конструктор", text: isEn ? "Build automations" : "Автоматизации создаёте сами" },
-        { x: 272, title: "API", text: isEn ? "Integration with everything" : "Интеграция со всем" },
-      ].map((card) => (
+      {cards.map((card) => (
         <g key={card.x}>
-          <rect x={card.x} y="158" width={card.x === 140 ? 120 : 96} height="84" rx="10" fill="#fff" />
-          <text x={card.x + 12} y="199" fill="#240cff" fontSize="14" fontWeight="700">{card.title}</text>
-          <text x={card.x + 12} y="216" fill="#30303a" fontSize="8">{card.text}</text>
+          <rect x={card.x} y="158" width={card.width} height="84" rx="10" fill="#fff" />
+          <text x={card.x + 12} y="194" fill="#240cff" fontSize="14.5" fontWeight="700">
+            {card.title}
+          </text>
+          <text x={card.x + 12} y="212.5" fill="#25252d" fontSize="10.5" fontWeight="500">
+            {card.lines.map((line, index) => (
+              <tspan key={line} x={card.x + 12} dy={index === 0 ? 0 : 13}>
+                {line}
+              </tspan>
+            ))}
+          </text>
         </g>
       ))}
     </>
@@ -167,7 +182,7 @@ function LayerThree({ locale }: { locale: Locale }) {
           <g key={title}>
             <rect x={x} y={y} width="165" height="52" rx="9" fill="#fff" stroke="#e2e2e8" />
             <text x={x + 12} y={y + 21} fill="#240cff" fontSize="13" fontWeight="700">{title}</text>
-            <text x={x + 12} y={y + 38} fill="#30303a" fontSize="8.5">{text}</text>
+            <text x={x + 12} y={y + 38} fill="#25252d" fontSize="10.5" fontWeight="500">{text}</text>
           </g>
         );
       })}
@@ -192,7 +207,7 @@ function LayerFour({ locale }: { locale: Locale }) {
             <rect x="32" y={y} width="336" height="40" rx="9" fill="#fff" stroke="#e2e2e8" />
             <circle cx="51" cy={y + 20} r="10" fill="#fafaff" />
             <text x="69" y={y + 24} fill="#240cff" fontSize="14" fontWeight="700">{title}</text>
-            <text x="356" y={y + 24} fill="#30303a" fontSize="8" textAnchor="end">{text}</text>
+            <text x="356" y={y + 24} fill="#25252d" fontSize="10.5" fontWeight="500" textAnchor="end">{text}</text>
           </g>
         );
       })}
@@ -209,7 +224,7 @@ function LayerFive({ locale }: { locale: Locale }) {
       <path d="M20 40V20h20M360 20h20v20M380 360v20h-20M40 380H20v-20" fill="none" stroke="#240cff" />
       <rect x="32" y="32" width="336" height="336" rx="18" fill="none" stroke="#240cff" />
       <rect x="72" y="187" width="256" height="26" rx="13" fill="#fff" stroke="#e2e2e8" />
-      <text x="200" y="204" fill="#240cff" fontSize="10" fontWeight="700" textAnchor="middle">
+      <text x="200" y="204" fill="#240cff" fontSize="12.5" fontWeight="700" textAnchor="middle">
         {isEn ? "PROTECTED COMPANY ENVIRONMENT" : "ЗАЩИЩЁННЫЙ КОНТУР КОМПАНИИ"}
       </text>
       <Tag x={106} y={329} width={52}>ON-PREM</Tag>
