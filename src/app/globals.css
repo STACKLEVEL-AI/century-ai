@@ -7833,8 +7833,8 @@ html:has(.century-home-page) .century-home-hero {
   pointer-events: none;
   transform: translateY(22px) scale(0.988);
   transition:
-    opacity 820ms ease,
-    transform 1050ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 1150ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .century-cases__slide.is-active {
@@ -7842,7 +7842,7 @@ html:has(.century-home-page) .century-home-hero {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
-  animation: century-case-slide-forward 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: century-case-slide-forward 1200ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .century-cases.is-moving-backward .century-cases__slide.is-active {
@@ -7853,7 +7853,7 @@ html:has(.century-home-page) .century-home-hero {
 .century-cases__slide.is-active .century-cases__lead,
 .century-cases__slide.is-active .century-cases__body,
 .century-cases__slide.is-active .century-cases__tags {
-  animation: century-case-copy-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: century-case-copy-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .century-cases__slide.is-active .century-cases__lead {
@@ -7869,7 +7869,7 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .century-cases__slide.is-active .century-cases__media {
-  animation: century-case-media-enter 980ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: century-case-media-enter 1350ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .century-cases.is-moving-backward .century-cases__slide.is-active .century-cases__media {
@@ -7966,7 +7966,7 @@ html:has(.century-home-page) .century-home-hero {
 @keyframes century-case-slide-forward {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.975);
+    transform: translateY(16px) scale(0.99);
   }
 
   to {
@@ -7978,7 +7978,7 @@ html:has(.century-home-page) .century-home-hero {
 @keyframes century-case-slide-backward {
   from {
     opacity: 0;
-    transform: translateY(-30px) scale(0.975);
+    transform: translateY(-16px) scale(0.99);
   }
 
   to {
@@ -8001,29 +8001,29 @@ html:has(.century-home-page) .century-home-hero {
 
 @keyframes century-case-media-enter {
   from {
-    clip-path: inset(0 0 0 100% round 12px);
+    filter: blur(7px);
     opacity: 0;
-    transform: scale(1.035);
+    transform: translateX(28px) scale(1.015);
   }
 
   to {
-    clip-path: inset(0 0 0 0 round 12px);
+    filter: blur(0);
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0) scale(1);
   }
 }
 
 @keyframes century-case-media-enter-backward {
   from {
-    clip-path: inset(0 100% 0 0 round 12px);
+    filter: blur(7px);
     opacity: 0;
-    transform: scale(1.035);
+    transform: translateX(-28px) scale(1.015);
   }
 
   to {
-    clip-path: inset(0 0 0 0 round 12px);
+    filter: blur(0);
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0) scale(1);
   }
 }
 
