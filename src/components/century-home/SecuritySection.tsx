@@ -18,7 +18,7 @@ const layerOffsets = [
 export default function SecuritySection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].platform;
-  const { activeIndex, scrollToStep, sectionRef } = useScrollDrivenSteps(layerSteps.length);
+  const { activeIndex, direction, scrollToStep, sectionRef } = useScrollDrivenSteps(layerSteps.length);
   const activeLayer = copy.layers[activeIndex];
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const isPreviewing = hoveredIndex !== null && hoveredIndex !== activeIndex;
@@ -52,7 +52,7 @@ export default function SecuritySection() {
       ref={sectionRef}
       data-landing-section
       data-slide-scroll-section
-      className={`platform-architecture hero-grid${isPreviewing ? " is-previewing" : ""}`}
+      className={`platform-architecture hero-grid is-moving-${direction}${isPreviewing ? " is-previewing" : ""}`}
       aria-labelledby="platform-architecture-title"
     >
       <div className="platform-architecture__sticky">

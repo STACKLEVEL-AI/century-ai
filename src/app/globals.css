@@ -7409,15 +7409,15 @@ html:has(.century-home-page) .century-home-hero {
   z-index: 4;
   display: grid;
   align-self: start;
-  gap: clamp(14px, 4.4vh, 37px);
+  gap: clamp(14px, 3.2vh, 30px);
 }
 
 .platform-layer-tab {
   position: relative;
   display: grid;
   width: 100%;
-  min-height: clamp(62px, 9.6vh, 82px);
-  padding: 8px 14px;
+  min-height: clamp(72px, 10.5vh, 86px);
+  padding: 10px 14px;
   border: 1px solid transparent;
   border-radius: 8px;
   grid-template-columns: 44px minmax(0, 1fr);
@@ -7511,7 +7511,7 @@ html:has(.century-home-page) .century-home-hero {
 .platform-layer-tab__copy {
   display: grid;
   min-width: 0;
-  gap: 2px;
+  gap: 6px;
 }
 
 .platform-layer-tab__step {
@@ -7639,6 +7639,24 @@ html:has(.century-home-page) .century-home-hero {
   pointer-events: none;
 }
 
+.platform-layer-card--active .platform-layer-artwork {
+  animation: platform-layer-artwork-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.platform-layer-card--active .platform-layer-detail {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: platform-layer-detail-in 680ms cubic-bezier(0.22, 1, 0.36, 1) 130ms both;
+}
+
+.platform-layer-card--active .platform-layer-detail:nth-of-type(2n) {
+  animation-delay: 210ms;
+}
+
+.platform-layer-card--active .platform-layer-detail:nth-of-type(3n) {
+  animation-delay: 290ms;
+}
+
 .platform-layer-glass {
   position: absolute;
   inset: 0;
@@ -7668,6 +7686,10 @@ html:has(.century-home-page) .century-home-hero {
   animation: platform-layer-extract 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.platform-architecture.is-moving-backward .platform-layer-card--active {
+  animation-name: platform-layer-extract-backward;
+}
+
 @keyframes platform-layer-extract {
   from {
     top: calc(var(--layer-stack-top) + var(--active-slot-offset));
@@ -7682,6 +7704,47 @@ html:has(.century-home-page) .century-home-hero {
     opacity: 1;
     transform: translate(-50%, -50%) translate(var(--layer-lift-x), var(--layer-lift-y))
       scale(var(--layer-active-scale));
+  }
+}
+
+@keyframes platform-layer-extract-backward {
+  from {
+    top: calc(var(--layer-stack-top) + var(--active-slot-offset));
+    left: var(--layer-stack-left);
+    opacity: 0.13;
+    transform: translate(-50%, -50%) translate(0, 26px) scale(var(--layer-rest-scale));
+  }
+
+  to {
+    top: calc(var(--layer-stack-top) + var(--active-slot-offset));
+    left: var(--layer-stack-left);
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(var(--layer-lift-x), var(--layer-lift-y))
+      scale(var(--layer-active-scale));
+  }
+}
+
+@keyframes platform-layer-artwork-arrive {
+  from {
+    filter: blur(5px) saturate(0.86);
+    opacity: 0.2;
+  }
+
+  to {
+    filter: blur(0) saturate(1);
+    opacity: 1;
+  }
+}
+
+@keyframes platform-layer-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -8896,6 +8959,8 @@ html:has(.century-home-page) .century-home-hero {
   .platform-layer-card,
   .platform-layer-card::before,
   .platform-layer-card::after,
+  .platform-layer-card--active .platform-layer-artwork,
+  .platform-layer-card--active .platform-layer-detail,
   .century-cases__step,
   .century-cases__stepper-progress,
   .century-cases__slide,
