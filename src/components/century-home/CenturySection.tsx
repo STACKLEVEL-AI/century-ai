@@ -60,7 +60,7 @@ function Stepper({
 export default function CenturySection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].cases;
-  const { activeIndex, scrollToStep, sectionRef } = useScrollDrivenSteps(slideMedia.length);
+  const { activeIndex, direction, scrollToStep, sectionRef } = useScrollDrivenSteps(slideMedia.length);
 
   return (
     <section
@@ -69,7 +69,7 @@ export default function CenturySection() {
       data-landing-section
       data-nav-section="cases"
       data-slide-scroll-section
-      className="century-cases hero-grid"
+      className={`century-cases hero-grid is-moving-${direction}`}
       aria-labelledby={`case-slide-title-${activeIndex + 1}`}
     >
       <div className="century-cases__sticky">
