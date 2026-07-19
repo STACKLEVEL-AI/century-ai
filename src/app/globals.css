@@ -8116,6 +8116,7 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .ai-modes-slide__tabs button {
+  position: relative;
   display: grid;
   min-height: 0;
   padding: 8px 0;
@@ -8129,7 +8130,31 @@ html:has(.century-home-page) .century-home-hero {
   cursor: pointer;
   transition:
     color 220ms ease,
-    padding-left 220ms ease;
+    padding-left 220ms ease,
+    opacity 280ms ease,
+    filter 280ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ai-modes-slide__tabs button::after {
+  content: "";
+  position: absolute;
+  top: 18%;
+  bottom: 18%;
+  left: -1px;
+  width: 3px;
+  border-radius: 999px;
+  background: #240cff;
+  opacity: 0;
+  transform: scaleY(0.3);
+  transition:
+    opacity 220ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ai-modes-slide__tabs button:not(.is-active) {
+  opacity: 0.42;
+  filter: blur(0.55px);
 }
 
 .ai-modes-slide__tabs button:hover,
@@ -8138,7 +8163,27 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .ai-modes-slide__tabs button.is-active {
-  padding-left: 4px;
+  padding-left: 12px;
+  opacity: 1;
+  filter: none;
+  transform: translateX(4px);
+}
+
+.ai-modes-slide__tabs button.is-active::after {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.ai-modes-slide__tabs button:hover,
+.ai-modes-slide__tabs button:focus-visible {
+  opacity: 1;
+  filter: none;
+  transform: translateX(4px);
+}
+
+.ai-modes-slide__tabs:has(button:hover) button:not(:hover) {
+  opacity: 0.24;
+  filter: blur(1px);
 }
 
 .ai-modes-slide__tabs button span {
@@ -8163,14 +8208,20 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .ai-modes-slide__card {
+  position: relative;
   display: grid;
   min-height: 0;
   overflow: hidden;
-  border: 1px solid #a7a7a7;
+  border: 1px solid rgba(36, 12, 255, 0.42);
   border-radius: 12px;
-  background: #fff;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(36, 12, 255, 0.11), transparent 30%),
+    #fff;
   grid-template-rows: minmax(180px, 1.08fr) minmax(210px, 0.92fr);
-  animation: century-case-enter 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow:
+    0 22px 46px rgba(36, 12, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  animation: ai-mode-card-enter 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .ai-modes-slide__visual {
@@ -8179,6 +8230,7 @@ html:has(.century-home-page) .century-home-hero {
   place-items: center;
   border-bottom: 1px solid #a7a7a7;
   padding: 24px;
+  background: radial-gradient(circle at 50% 55%, rgba(36, 12, 255, 0.08), transparent 58%);
 }
 
 .ai-modes-slide__visual img {
@@ -8186,6 +8238,7 @@ html:has(.century-home-page) .century-home-hero {
   height: 100%;
   max-height: 240px;
   object-fit: contain;
+  animation: ai-mode-visual-enter 760ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
 }
 
 .ai-modes-slide__card-copy {
@@ -8240,6 +8293,51 @@ html:has(.century-home-page) .century-home-hero {
   color: #111;
   font-size: clamp(13px, 1.1vw, 16px);
   line-height: 1.38;
+  animation: ai-mode-copy-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) 260ms both;
+}
+
+.ai-modes-slide__card-title {
+  animation: ai-mode-copy-enter 580ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+}
+
+.ai-modes-slide__badge {
+  animation: ai-mode-copy-enter 600ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+
+@keyframes ai-mode-card-enter {
+  from {
+    opacity: 0;
+    transform: translateX(38px) scale(0.975);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes ai-mode-visual-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.92) rotate(-2deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes ai-mode-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .security-slide {
@@ -8343,8 +8441,10 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .security-slide__partner {
+  position: relative;
   display: grid;
   min-height: clamp(112px, 15vh, 156px);
+  overflow: hidden;
   padding: clamp(18px, 2.8vh, 30px) 24px;
   border: 1px solid rgba(172, 172, 172, 0.3);
   border-radius: 6px;
@@ -8353,6 +8453,40 @@ html:has(.century-home-page) .century-home-hero {
   align-items: center;
   background: linear-gradient(to top right, #080a19 0%, #0b0f28 100%);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.security-slide__partner::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 48deg,
+    rgba(144, 135, 255, 0.26) 82deg,
+    rgba(255, 255, 255, 0.9) 108deg,
+    rgba(36, 12, 255, 0.8) 132deg,
+    transparent 165deg 360deg
+  );
+  animation: hoster-border-trace 4.6s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.security-slide__partner > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes hoster-border-trace {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 .security-slide__partner img {
@@ -8968,6 +9102,11 @@ html:has(.century-home-page) .century-home-hero {
   .century-cases__stepper-progress,
   .century-cases__slide,
   .ai-modes-slide__card,
+  .ai-modes-slide__visual img,
+  .ai-modes-slide__card-title,
+  .ai-modes-slide__badge,
+  .ai-modes-slide__card-copy > p,
+  .security-slide__partner::before,
   .cases-intro-slide__eyebrow,
   .cases-intro-slide__description,
   .cases-intro-slide__title > span,
@@ -8986,6 +9125,11 @@ html:has(.century-home-page) .century-home-hero {
 
   .cases-intro-slide__pulse {
     display: none;
+  }
+
+  .ai-modes-slide__tabs button {
+    filter: none;
+    opacity: 1;
   }
 }
 
@@ -9010,6 +9154,10 @@ html:has(.century-home-page) .century-home-hero {
 
 .footer-team-photo-frame {
   isolation: isolate;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(229, 232, 255, 0.44)),
+    #d8d8dc;
+  backdrop-filter: blur(10px);
 }
 
 .footer-team-photo {
@@ -9028,15 +9176,15 @@ html:has(.century-home-page) .century-home-hero {
 .footer-team-photo-mask {
   z-index: 1;
   background:
-    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.34), transparent 40%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(10, 10, 12, 0.28));
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2), transparent 44%),
+    linear-gradient(160deg, transparent 45%, rgba(23, 21, 51, 0.2));
 }
 
 .footer-team-photo-ring {
   z-index: 2;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.24),
-    inset 0 -12px 20px rgba(10, 10, 12, 0.14);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.64),
+    inset 0 -10px 18px rgba(36, 12, 255, 0.08);
 }
 
 .footer-refresh {
