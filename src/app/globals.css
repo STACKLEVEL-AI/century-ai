@@ -7937,10 +7937,10 @@ html:has(.century-home-page) .century-home-hero {
 
 .century-cases__lead {
   margin: clamp(20px, 3.5vh, 40px) 0 0;
-  max-width: 18ch;
+  max-width: 24ch;
   color: #111;
-  font-size: clamp(20px, 1.95vw, 28px);
-  font-weight: 400;
+  font-size: clamp(16px, 1.32vw, 19px);
+  font-weight: 500;
   letter-spacing: 0;
   line-height: 1.18;
 }
@@ -7955,9 +7955,11 @@ html:has(.century-home-page) .century-home-hero {
 
 .century-cases__tags {
   display: flex;
+  min-height: 76px;
   margin-top: auto;
   flex-wrap: wrap;
   gap: 8px;
+  align-content: flex-end;
 }
 
 .century-cases__tags span {
@@ -7966,7 +7968,7 @@ html:has(.century-home-page) .century-home-hero {
   padding: 6px 12px;
   align-items: center;
   border: 1px solid #3028ff;
-  border-radius: 999px;
+  border-radius: 12px;
   color: #240cff;
   font-size: 12px;
   font-weight: 700;
@@ -8691,7 +8693,7 @@ html:has(.century-home-page) .century-home-hero {
 
   .century-cases__lead {
     margin-top: 10px;
-    font-size: clamp(16px, 4.8vw, 20px);
+    font-size: clamp(14px, 4.2vw, 17px);
     line-height: 1.15;
   }
 
@@ -8706,6 +8708,7 @@ html:has(.century-home-page) .century-home-hero {
   }
 
   .century-cases__tags {
+    min-height: 0;
     margin-top: 10px;
     gap: 5px;
   }
