@@ -64,11 +64,46 @@ export function PlatformLayerIcon({ index }: { index: number }) {
 
 function Tag({ x, y, width, children }: { x: number; y: number; width: number; children: string }) {
   return (
-    <g>
+    <g className="platform-layer-detail">
       <rect x={x} y={y} width={width} height="18" rx="4" fill="#f7f7f8" stroke="#dedee5" />
       <text x={x + 8} y={y + 12.4} fill="#25252d" fontSize="9" fontWeight="600">
         {children}
       </text>
+    </g>
+  );
+}
+
+function FoundationRowIcon({ index, y }: { index: number; y: number }) {
+  const common = {
+    fill: "none",
+    stroke: "#240cff",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    strokeWidth: 1.5,
+  };
+
+  if (index === 0) {
+    return (
+      <g transform={`translate(0 ${y - 120})`}>
+        <path {...common} d="M51 133v14M44 140h14M46.3 135.3l9.4 9.4M55.7 135.3l-9.4 9.4" />
+        <circle cx="51" cy="140" r="2.2" fill="#240cff" />
+      </g>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <g transform={`translate(0 ${y - 120})`}>
+        <ellipse {...common} cx="51" cy="136" rx="5.8" ry="2.5" />
+        <path {...common} d="M45.2 136v7.7c0 1.4 2.6 2.5 5.8 2.5s5.8-1.1 5.8-2.5V136M45.2 140c0 1.4 2.6 2.5 5.8 2.5s5.8-1.1 5.8-2.5" />
+      </g>
+    );
+  }
+
+  return (
+    <g transform={`translate(0 ${y - 120})`}>
+      <rect {...common} x="44.5" y="134" width="13" height="10.5" rx="2" />
+      <path {...common} d="M48 139.2h.1M51 139.2h.1M54 139.2h.1M48 142h.1M51 142h.1M54 142h.1" />
     </g>
   );
 }
@@ -85,36 +120,42 @@ function LayerOne({ locale }: { locale: Locale }) {
       <CardFrame />
       <Tag x={31} y={20} width={isEn ? 94 : 113}>{isEn ? "01 AI CONSUMERS" : "01 ПОТРЕБИТЕЛИ ИИ"}</Tag>
 
-      <rect x="32" y="76" width="336" height="82" rx="10" fill="#fff" stroke="#e2e2e8" />
-      <circle cx="52" cy="96" r="12" fill="#fafaff" stroke="#ededff" />
-      <circle cx="50" cy="92" r="4" fill="none" stroke="#240cff" />
-      <path d="M43 106c.4-5 2.8-7.5 7-7.5s6.6 2.5 7 7.5M56 89.5c3 .8 4.5 3 4.8 6.5" fill="none" stroke="#240cff" strokeWidth="1.4" strokeLinecap="round" />
-      <text x="72" y="100" fill="#240cff" fontSize="16" fontWeight="700">
-        {isEn ? "Teams and functions" : "Отделы и процессы"}
-      </text>
-      <Tag x={72} y={112} width={57}>{isEn ? "Sales" : "Продажи"}</Tag>
-      <Tag x={134} y={112} width={68}>{isEn ? "Marketing" : "Маркетинг"}</Tag>
-      <Tag x={207} y={112} width={75}>{isEn ? "Support" : "Поддержка"}</Tag>
-      <Tag x={72} y={134} width={62}>{isEn ? "Finance" : "Финансы"}</Tag>
-      <Tag x={139} y={134} width={55}>{isEn ? "Legal" : "Юристы"}</Tag>
+      <g className="platform-layer-detail">
+        <rect x="32" y="76" width="336" height="82" rx="10" fill="#fff" stroke="#e2e2e8" />
+        <circle cx="52" cy="96" r="12" fill="#fafaff" stroke="#ededff" />
+        <circle cx="50" cy="92" r="4" fill="none" stroke="#240cff" />
+        <path d="M43 106c.4-5 2.8-7.5 7-7.5s6.6 2.5 7 7.5M56 89.5c3 .8 4.5 3 4.8 6.5" fill="none" stroke="#240cff" strokeWidth="1.4" strokeLinecap="round" />
+        <text x="72" y="100" fill="#240cff" fontSize="16" fontWeight="700">
+          {isEn ? "Teams and functions" : "Отделы и процессы"}
+        </text>
+        <Tag x={72} y={112} width={57}>{isEn ? "Sales" : "Продажи"}</Tag>
+        <Tag x={134} y={112} width={68}>{isEn ? "Marketing" : "Маркетинг"}</Tag>
+        <Tag x={207} y={112} width={75}>{isEn ? "Support" : "Поддержка"}</Tag>
+        <Tag x={72} y={134} width={62}>{isEn ? "Finance" : "Финансы"}</Tag>
+        <Tag x={139} y={134} width={55}>{isEn ? "Legal" : "Юристы"}</Tag>
+      </g>
 
-      <rect x="32" y="172" width="336" height="58" rx="10" fill="#fff" stroke="#e2e2e8" />
-      <circle cx="52" cy="191" r="12" fill="#fafaff" stroke="#ededff" />
-      <text x="47" y="195" fill="#240cff" fontSize="13">⌘</text>
-      <text x="72" y="195" fill="#240cff" fontSize="16" fontWeight="700">{isEn ? "Systems" : "Системы"}</text>
-      <Tag x={72} y={204} width={38}>CRM</Tag>
-      <Tag x={115} y={204} width={38}>ERP</Tag>
-      <Tag x={158} y={204} width={40}>HRM</Tag>
-      <Tag x={203} y={204} width={28}>BI</Tag>
-      <Tag x={236} y={204} width={28}>1C</Tag>
+      <g className="platform-layer-detail">
+        <rect x="32" y="172" width="336" height="58" rx="10" fill="#fff" stroke="#e2e2e8" />
+        <circle cx="52" cy="191" r="12" fill="#fafaff" stroke="#ededff" />
+        <text x="47" y="195" fill="#240cff" fontSize="13">⌘</text>
+        <text x="72" y="195" fill="#240cff" fontSize="16" fontWeight="700">{isEn ? "Systems" : "Системы"}</text>
+        <Tag x={72} y={204} width={38}>CRM</Tag>
+        <Tag x={115} y={204} width={38}>ERP</Tag>
+        <Tag x={158} y={204} width={40}>HRM</Tag>
+        <Tag x={203} y={204} width={28}>BI</Tag>
+        <Tag x={236} y={204} width={28}>1C</Tag>
+      </g>
 
-      <rect x="32" y="244" width="336" height="80" rx="10" fill="#fff" stroke="#e2e2e8" />
-      <circle cx="52" cy="264" r="12" fill="#fafaff" stroke="#ededff" />
-      <rect x="47" y="259" width="10" height="10" rx="2" fill="none" stroke="#240cff" />
-      <text x="72" y="268" fill="#240cff" fontSize="16" fontWeight="700">{isEn ? "Digital products" : "Цифровые продукты"}</text>
-      <Tag x={72} y={280} width={92}>{isEn ? "Mobile services" : "Мобильные сервисы"}</Tag>
-      <Tag x={169} y={280} width={88}>{isEn ? "Marketplaces" : "Маркетплейс"}</Tag>
-      <Tag x={72} y={302} width={92}>{isEn ? "Web apps" : "Веб-приложения"}</Tag>
+      <g className="platform-layer-detail">
+        <rect x="32" y="244" width="336" height="80" rx="10" fill="#fff" stroke="#e2e2e8" />
+        <circle cx="52" cy="264" r="12" fill="#fafaff" stroke="#ededff" />
+        <rect x="47" y="259" width="10" height="10" rx="2" fill="none" stroke="#240cff" />
+        <text x="72" y="268" fill="#240cff" fontSize="16" fontWeight="700">{isEn ? "Digital products" : "Цифровые продукты"}</text>
+        <Tag x={72} y={280} width={92}>{isEn ? "Mobile services" : "Мобильные сервисы"}</Tag>
+        <Tag x={169} y={280} width={88}>{isEn ? "Marketplaces" : "Маркетплейс"}</Tag>
+        <Tag x={72} y={302} width={92}>{isEn ? "Web apps" : "Веб-приложения"}</Tag>
+      </g>
     </>
   );
 }
@@ -147,7 +188,7 @@ function LayerTwo({ locale }: { locale: Locale }) {
         {isEn ? "> ask AI anything" : "> спросите ИИ о чём угодно"}
       </text>
       {cards.map((card) => (
-        <g key={card.x}>
+        <g key={card.x} className="platform-layer-detail">
           <rect x={card.x} y="158" width={card.width} height="84" rx="10" fill="#fff" />
           <text x={card.x + 12} y="194" fill="#240cff" fontSize="14.5" fontWeight="700">
             {card.title}
@@ -179,7 +220,7 @@ function LayerThree({ locale }: { locale: Locale }) {
         const x = index % 2 === 0 ? 32 : 202;
         const y = index < 2 ? 132 : 216;
         return (
-          <g key={title}>
+          <g key={title} className="platform-layer-detail">
             <rect x={x} y={y} width="165" height="52" rx="9" fill="#fff" stroke="#e2e2e8" />
             <text x={x + 12} y={y + 21} fill="#240cff" fontSize="13" fontWeight="700">{title}</text>
             <text x={x + 12} y={y + 38} fill="#25252d" fontSize="10.5" fontWeight="500">{text}</text>
@@ -203,9 +244,10 @@ function LayerFour({ locale }: { locale: Locale }) {
       {rows.map(([title, text], index) => {
         const y = 120 + index * 60;
         return (
-          <g key={title}>
+          <g key={title} className="platform-layer-detail">
             <rect x="32" y={y} width="336" height="40" rx="9" fill="#fff" stroke="#e2e2e8" />
             <circle cx="51" cy={y + 20} r="10" fill="#fafaff" />
+            <FoundationRowIcon index={index} y={y} />
             <text x="69" y={y + 24} fill="#240cff" fontSize="14" fontWeight="700">{title}</text>
             <text x="356" y={y + 24} fill="#25252d" fontSize="10.5" fontWeight="500" textAnchor="end">{text}</text>
           </g>
@@ -223,13 +265,15 @@ function LayerFive({ locale }: { locale: Locale }) {
       <CardFrame />
       <path d="M20 40V20h20M360 20h20v20M380 360v20h-20M40 380H20v-20" fill="none" stroke="#240cff" />
       <rect x="32" y="32" width="336" height="336" rx="18" fill="none" stroke="#240cff" />
-      <rect x="72" y="187" width="256" height="26" rx="13" fill="#fff" stroke="#e2e2e8" />
-      <text x="200" y="204" fill="#240cff" fontSize="12.5" fontWeight="700" textAnchor="middle">
-        {isEn ? "PROTECTED COMPANY ENVIRONMENT" : "ЗАЩИЩЁННЫЙ КОНТУР КОМПАНИИ"}
-      </text>
+      <g className="platform-layer-detail">
+        <rect x="72" y="187" width="256" height="26" rx="13" fill="#fff" stroke="#e2e2e8" />
+        <text x="200" y="204" fill="#240cff" fontSize="12.5" fontWeight="700" textAnchor="middle">
+          {isEn ? "PROTECTED COMPANY ENVIRONMENT" : "ЗАЩИЩЁННЫЙ КОНТУР КОМПАНИИ"}
+        </text>
+      </g>
       <Tag x={106} y={329} width={52}>ON-PREM</Tag>
       <Tag x={164} y={329} width={40}>VPC</Tag>
-      <Tag x={210} y={329} width={84}>{isEn ? "PRIVATE CLOUD" : "ЧАСТНОЕ ОБЛАКО"}</Tag>
+      <Tag x={208} y={329} width={isEn ? 88 : 104}>{isEn ? "PRIVATE CLOUD" : "ЧАСТНОЕ ОБЛАКО"}</Tag>
     </>
   );
 }
