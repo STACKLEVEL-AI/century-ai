@@ -69,7 +69,7 @@ export default function FooterLeadCapture() {
                 {teamMembers.map(({ src, alt, objectPosition, scale, translateX, translateY }) => (
                   <div
                     key={src}
-                    className="footer-team-photo-frame relative h-[clamp(64px,5vw,80px)] w-[clamp(64px,5vw,80px)] shrink-0 overflow-hidden rounded-[18px] border border-white/70 bg-[#d8d8dc] shadow-[0_12px_24px_rgba(30,27,70,0.12),inset_0_1px_0_rgba(255,255,255,0.9)]"
+                    className="footer-team-photo-frame relative h-[clamp(64px,5vw,80px)] w-[clamp(64px,5vw,80px)] shrink-0 overflow-hidden rounded-[18px] border border-[#d3d3d8] bg-[#d8d8dc] shadow-[0_4px_10px_rgba(19,21,27,0.08)]"
                   >
                     <Image
                       src={src}
@@ -82,10 +82,9 @@ export default function FooterLeadCapture() {
                         objectPosition,
                         transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
                         transformOrigin: "center",
-                        filter: "saturate(0.82) contrast(1.03) brightness(1.04)",
+                        filter: "none",
                       }}
                     />
-                    <span aria-hidden="true" className="footer-team-photo-mask" />
                     <span aria-hidden="true" className="footer-team-photo-ring" />
                   </div>
                 ))}
