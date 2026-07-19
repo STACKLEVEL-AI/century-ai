@@ -7168,6 +7168,138 @@ html:has(.century-home-page) .century-home-hero {
   scroll-margin-top: var(--landing-header-height);
 }
 
+.cases-intro-slide {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(36, 12, 255, 0.08), transparent 28%),
+    radial-gradient(circle, rgba(36, 12, 255, 0.09) 1px, transparent 1.25px);
+  background-size: auto, 28px 28px;
+}
+
+.cases-intro-slide::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: min(70vw, 940px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(36, 12, 255, 0.12);
+  border-radius: 50%;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+}
+
+.cases-intro-slide > div:first-child {
+  position: relative;
+  z-index: 2;
+}
+
+.cases-intro-slide__eyebrow,
+.cases-intro-slide__description {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.cases-intro-slide__title > span {
+  display: block;
+  clip-path: inset(0 0 105% 0);
+  transform: translateY(0.9em) skewY(4deg);
+  transform-origin: left bottom;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__eyebrow {
+  animation: cases-intro-soft-reveal 620ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__title > span {
+  animation: cases-intro-title-reveal 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__title > span:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__description {
+  animation: cases-intro-soft-reveal 760ms cubic-bezier(0.22, 1, 0.36, 1) 650ms both;
+}
+
+.cases-intro-slide__pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: min(70vw, 940px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.cases-intro-slide__pulse span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(36, 12, 255, 0.22);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.56);
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__pulse span {
+  animation: cases-intro-pulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__pulse span:nth-child(2) {
+  animation-delay: 920ms;
+}
+
+.cases-intro-slide.is-revealed .cases-intro-slide__pulse span:nth-child(3) {
+  animation-delay: 1840ms;
+}
+
+@keyframes cases-intro-title-reveal {
+  from {
+    clip-path: inset(0 0 105% 0);
+    opacity: 0;
+    transform: translateY(0.9em) skewY(4deg);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+  }
+}
+
+@keyframes cases-intro-soft-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cases-intro-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.56);
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  72%,
+  100% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
 .platform-architecture,
 .century-cases {
   position: relative;
@@ -7688,6 +7820,38 @@ html:has(.century-home-page) .century-home-hero {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
+  animation: century-case-slide-forward 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.century-cases.is-moving-backward .century-cases__slide.is-active {
+  animation-name: century-case-slide-backward;
+}
+
+.century-cases__slide.is-active .century-cases__copy h2,
+.century-cases__slide.is-active .century-cases__lead,
+.century-cases__slide.is-active .century-cases__body,
+.century-cases__slide.is-active .century-cases__tags {
+  animation: century-case-copy-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.century-cases__slide.is-active .century-cases__lead {
+  animation-delay: 90ms;
+}
+
+.century-cases__slide.is-active .century-cases__body {
+  animation-delay: 160ms;
+}
+
+.century-cases__slide.is-active .century-cases__tags {
+  animation-delay: 230ms;
+}
+
+.century-cases__slide.is-active .century-cases__media {
+  animation: century-case-media-enter 980ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.century-cases.is-moving-backward .century-cases__slide.is-active .century-cases__media {
+  animation-name: century-case-media-enter-backward;
 }
 
 .century-cases__copy {
@@ -7772,6 +7936,70 @@ html:has(.century-home-page) .century-home-hero {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes century-case-slide-forward {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.975);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes century-case-slide-backward {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.975);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes century-case-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes century-case-media-enter {
+  from {
+    clip-path: inset(0 0 0 100% round 12px);
+    opacity: 0;
+    transform: scale(1.035);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0 round 12px);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes century-case-media-enter-backward {
+  from {
+    clip-path: inset(0 100% 0 0 round 12px);
+    opacity: 0;
+    transform: scale(1.035);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0 round 12px);
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -8671,9 +8899,25 @@ html:has(.century-home-page) .century-home-hero {
   .century-cases__step,
   .century-cases__stepper-progress,
   .century-cases__slide,
-  .ai-modes-slide__card {
+  .ai-modes-slide__card,
+  .cases-intro-slide__eyebrow,
+  .cases-intro-slide__description,
+  .cases-intro-slide__title > span,
+  .cases-intro-slide__pulse span {
     animation: none;
     transition: none;
+  }
+
+  .cases-intro-slide__eyebrow,
+  .cases-intro-slide__description,
+  .cases-intro-slide__title > span {
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .cases-intro-slide__pulse {
+    display: none;
   }
 }
 

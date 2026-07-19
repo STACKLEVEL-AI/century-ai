@@ -6,6 +6,7 @@ export function useScrollDrivenSteps(stepCount: number) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const activeIndexRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState<"forward" | "backward">("forward");
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -30,9 +31,12 @@ export function useScrollDrivenSteps(stepCount: number) {
         Math.min(stepCount - 1, Math.round(-rect.top / viewportHeight)),
       );
 
-      if (nextIndex === activeIndexRef.current) return;
+      const previousIndex = activeIndexRef.current;
+
+      if (nextIndex === previousIndex) return;
 
       activeIndexRef.current = nextIndex;
+      setDirection(nextIndex > previousIndex ? "forward" : "backward");
       setActiveIndex(nextIndex);
     };
 
@@ -59,8 +63,12 @@ export function useScrollDrivenSteps(stepCount: number) {
 
       const nextIndex = Math.max(0, Math.min(stepCount - 1, index));
       const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+      const previousIndex = activeIndexRef.current;
 
       activeIndexRef.current = nextIndex;
+      if (nextIndex !== previousIndex) {
+        setDirection(nextIndex > previousIndex ? "forward" : "backward");
+      }
       setActiveIndex(nextIndex);
       window.scrollTo({
         top: sectionTop + window.innerHeight * nextIndex,
@@ -71,5 +79,5 @@ export function useScrollDrivenSteps(stepCount: number) {
     [stepCount],
   );
 
-  return { activeIndex, scrollToStep, sectionRef };
+  return { activeIndex, direction, scrollToStep, sectionRef };
 }
