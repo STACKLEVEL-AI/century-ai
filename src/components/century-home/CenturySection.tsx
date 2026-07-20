@@ -6,11 +6,11 @@ import { useScrollDrivenSteps } from "@/hooks/useScrollDrivenSteps";
 import { homeCopy } from "@/lib/home-i18n";
 
 const slideMedia = [
-  "/slider-image/analytics-preview.webp",
-  "/slider-image/image-2.webp",
-  "/slider-image/image-3.webp",
-  "/slider-image/image-4.webp",
-  "/slider-image/image-5.webp",
+  { src: "/slider-image/video/cursorful-video-1783775074208.mp4", type: "video" },
+  { src: "/slider-image/image-2.webp", type: "image" },
+  { src: "/slider-image/image-3.webp", type: "image" },
+  { src: "/slider-image/image-4.webp", type: "image" },
+  { src: "/slider-image/image-5.webp", type: "image" },
 ] as const;
 
 function Stepper({
@@ -103,14 +103,28 @@ export default function CenturySection() {
                   </div>
 
                   <div className="century-cases__media">
-                    <Image
-                      src={slideMedia[index]}
-                      alt={isActive ? `${copy.imageAlt}: ${slide.title}` : ""}
-                      width={1434}
-                      height={1008}
-                      priority={index === 0}
-                      sizes="(max-width: 900px) 100vw, 58vw"
-                    />
+                    {slideMedia[index].type === "video" ? (
+                      <video
+                        className="century-cases__video"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-label={`${copy.imageAlt}: ${slide.title}`}
+                      >
+                        <source src={slideMedia[index].src} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <Image
+                        src={slideMedia[index].src}
+                        alt={isActive ? `${copy.imageAlt}: ${slide.title}` : ""}
+                        width={1434}
+                        height={1008}
+                        priority={index === 0}
+                        sizes="(max-width: 900px) 100vw, 58vw"
+                      />
+                    )}
                   </div>
                 </article>
               );

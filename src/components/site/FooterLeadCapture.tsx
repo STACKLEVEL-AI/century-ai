@@ -26,6 +26,7 @@ const teamMembers = [
   {
     src: "/footer-image/Vitali.png",
     alt: "Vitali",
+    href: "https://www.linkedin.com/in/vbakhmat/",
     objectPosition: "50% 50%",
     scale: 1.36,
     translateX: -4,
@@ -34,6 +35,7 @@ const teamMembers = [
   {
     src: "/footer-image/Vadim.jpg",
     alt: "Vadim",
+    href: "https://www.linkedin.com/in/vadimohka/",
     objectPosition: "50% 30%",
     scale: 1.1,
     translateX: 3,
@@ -42,6 +44,7 @@ const teamMembers = [
   {
     src: "/footer-image/Egor.png",
     alt: "Egor",
+    href: "https://www.linkedin.com/in/ekrychev/",
     objectPosition: "50% 50%",
     scale: 1.15,
     translateX: 0,
@@ -59,16 +62,20 @@ export default function FooterLeadCapture() {
       className="site-footer site-footer--lead mb-6 border-b border-[#9B9B9B80] bg-white text-black sm:mb-[45px]"
     >
       <section className="site-footer__surface overflow-hidden bg-white" aria-labelledby="footer-brief-title">
-        <div className="shell py-[clamp(34px,7vw,100px)] max-w-[1440px] px-[100px]">
+        <div className="shell max-w-[1440px] px-5 py-[clamp(34px,7vw,100px)] sm:px-8 lg:px-[100px]">
           <div className="grid grid-cols-1 gap-[clamp(28px,4vw,84px)] min-[1081px]:grid-cols-[minmax(240px,340px)_minmax(0,1fr)]">
             <aside className="grid min-w-0 content-start" aria-label={copy.contacts}>
               <div
                 className="flex flex-wrap items-center gap-[clamp(12px,3vw,39px)] border-b border-[rgba(19,21,27,0.14)] pb-3 sm:pb-2.5"
                 aria-label={copy.team}
               >
-                {teamMembers.map(({ src, alt, objectPosition, scale, translateX, translateY }) => (
-                  <div
+                {teamMembers.map(({ src, alt, href, objectPosition, scale, translateX, translateY }) => (
+                  <a
                     key={src}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`LinkedIn: ${alt}`}
                     className="footer-team-photo-frame relative h-[clamp(64px,5vw,80px)] w-[clamp(64px,5vw,80px)] shrink-0 overflow-hidden rounded-[18px] border border-[#d3d3d8] bg-[#d8d8dc] shadow-[0_4px_10px_rgba(19,21,27,0.08)]"
                   >
                     <Image
@@ -86,7 +93,7 @@ export default function FooterLeadCapture() {
                       }}
                     />
                     <span aria-hidden="true" className="footer-team-photo-ring" />
-                  </div>
+                  </a>
                 ))}
               </div>
 
@@ -121,14 +128,14 @@ export default function FooterLeadCapture() {
               </div>
             </aside>
 
-            <div className="w-full min-w-[820px] max-h-[280px] justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[280px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
+            <div className="w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[280px] min-[1081px]:max-h-[280px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
               <h2
                 id="footer-brief-title"
                 className="m-0 max-w-[700px] text-[clamp(2rem,4vw,40px)] leading-[100%] font-semibold tracking-[2%] text-black"
               >
                 {copy.title}
               </h2>
-              <p className="mt-3 w-full min-w-[720px] text-[clamp(1rem,2vw,20px)] font-normal leading-[100%] tracking-[0.02em] text-[#000000] max-[720px]:max-w-none">
+              <p className="mt-3 w-full min-w-0 text-[clamp(1rem,2vw,20px)] font-normal leading-[100%] tracking-[0.02em] text-[#000000] max-[720px]:max-w-none">
                 {copy.description}
               </p>
 
