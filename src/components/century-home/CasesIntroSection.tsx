@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy } from "@/lib/home-i18n";
 
@@ -16,6 +16,7 @@ function TypedPhrase({
   className?: string;
 }) {
   let characterIndex = 0;
+  const characterCount = Array.from(text.replaceAll(" ", "")).length;
 
   return (
     <span
@@ -32,7 +33,13 @@ function TypedPhrase({
               <span
                 key={`${character}-${index}`}
                 className="cases-intro-slide__char"
-                style={{ animationDelay: `${index * characterDelay}ms` }}
+                style={
+                  {
+                    "--char-index": index,
+                    "--char-reverse-index": characterCount - index - 1,
+                    "--char-delay": `${characterDelay}ms`,
+                  } as CSSProperties
+                }
               >
                 {character}
               </span>
@@ -45,7 +52,7 @@ function TypedPhrase({
 }
 
 function getStage(progress: number) {
-  if (progress >= 0.72) return 3;
+  if (progress >= 0.66) return 3;
   if (progress >= 0.4) return 2;
   if (progress >= 0.02) return 1;
   return 0;
@@ -114,6 +121,7 @@ export default function CasesIntroSection() {
               <h2
                 className="cases-intro-slide__title text-[clamp(54px,12vw,160px)] font-bold leading-[0.9] tracking-[0] text-black"
                 aria-label={`${copy.titleOne} ${copy.titleTwo}`}
+                data-locale={locale}
               >
                 <TypedPhrase
                   className="cases-intro-slide__line"
@@ -121,6 +129,7 @@ export default function CasesIntroSection() {
                   active={stage >= 1}
                   characterDelay={52}
                 />
+                {locale === "en" ? <span aria-hidden="true"> </span> : null}
                 <TypedPhrase
                   className="cases-intro-slide__line text-[#240CFF]"
                   text={copy.titleTwo}

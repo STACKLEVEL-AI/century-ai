@@ -179,29 +179,31 @@ function LayerTwo({ locale }: { locale: Locale }) {
       <CardFrame fill="#240cff" stroke="#fff" />
       <rect x="31" y="20" width="81" height="17" rx="3" fill="none" stroke="#fff" />
       <text x="39" y="32" fill="#fff" fontSize="9.5" fontWeight="600">02 CENTURY</text>
-      <text x="31" y="72" fill="#fff" fontSize="27" fontWeight="800">CENTURY</text>
-      <text x="31" y="95" fill="#fff" fontSize="14.5" fontWeight="700">
-        {isEn ? "One entry point for AI" : "Единая точка входа для ИИ"}
-      </text>
-      <rect x="31" y="111" width={isEn ? 145 : 175} height="19" rx="3" fill="none" stroke="#fff" />
-      <text x="40" y="124" fill="#fff" fontSize="9" fontWeight="500">
-        {isEn ? "> ask AI anything" : "> спросите ИИ о чём угодно"}
-      </text>
-      {cards.map((card) => (
-        <g key={card.x} className="platform-layer-detail">
-          <rect x={card.x} y="158" width={card.width} height="84" rx="10" fill="#fff" />
-          <text x={card.x + 12} y="194" fill="#240cff" fontSize="14.5" fontWeight="700">
-            {card.title}
-          </text>
-          <text x={card.x + 12} y="212.5" fill="#25252d" fontSize="10.5" fontWeight="500">
-            {card.lines.map((line, index) => (
-              <tspan key={line} x={card.x + 12} dy={index === 0 ? 0 : 13}>
-                {line}
-              </tspan>
-            ))}
-          </text>
-        </g>
-      ))}
+      <g transform="translate(0 42)">
+        <text x="31" y="72" fill="#fff" fontSize="27" fontWeight="800">CENTURY</text>
+        <text x="31" y="95" fill="#fff" fontSize="14.5" fontWeight="700">
+          {isEn ? "One entry point for AI" : "Единая точка входа для ИИ"}
+        </text>
+        <rect x="31" y="111" width={isEn ? 145 : 175} height="19" rx="3" fill="none" stroke="#fff" />
+        <text x="40" y="124" fill="#fff" fontSize="9" fontWeight="500">
+          {isEn ? "> ask AI anything" : "> спросите ИИ о чём угодно"}
+        </text>
+        {cards.map((card) => (
+          <g key={card.x} className="platform-layer-detail">
+            <rect x={card.x} y="158" width={card.width} height="84" rx="10" fill="#fff" />
+            <text x={card.x + 12} y="194" fill="#240cff" fontSize="14.5" fontWeight="700">
+              {card.title}
+            </text>
+            <text x={card.x + 12} y="212.5" fill="#25252d" fontSize="10.5" fontWeight="500">
+              {card.lines.map((line, index) => (
+                <tspan key={line} x={card.x + 12} dy={index === 0 ? 0 : 13}>
+                  {line}
+                </tspan>
+              ))}
+            </text>
+          </g>
+        ))}
+      </g>
     </>
   );
 }

@@ -320,7 +320,7 @@ export default function StickyHeader() {
         <div className="header-main mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
           <Link
             href="/#hero"
-            className="logo w-[190px] h-[48px]"
+            className="logo h-[42px] w-[170px]"
             aria-label="Century"
             onClick={(event) => handleLandingAnchorClick(event, "/#hero")}
           >

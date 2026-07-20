@@ -13,7 +13,7 @@ export default function HeroSection() {
       className="century-home-hero relative flex flex-col overflow-hidden pt-5 sm:pt-6 lg:pt-10"
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-1 px-5 pb-5 sm:px-8 sm:pb-6 lg:px-[100px] lg:pb-8">
-        <div className="relative hero-grid-30 flex flex-1 flex-col justify-between border border-[#D9D9D9] px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 lg:px-[20px] lg:pb-[20px] lg:pt-[20px]">
+        <div className="relative hero-grid-30 flex min-w-0 flex-1 flex-col justify-between border border-[#D9D9D9] px-4 pb-4 pt-4 sm:px-5 sm:pb-5 sm:pt-5 lg:px-[20px] lg:pb-[20px] lg:pt-[20px]">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute left-[-1px] top-[-1px] h-[20px] w-px bg-[#240CFF] lg:h-[30px]"
@@ -48,14 +48,14 @@ export default function HeroSection() {
           />
 
           <div className="flex justify-end">
-            <h1 className="max-w-[260px] text-right text-[48px] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)] sm:max-w-[300px] lg:max-w-[292px]">
+            <h1 className="max-w-[260px] text-right text-[clamp(32px,10vw,44px)] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)] sm:max-w-[300px] sm:text-[48px] lg:max-w-[292px]">
               <span className="block">{copy.lineOne}</span>
               <span className="block">{copy.lineTwo}</span>
             </h1>
           </div>
 
           <div className="pt-12 sm:pt-16 lg:pt-20">
-            <p className="select-none text-[160px] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)]">
+            <p className="select-none text-[clamp(58px,17vw,96px)] font-semibold uppercase leading-[100%] tracking-[0] [font-family:var(--font-lato)] sm:text-[120px] lg:text-[160px]">
               Century
             </p>
           </div>
