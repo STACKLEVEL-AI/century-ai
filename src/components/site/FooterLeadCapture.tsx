@@ -128,7 +128,7 @@ export default function FooterLeadCapture() {
               </div>
             </aside>
 
-            <div className="w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[280px] min-[1081px]:max-h-[280px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
+            <div className="w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[320px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
               <h2
                 id="footer-brief-title"
                 className="m-0 max-w-[700px] text-[clamp(2rem,4vw,40px)] leading-[100%] font-semibold tracking-[2%] text-black"

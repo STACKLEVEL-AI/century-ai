@@ -150,9 +150,7 @@ export default function SecuritySection() {
                   }
                   aria-hidden="true"
                 >
-                  {activeIndex !== 0 || locale !== "ru" ? (
-                    <span className="platform-layer-glass" />
-                  ) : null}
+                  {activeIndex > 0 ? <span className="platform-layer-glass" /> : null}
                   <PlatformLayerArtwork index={activeIndex} locale={locale} variant="active" />
                 </div>
               </div>

@@ -176,7 +176,7 @@ function LayerTwo({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <CardFrame fill="#240cff" stroke="#fff" />
+      <CardFrame fill="#240cff" stroke="none" />
       <rect x="31" y="20" width="81" height="17" rx="3" fill="none" stroke="#fff" />
       <text x="39" y="32" fill="#fff" fontSize="9.5" fontWeight="600">02 CENTURY</text>
       <g transform="translate(0 42)">
@@ -216,7 +216,7 @@ function LayerThree({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <CardFrame />
+      <CardFrame stroke="none" />
       <Tag x={31} y={20} width={isEn ? 94 : 84}>{isEn ? "03 GUARDRAILS" : "03 ГАРАНТИИ"}</Tag>
       {items.map(([title, text], index) => {
         const x = index % 2 === 0 ? 32 : 202;
@@ -241,7 +241,7 @@ function LayerFour({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <CardFrame />
+      <CardFrame stroke="none" />
       <Tag x={31} y={20} width={isEn ? 112 : 98}>{isEn ? "04 FOUNDATION" : "04 ФУНДАМЕНТ"}</Tag>
       {rows.map(([title, text], index) => {
         const y = 120 + index * 60;
@@ -264,7 +264,7 @@ function LayerFive({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <CardFrame />
+      <CardFrame stroke="none" />
       <path d="M20 40V20h20M360 20h20v20M380 360v20h-20M40 380H20v-20" fill="none" stroke="#240cff" />
       <rect x="32" y="32" width="336" height="336" rx="18" fill="none" stroke="#240cff" />
       <g className="platform-layer-detail">
@@ -310,24 +310,6 @@ export function PlatformLayerArtwork({ index, locale, variant = "slot" }: LayerV
       aria-hidden="true"
       focusable="false"
     >
-      <rect
-        width="402.194"
-        height="402.194"
-        rx="22"
-        transform="matrix(0.847732 -0.530425 0.847732 0.530425 28.1226 224)"
-        fill="white"
-        fillOpacity="0.1"
-      />
-      <rect
-        x="0.847732"
-        width="401.194"
-        height="401.194"
-        rx="21.5"
-        transform="matrix(0.847732 -0.530425 0.847732 0.530425 28.2517 224.45)"
-        fill="none"
-        stroke="#240cff"
-        strokeOpacity="0.35"
-      />
       <g
         className="platform-layer-artwork__surface"
         transform="matrix(0.849064 -0.52829 0.849064 0.52829 37.4094 222.664)"
