@@ -108,8 +108,20 @@ function FoundationRowIcon({ index, y }: { index: number; y: number }) {
   );
 }
 
-function CardFrame({ fill = "#fff", stroke = "#240cff" }: { fill?: string; stroke?: string }) {
-  return <rect x="5" y="5" width="390" height="390" rx="22" fill={fill} stroke={stroke} strokeWidth="0.5" />;
+function CardFrame({
+  fill = "#fff",
+  stroke = "#240cff",
+  fillToBorder = false,
+}: {
+  fill?: string;
+  stroke?: string;
+  fillToBorder?: boolean;
+}) {
+  const position = fillToBorder ? -4 : 5;
+  const size = fillToBorder ? 398 : 390;
+  const radius = fillToBorder ? 20 : 22;
+
+  return <rect x={position} y={position} width={size} height={size} rx={radius} fill={fill} stroke={stroke} strokeWidth="0.5" />;
 }
 
 function LayerOne({ locale }: { locale: Locale }) {
@@ -176,7 +188,7 @@ function LayerTwo({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <CardFrame fill="#240cff" stroke="none" />
+      <CardFrame fill="#240cff" stroke="none" fillToBorder />
       <rect x="31" y="20" width="81" height="17" rx="3" fill="none" stroke="#fff" />
       <text x="39" y="32" fill="#fff" fontSize="9.5" fontWeight="600">02 CENTURY</text>
       <g transform="translate(0 42)">
