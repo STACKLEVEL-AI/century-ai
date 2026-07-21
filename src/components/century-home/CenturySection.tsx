@@ -6,10 +6,10 @@ import { useScrollDrivenSteps } from "@/hooks/useScrollDrivenSteps";
 import { homeCopy } from "@/lib/home-i18n";
 
 const slideMedia = [
-  { src: "/slider-image/video/cursorful-video-1783775074208.mp4", type: "video" },
+  { src: "/slider-image/video/cursorful-video-1783775074208-cropped.mp4", type: "video" },
   { src: "/slider-image/image-2.webp", type: "image" },
   { src: "/slider-image/image-3.webp", type: "image" },
-  { src: "/slider-image/video/cursorful-video-1784576147761.mp4", type: "video" },
+  { src: "/slider-image/video/cursorful-video-1784576147761-cropped.mp4", type: "video" },
   { src: "/slider-image/image-5.webp", type: "image" },
 ] as const;
 
@@ -80,6 +80,7 @@ export default function CenturySection() {
             {copy.slides.map((slide, index) => {
               const step = String(index + 1).padStart(2, "0");
               const isActive = index === activeIndex;
+              const isVideo = slideMedia[index].type === "video";
 
               return (
                 <article
@@ -102,8 +103,10 @@ export default function CenturySection() {
                     </div>
                   </div>
 
-                  <div className="century-cases__media">
-                    {slideMedia[index].type === "video" ? (
+                  <div
+                    className={`century-cases__media${isVideo ? " century-cases__media--video" : ""}`}
+                  >
+                    {isVideo ? (
                       <video
                         className="century-cases__video"
                         autoPlay

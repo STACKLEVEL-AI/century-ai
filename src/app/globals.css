@@ -7805,7 +7805,8 @@ html:has(.century-home-page) .century-home-hero {
   width: min(1440px, 100%);
   height: 100%;
   margin: 0 auto;
-  padding: clamp(24px, 5.6vh, 64px) clamp(24px, 6.95vw, 100px) clamp(24px, 6vh, 72px);
+  padding: clamp(24px, 5.6vh, 64px) clamp(24px, 5.4vw, 64px) clamp(24px, 6vh, 72px)
+    clamp(32px, 6.8vw, 82px);
   grid-template-rows: auto minmax(0, 1fr);
   gap: clamp(22px, 4.5vh, 52px);
 }
@@ -7897,8 +7898,8 @@ html:has(.century-home-page) .century-home-hero {
   inset: 0;
   display: grid;
   min-height: 0;
-  grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
-  gap: clamp(36px, 4vw, 64px);
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+  gap: clamp(24px, 2.5vw, 32px);
   align-items: center;
   opacity: 0;
   pointer-events: none;
@@ -8023,12 +8024,34 @@ html:has(.century-home-page) .century-home-hero {
   object-position: center;
 }
 
+.century-cases__media--video {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.century-cases__media.century-cases__media--video {
+  height: min(51vh, 520px);
+}
+
 .century-cases__video {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
+}
+
+@media (min-width: 901px) {
+  .century-cases__copy {
+    position: relative;
+    top: clamp(-58px, -6.6vh, -42px);
+  }
+
+  .century-cases__media {
+    top: clamp(-72px, -8.2vh, -52px);
+  }
 }
 
 @keyframes century-case-enter {
@@ -8701,7 +8724,8 @@ html:has(.century-home-page) .century-home-hero {
     grid-column: 1 / -1;
   }
 
-  .century-cases__media {
+  .century-cases__media,
+  .century-cases__media.century-cases__media--video {
     height: auto;
     min-height: 0;
   }
