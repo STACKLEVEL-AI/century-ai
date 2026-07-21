@@ -8147,7 +8147,6 @@ html:has(.century-home-page) .century-home-hero {
 .ai-modes-slide__tabs {
   display: grid;
   min-height: 0;
-  border-top: 1px solid #a7a7a7;
   grid-template-rows: repeat(5, minmax(0, 1fr));
 }
 
@@ -8170,6 +8169,10 @@ html:has(.century-home-page) .century-home-hero {
     opacity 280ms ease,
     filter 280ms ease,
     transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ai-modes-slide__tabs button:first-child {
+  border-top: 1px solid #a7a7a7;
 }
 
 .ai-modes-slide__tabs button::after {
