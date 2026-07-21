@@ -9,7 +9,7 @@ const slideMedia = [
   { src: "/slider-image/video/cursorful-video-1783775074208.mp4", type: "video" },
   { src: "/slider-image/image-2.webp", type: "image" },
   { src: "/slider-image/image-3.webp", type: "image" },
-  { src: "/slider-image/image-4.webp", type: "image" },
+  { src: "/slider-image/video/cursorful-video-1784576147761.mp4", type: "video" },
   { src: "/slider-image/image-5.webp", type: "image" },
 ] as const;
 
