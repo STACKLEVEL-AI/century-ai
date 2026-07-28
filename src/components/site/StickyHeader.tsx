@@ -10,6 +10,17 @@ import { siteNavigation } from "@/lib/site";
 
 const LANDING_SCROLL_RESTORE_KEY = "century:landing-scroll-y";
 
+function isCasesSliderActive() {
+  const slider = document.getElementById("cases");
+
+  if (!slider) {
+    return false;
+  }
+
+  const { top, bottom } = slider.getBoundingClientRect();
+  return top <= 0 && bottom >= window.innerHeight;
+}
+
 export default function StickyHeader() {
   const pathname = usePathname();
   const { locale, setLocale } = useLanguage();
@@ -104,7 +115,19 @@ export default function StickyHeader() {
   );
 
   useEffect(() => {
+    const updateCasesSliderLock = () => {
+      const sliderIsActive = isCasesSliderActive();
+      document.documentElement.classList.toggle("century-slider-active", sliderIsActive);
+
+      return sliderIsActive;
+    };
+
     const onScroll = () => {
+      if (updateCasesSliderLock()) {
+        setHidden(true);
+        return;
+      }
+
       if (menuOpen) {
         return;
       }
@@ -134,13 +157,21 @@ export default function StickyHeader() {
       lastScrollY.current = current;
     };
 
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.documentElement.classList.remove("century-slider-active");
+    };
   }, [menuOpen]);
 
   useEffect(() => {
     const onMouseMove = (event: globalThis.MouseEvent) => {
-      if (!window.matchMedia("(hover: hover)").matches) {
+      if (
+        !window.matchMedia("(hover: hover)").matches ||
+        document.documentElement.classList.contains("century-slider-active")
+      ) {
         return;
       }
 
@@ -154,7 +185,11 @@ export default function StickyHeader() {
   }, []);
 
   const handleHeaderMouseLeave = useCallback(() => {
-    if (menuOpen || !window.matchMedia("(hover: hover)").matches) {
+    if (
+      menuOpen ||
+      !window.matchMedia("(hover: hover)").matches ||
+      document.documentElement.classList.contains("century-slider-active")
+    ) {
       return;
     }
 
