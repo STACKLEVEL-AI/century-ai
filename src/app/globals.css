@@ -8050,6 +8050,17 @@ html:has(.century-home-page) .century-home-hero {
   pointer-events: none;
 }
 
+@media (min-width: 901px) {
+  .century-cases__media {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .century-cases__video {
+    object-fit: cover;
+  }
+}
+
 .century-cases__play {
   position: absolute;
   z-index: 1;
@@ -9273,8 +9284,7 @@ html:has(.century-home-page) .century-home-hero {
     gap: 22px;
   }
 
-  .century-cases__copy,
-  .century-cases__media {
+  .century-cases__copy {
     height: min(62vh, 635px);
   }
 
