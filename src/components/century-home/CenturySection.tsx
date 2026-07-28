@@ -1,16 +1,16 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { useScrollDrivenSteps } from "@/hooks/useScrollDrivenSteps";
 import { homeCopy } from "@/lib/home-i18n";
 
 const slideMedia = [
-  { src: "/slider-image/video/cursorful-video-1783775074208.mp4", type: "video" },
-  { src: "/slider-image/image-2.webp", type: "image" },
-  { src: "/slider-image/image-3.webp", type: "image" },
-  { src: "/slider-image/video/cursorful-video-1784576147761.mp4", type: "video" },
-  { src: "/slider-image/image-5.webp", type: "image" },
+  { src: "/slider-image/video/cursorful-video-1784747090863.mp4" },
+  { src: "/slider-image/video/cursorful-video-1785091786053.mp4" },
+  { src: "/slider-image/video/cursorful-video-1785094738421.mp4" },
+  { src: "/slider-image/video/cursorful-video-1784576147761.mp4" },
+  { src: "/slider-image/video/cursorful-video-1785180630482.mp4" },
 ] as const;
 
 function Stepper({
@@ -61,6 +61,33 @@ export default function CenturySection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].cases;
   const { activeIndex, direction, scrollToStep, sectionRef } = useScrollDrivenSteps(slideMedia.length);
+  const [playerIndex, setPlayerIndex] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const playerCopy = locale === "ru"
+    ? { close: "Закрыть видео", open: "Открыть видео", hint: "Нажмите Esc, чтобы закрыть" }
+    : { close: "Close video", open: "Open video", hint: "Press Esc to close" };
+
+  useEffect(() => {
+    if (playerIndex === null) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPlayerIndex(null);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [playerIndex]);
 
   return (
     <section
@@ -102,36 +129,74 @@ export default function CenturySection() {
                     </div>
                   </div>
 
-                  <div className="century-cases__media">
-                    {slideMedia[index].type === "video" ? (
-                      <video
-                        className="century-cases__video"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-label={`${copy.imageAlt}: ${slide.title}`}
-                      >
-                        <source src={slideMedia[index].src} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <Image
-                        src={slideMedia[index].src}
-                        alt={isActive ? `${copy.imageAlt}: ${slide.title}` : ""}
-                        width={1434}
-                        height={1008}
-                        priority={index === 0}
-                        sizes="(max-width: 900px) 100vw, 58vw"
-                      />
-                    )}
-                  </div>
+                  <button
+                    className="century-cases__media"
+                    type="button"
+                    onClick={() => setPlayerIndex(index)}
+                    aria-label={`${playerCopy.open}: ${slide.title}`}
+                    aria-haspopup="dialog"
+                  >
+                    <video
+                      className="century-cases__video"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      aria-label={`${copy.imageAlt}: ${slide.title}`}
+                    >
+                      <source src={slideMedia[index].src} type="video/mp4" />
+                    </video>
+                    <span className="century-cases__play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 6.75v10.5L17.25 12 9 6.75Z" fill="currentColor" />
+                      </svg>
+                    </span>
+                  </button>
                 </article>
               );
             })}
           </div>
         </div>
       </div>
+
+      {playerIndex !== null && (
+        <div
+          className="century-video-player"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${copy.imageAlt}: ${copy.slides[playerIndex].title}`}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setPlayerIndex(null);
+            }
+          }}
+        >
+          <div className="century-video-player__frame">
+            <video
+              key={slideMedia[playerIndex].src}
+              className="century-video-player__video"
+              autoPlay
+              controls
+              playsInline
+              preload="metadata"
+            >
+              <source src={slideMedia[playerIndex].src} type="video/mp4" />
+            </video>
+            <button
+              ref={closeButtonRef}
+              className="century-video-player__close"
+              type="button"
+              onClick={() => setPlayerIndex(null)}
+              aria-label={playerCopy.close}
+            >
+              <span aria-hidden="true">×</span>
+              <span>{playerCopy.close}</span>
+            </button>
+            <p className="century-video-player__hint">{playerCopy.hint}</p>
+          </div>
+        </div>
+      )}
 
       <div className="century-cases__rail" aria-hidden="true">
         {slideMedia.map((_, index) => (
