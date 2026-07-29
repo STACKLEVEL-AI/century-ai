@@ -2,17 +2,20 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/components/site/LanguageProvider";
+import { useReveal } from "@/hooks/useReveal";
 import { homeCopy } from "@/lib/home-i18n";
 
 export default function SecurityFeatureBlock() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].security;
+  const { ref, className } = useReveal();
 
   return (
     <section
       id="security"
+      ref={ref}
       data-landing-section
-      className="security-slide"
+      className={`security-slide ${className}`}
       aria-labelledby="security-slide-title"
     >
       <div className="security-slide__shell">

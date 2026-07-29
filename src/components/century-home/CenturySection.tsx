@@ -136,17 +136,20 @@ export default function CenturySection() {
                     aria-label={`${playerCopy.open}: ${slide.title}`}
                     aria-haspopup="dialog"
                   >
-                    <video
-                      className="century-cases__video"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      preload="metadata"
-                      aria-label={`${copy.imageAlt}: ${slide.title}`}
-                    >
-                      <source src={slideMedia[index].src} type="video/mp4" />
-                    </video>
+                    {isActive ? (
+                      <video
+                        key={slideMedia[index].src}
+                        className="century-cases__video"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
+                        aria-label={`${copy.imageAlt}: ${slide.title}`}
+                      >
+                        <source src={slideMedia[index].src} type="video/mp4" />
+                      </video>
+                    ) : null}
                     <span className="century-cases__play" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M9 6.75v10.5L17.25 12 9 6.75Z" fill="currentColor" />
