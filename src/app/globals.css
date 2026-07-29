@@ -8610,16 +8610,71 @@ html:has(.century-home-page) .century-home-hero {
 }
 
 .security-slide__features article {
+  position: relative;
   display: grid;
   min-width: 0;
   min-height: 0;
   padding: clamp(14px, 2vh, 22px) 14px clamp(18px, 3vh, 32px);
   grid-template-rows: auto minmax(3.3em, auto) minmax(0, 1fr);
   border-left: 1px solid #343942;
+  background: transparent;
+  transition:
+    background-color 280ms ease,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.security-slide.is-visible .security-slide__features article {
+  animation: security-feature-enter 720ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.security-slide.is-visible .security-slide__features article:nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.security-slide.is-visible .security-slide__features article:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.security-slide.is-visible .security-slide__features article:nth-child(4) {
+  animation-delay: 270ms;
+}
+
+.security-slide__features article::after {
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  left: 14px;
+  height: 2px;
+  content: "";
+  background: #6b5cff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.security-slide__features article:hover {
+  background: rgba(107, 92, 255, 0.09);
+  transform: translateY(-6px);
+}
+
+.security-slide__features article:hover::after {
+  transform: scaleX(1);
 }
 
 .security-slide__features article:first-child {
   border-left: 0;
+}
+
+@keyframes security-feature-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .security-slide__features article > span {
@@ -9351,6 +9406,8 @@ html:has(.century-home-page) .century-home-hero {
   .ai-modes-slide__card-title,
   .ai-modes-slide__badge,
   .ai-modes-slide__card-copy > p,
+  .security-slide__features article,
+  .security-slide__features article::after,
   .security-slide__partner::before,
   .cases-intro-slide__eyebrow,
   .cases-intro-slide__description,
