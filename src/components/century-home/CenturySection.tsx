@@ -13,6 +13,51 @@ const slideMedia = [
   { src: "/slider-image/video/cursorful-video-1785180630482.mp4" },
 ] as const;
 
+function CaseVideoPreview({
+  src,
+  label,
+  isActive,
+}: {
+  src: string;
+  label: string;
+  isActive: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (!isActive) {
+      video.pause();
+      if (video.readyState > 0) video.currentTime = 0;
+      return;
+    }
+
+    video.currentTime = 0;
+    void video.play().catch(() => {
+      // Muted inline playback is supported in modern browsers, but controls
+      // remain available if a browser still blocks programmatic playback.
+    });
+
+    return () => video.pause();
+  }, [isActive]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="century-cases__video"
+      loop
+      muted
+      playsInline
+      preload="auto"
+      aria-label={label}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
+}
+
 function Stepper({
   activeIndex,
   label,
@@ -136,20 +181,11 @@ export default function CenturySection() {
                     aria-label={`${playerCopy.open}: ${slide.title}`}
                     aria-haspopup="dialog"
                   >
-                    {isActive ? (
-                      <video
-                        key={slideMedia[index].src}
-                        className="century-cases__video"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        aria-label={`${copy.imageAlt}: ${slide.title}`}
-                      >
-                        <source src={slideMedia[index].src} type="video/mp4" />
-                      </video>
-                    ) : null}
+                    <CaseVideoPreview
+                      src={slideMedia[index].src}
+                      label={`${copy.imageAlt}: ${slide.title}`}
+                      isActive={isActive}
+                    />
                     <span className="century-cases__play" aria-hidden="true">
                       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M9 6.75v10.5L17.25 12 9 6.75Z" fill="currentColor" />
