@@ -10,6 +10,7 @@ import {
   SITE_NAME,
   SITE_TAGLINE,
   SITE_URL,
+  TELEGRAM_HANDLE,
   absoluteUrl,
 } from "@/lib/site";
 import "./globals.css";
@@ -76,6 +77,17 @@ export const metadata: Metadata = {
   publisher: COMPANY_NAME,
   category: "enterprise ai",
   referrer: "origin-when-cross-origin",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],
     shortcut: ["/favicon.png"],
@@ -94,7 +106,8 @@ export const metadata: Metadata = {
         url: absoluteUrl(OG_IMAGE_PATH),
         width: 1200,
         height: 630,
-        alt: SITE_NAME,
+        alt: "Century — платформа управляемого внедрения корпоративного ИИ",
+        type: "image/png",
       },
     ],
   },
@@ -124,46 +137,65 @@ const structuredData = {
       url: "https://stacklevel.group",
       email: CONTACT_EMAIL,
       telephone: CONTACT_PHONE_RAW,
+      sameAs: ["https://stacklevel.group/", `https://t.me/${TELEGRAM_HANDLE}`],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        email: CONTACT_EMAIL,
+        telephone: CONTACT_PHONE_RAW,
+        availableLanguage: ["ru"],
+        url: absoluteUrl("/demo/"),
+      },
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
+      url: absoluteUrl("/"),
       name: SITE_NAME,
-      inLanguage: "ru",
+      inLanguage: "ru-RU",
       publisher: {
         "@id": `${SITE_URL}/#organization`,
       },
+      mainEntity: {
+        "@id": `${SITE_URL}/#software-application`,
+      },
     },
     {
-      "@type": "Product",
-      "@id": `${SITE_URL}/#product`,
+      "@type": "SoftwareApplication",
+      "@id": `${SITE_URL}/#software-application`,
       name: SITE_NAME,
       description:
         "Платформа управляемого внедрения ИИ: ассистенты, workflow, готовые сервисы, аудит, метрики и управляемое исполнение.",
-      brand: {
-        "@type": "Brand",
-        name: SITE_NAME,
-      },
-      manufacturer: {
+      applicationCategory: "BusinessApplication",
+      applicationSubCategory: "Enterprise AI platform",
+      operatingSystem: "Web, on-premises infrastructure",
+      provider: {
         "@id": `${SITE_URL}/#organization`,
       },
-      category: "Enterprise AI Platform",
       slogan: SITE_TAGLINE,
+      url: absoluteUrl("/"),
       image: absoluteUrl(OG_IMAGE_PATH),
     },
     {
-      "@type": "WebPage",
-      "@id": `${SITE_URL}/#webpage`,
-      url: SITE_URL,
-      name: "Century — платформа управляемого внедрения корпоративного ИИ",
-      inLanguage: "ru",
-      about: {
-        "@id": `${SITE_URL}/#product`,
-      },
-      isPartOf: {
-        "@id": `${SITE_URL}/#website`,
-      },
+      "@type": "ItemList",
+      "@id": `${SITE_URL}/#main-pages`,
+      name: "Основные разделы Century",
+      itemListElement: [
+        ["Платформа", "/platform/"],
+        ["Workflow", "/workflow/"],
+        ["Сервисы", "/services/"],
+        ["Ассистенты", "/assistants/"],
+        ["Безопасность", "/security/"],
+        ["Метрики и наблюдаемость", "/observability/"],
+        ["Кейсы", "/cases/"],
+        ["Стоимость и запуск", "/pricing/"],
+        ["Запросить демо", "/demo/"],
+      ].map(([name, path], position) => ({
+        "@type": "ListItem",
+        position: position + 1,
+        name,
+        url: absoluteUrl(path),
+      })),
     },
   ],
 };

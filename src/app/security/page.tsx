@@ -4,7 +4,7 @@ import {
   PreviewBoard,
   SecurityGovernanceAccordion,
 } from "@/components/site/Sections";
-import { createPageMetadata } from "@/lib/site";
+import { SITE_URL, absoluteUrl, createPageMetadata } from "@/lib/site";
 import { securityFaqs } from "@/lib/site-content";
 
 const securityBlocks = [
@@ -41,9 +41,29 @@ export const metadata = createPageMetadata({
   path: "/security",
 });
 
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${SITE_URL}/security/#faq`,
+  url: absoluteUrl("/security/"),
+  inLanguage: "ru-RU",
+  mainEntity: securityFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
+
 export default function SecurityPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }}
+      />
       <PageHero
         eyebrow="Безопасность"
         title="Безопасность, аудит и допуск к промышленной эксплуатации"

@@ -2,22 +2,22 @@
 
 - Canonical URL: https://century-ai.ru/
 - Language: ru-RU
-- Last updated: 2026-03-26
+- Last updated: 2026-08-05
 
 ## Project summary
 Century is a corporate AI execution platform for managed enterprise AI rollout in on-prem, air-gapped, and hybrid environments. The public site presents Century as a product system that combines assistants, multi-agent execution, workflow orchestration, ready-made service modules, access-aware answers with citations, observability, audit, and controlled rollout from one scenario to a portfolio of corporate use cases.
 
 ## Primary entry points
 - https://century-ai.ru/
-- https://century-ai.ru/platform
-- https://century-ai.ru/workflow
-- https://century-ai.ru/services
-- https://century-ai.ru/assistants
-- https://century-ai.ru/security
-- https://century-ai.ru/observability
-- https://century-ai.ru/cases
-- https://century-ai.ru/pricing
-- https://century-ai.ru/demo
+- https://century-ai.ru/platform/
+- https://century-ai.ru/workflow/
+- https://century-ai.ru/services/
+- https://century-ai.ru/assistants/
+- https://century-ai.ru/security/
+- https://century-ai.ru/observability/
+- https://century-ai.ru/cases/
+- https://century-ai.ru/pricing/
+- https://century-ai.ru/demo/
 
 ## Canonical technical files
 - https://century-ai.ru/robots.txt
