@@ -62,6 +62,7 @@ export default function CasesIntroSection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].casesIntro;
   const sectionRef = useRef<HTMLElement | null>(null);
+  const mobileSequenceStartedRef = useRef(false);
   const [stage, setStage] = useState(0);
 
   useEffect(() => {
@@ -71,15 +72,49 @@ export default function CasesIntroSection() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    const mobileTimers: number[] = [];
+
+    const clearMobileTimers = () => {
+      mobileTimers.forEach((timer) => window.clearTimeout(timer));
+      mobileTimers.length = 0;
+    };
+
+    const setNextStage = (nextStage: number) => {
+      setStage((current) => (current === nextStage ? current : nextStage));
+    };
 
     const updateStage = () => {
       frame = 0;
       const rect = section.getBoundingClientRect();
       const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
       const progress = Math.min(1, Math.max(0, -rect.top / travel));
+      if (window.innerWidth <= 640 && !reduceMotion) {
+        const hasEnteredViewport = rect.top <= window.innerHeight * 0.72 && rect.bottom >= window.innerHeight * 0.28;
+
+        if (!hasEnteredViewport) {
+          if (mobileSequenceStartedRef.current) {
+            clearMobileTimers();
+            mobileSequenceStartedRef.current = false;
+            setNextStage(0);
+          }
+
+          return;
+        }
+
+        if (!mobileSequenceStartedRef.current) {
+          mobileSequenceStartedRef.current = true;
+          setNextStage(0);
+          mobileTimers.push(window.setTimeout(() => setNextStage(1), 80));
+          mobileTimers.push(window.setTimeout(() => setNextStage(2), 600));
+          mobileTimers.push(window.setTimeout(() => setNextStage(3), 1360));
+        }
+
+        return;
+      }
+
       const nextStage = reduceMotion ? 3 : getStage(progress);
 
-      setStage((current) => (current === nextStage ? current : nextStage));
+      setNextStage(nextStage);
     };
 
     const queueUpdate = () => {
@@ -93,6 +128,7 @@ export default function CasesIntroSection() {
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
+      clearMobileTimers();
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
     };

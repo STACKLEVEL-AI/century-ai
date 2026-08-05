@@ -182,7 +182,7 @@ function LayerTwo({ locale }: { locale: Locale }) {
       ]
     : [
         { x: 32, width: 96, title: "Чат", lines: ["Сотрудники", "общаются с ИИ"] },
-        { x: 140, width: 120, title: "Конструктор", lines: ["Автоматизации", "создаёте сами"] },
+        { x: 140, width: 120, title: "Конструктор", lines: ["Автоматизации", "создаете сами"] },
         { x: 272, width: 96, title: "API", lines: ["Интеграция", "со всем"] },
       ];
 
@@ -198,7 +198,7 @@ function LayerTwo({ locale }: { locale: Locale }) {
         </text>
         <rect x="31" y="111" width={isEn ? 145 : 175} height="19" rx="3" fill="none" stroke="#fff" />
         <text x="40" y="124" fill="#fff" fontSize="9" fontWeight="500">
-          {isEn ? "> ask AI anything" : "> спросите ИИ о чём угодно"}
+          {isEn ? "> ask AI anything" : "> спросите ИИ о чем угодно"}
         </text>
         {cards.map((card) => (
           <g key={card.x} className="platform-layer-detail">
@@ -224,7 +224,7 @@ function LayerThree({ locale }: { locale: Locale }) {
   const isEn = locale === "en";
   const items = isEn
     ? [["Security", "Data stays inside"], ["Unified data", "One processing layer"], ["Compliance", "Policies and audit"], ["Scale", "AI grows without a zoo"]]
-    : [["Безопасность", "Данные не покидают контур"], ["Единые данные", "Один слой обработки"], ["Комплаенс", "Единые правила и аудит"], ["Масштаб", "ИИ растёт без зоопарка"]];
+    : [["Безопасность", "Данные не покидают контур"], ["Единые данные", "Один слой обработки"], ["Комплаенс", "Единые правила и аудит"], ["Масштаб", "ИИ растет без зоопарка"]];
 
   return (
     <>
@@ -282,7 +282,7 @@ function LayerFive({ locale }: { locale: Locale }) {
       <g className="platform-layer-detail">
         <rect x="72" y="187" width="256" height="26" rx="13" fill="#fff" stroke="#e2e2e8" />
         <text x="200" y="204" fill="#240cff" fontSize="12.5" fontWeight="700" textAnchor="middle">
-          {isEn ? "PROTECTED COMPANY ENVIRONMENT" : "ЗАЩИЩЁННЫЙ КОНТУР КОМПАНИИ"}
+          {isEn ? "PROTECTED COMPANY ENVIRONMENT" : "ЗАЩИЩЕННЫЙ КОНТУР КОМПАНИИ"}
         </text>
       </g>
       <Tag x={106} y={329} width={52}>ON-PREM</Tag>
@@ -292,11 +292,20 @@ function LayerFive({ locale }: { locale: Locale }) {
   );
 }
 
+function PlatformLayerContent({ index, locale }: { index: number; locale: Locale }) {
+  if (index === 0) return <LayerOne locale={locale} />;
+  if (index === 1) return <LayerTwo locale={locale} />;
+  if (index === 2) return <LayerThree locale={locale} />;
+  if (index === 3) return <LayerFour locale={locale} />;
+  return <LayerFive locale={locale} />;
+}
+
 export function PlatformLayerArtwork({ index, locale, variant = "slot" }: LayerVisualProps) {
-  if (index === 0 && locale === "ru") {
-    return (
+  return (
+    <>
+      {index === 0 && locale === "ru" ? (
       <svg
-        className="platform-layer-artwork"
+        className="platform-layer-artwork platform-layer-artwork--angled"
         viewBox="0 0 739 486"
         aria-hidden="true"
         focusable="false"
@@ -312,26 +321,30 @@ export function PlatformLayerArtwork({ index, locale, variant = "slot" }: LayerV
           preserveAspectRatio="xMidYMid meet"
         />
       </svg>
-    );
-  }
+      ) : (
+        <svg
+          className="platform-layer-artwork platform-layer-artwork--angled"
+          viewBox="0 0 739 486"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g
+            className="platform-layer-artwork__surface"
+            transform="matrix(0.849064 -0.52829 0.849064 0.52829 37.4094 222.664)"
+          >
+            <PlatformLayerContent index={index} locale={locale} />
+          </g>
+        </svg>
+      )}
 
-  return (
-    <svg
-      className="platform-layer-artwork"
-      viewBox="0 0 739 486"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <g
-        className="platform-layer-artwork__surface"
-        transform="matrix(0.849064 -0.52829 0.849064 0.52829 37.4094 222.664)"
+      <svg
+        className="platform-layer-artwork platform-layer-artwork--flat"
+        viewBox="0 0 400 400"
+        aria-hidden="true"
+        focusable="false"
       >
-        {index === 0 ? <LayerOne locale={locale} /> : null}
-        {index === 1 ? <LayerTwo locale={locale} /> : null}
-        {index === 2 ? <LayerThree locale={locale} /> : null}
-        {index === 3 ? <LayerFour locale={locale} /> : null}
-        {index === 4 ? <LayerFive locale={locale} /> : null}
-      </g>
-    </svg>
+        <PlatformLayerContent index={index} locale={locale} />
+      </svg>
+    </>
   );
 }

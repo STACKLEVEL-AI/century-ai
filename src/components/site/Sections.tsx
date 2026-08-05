@@ -303,7 +303,7 @@ export function HomeHeroShowcaseSection({ title, items }: StakeholdersStripProps
           <article className="show-card show-card-light">
             <p className="show-type">Проверяемые ответы</p>
             <h3>Ответ с цитатами и доступом</h3>
-            <span>Источники, выдача с учётом доступа и проверяемый результат.</span>
+            <span>Источники, выдача с учетом доступа и проверяемый результат.</span>
           </article>
           <article className="show-card show-card-blue">
             <p className="show-type">Workflow</p>
@@ -469,7 +469,7 @@ export function DeploymentModeCards({ title, description, cards, note, id }: Fea
             <h3>{card.title}</h3>
             <p>{card.text}</p>
             <span className="deployment-meta">
-              {card.meta || "Развёртывание задаётся архитектурой, режимом доступа и требованиями эксплуатации."}
+              {card.meta || "Развертывание задается архитектурой, режимом доступа и требованиями эксплуатации."}
             </span>
           </article>
         ))}
