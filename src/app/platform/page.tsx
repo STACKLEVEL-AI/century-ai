@@ -95,7 +95,7 @@ export default function PlatformPage() {
         ]}
       >
         <PreviewBoard
-          eyebrow="5 слоёв"
+          eyebrow="5 слоев"
           title="Архитектурная рамка"
           items={[
             "Пользователи и интерфейсы",

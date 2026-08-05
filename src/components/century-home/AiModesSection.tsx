@@ -84,6 +84,11 @@ export default function AiModesSection() {
               })}
             </div>
 
+            <div className="ai-modes-slide__active-mode" aria-hidden="true">
+              <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+              <strong>{activeMode.title}</strong>
+            </div>
+
             <article
               key={`${locale}-${activeIndex}`}
               id="mode-panel"

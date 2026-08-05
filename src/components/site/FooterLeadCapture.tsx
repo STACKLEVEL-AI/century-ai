@@ -24,7 +24,7 @@ const contactLinks = [
 
 const teamMembers = [
   {
-    src: "/footer-image/Vitali.png",
+    src: "/footer-image/vitali-bw.webp",
     alt: "Vitali",
     href: "https://www.linkedin.com/in/vbakhmat/",
     objectPosition: "50% 50%",
@@ -33,7 +33,7 @@ const teamMembers = [
     translateY: 12,
   },
   {
-    src: "/footer-image/Vadim.jpg",
+    src: "/footer-image/vadim-bw.webp",
     alt: "Vadim",
     href: "https://www.linkedin.com/in/vadimohka/",
     objectPosition: "50% 30%",
@@ -42,7 +42,7 @@ const teamMembers = [
     translateY: -1,
   },
   {
-    src: "/footer-image/Egor.png",
+    src: "/footer-image/egor-bw.webp",
     alt: "Egor",
     href: "https://www.linkedin.com/in/ekrychev/",
     objectPosition: "50% 50%",
@@ -64,7 +64,7 @@ export default function FooterLeadCapture() {
       <section className="site-footer__surface overflow-hidden bg-white" aria-labelledby="footer-brief-title">
         <div className="shell max-w-[1440px] px-5 py-[clamp(34px,7vw,100px)] sm:px-8 lg:px-[100px]">
           <div className="grid grid-cols-1 gap-[clamp(28px,4vw,84px)] min-[1081px]:grid-cols-[minmax(240px,340px)_minmax(0,1fr)]">
-            <aside className="grid min-w-0 content-start" aria-label={copy.contacts}>
+            <aside className="footer-lead__contacts grid min-w-0 content-start" aria-label={copy.contacts}>
               <div
                 className="flex flex-wrap items-center gap-[clamp(12px,3vw,39px)] border-b border-[rgba(19,21,27,0.14)] pb-3 sm:pb-2.5"
                 aria-label={copy.team}
@@ -82,14 +82,13 @@ export default function FooterLeadCapture() {
                       src={src}
                       alt={alt}
                       fill
-                      quality={100}
                       sizes="(max-width: 720px) 120px, 160px"
                       className="footer-team-photo object-cover"
                       style={{
                         objectPosition,
                         transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
                         transformOrigin: "center",
-                        filter: "none",
+                        filter: "grayscale(1) contrast(0.92)",
                       }}
                     />
                     <span aria-hidden="true" className="footer-team-photo-ring" />
@@ -128,7 +127,7 @@ export default function FooterLeadCapture() {
               </div>
             </aside>
 
-            <div className="w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[320px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
+            <div className="footer-lead__form w-full min-w-0 justify-self-stretch bg-[#f7f7f8] px-[clamp(20px,5vw,60px)] py-[clamp(24px,4vw,39px)] shadow-[0_2px_2px_rgba(172,172,172,0.3)] min-[1081px]:min-h-[320px] min-[1081px]:max-w-[820px] min-[1081px]:justify-self-end">
               <h2
                 id="footer-brief-title"
                 className="m-0 max-w-[700px] text-[clamp(2rem,4vw,40px)] leading-[100%] font-semibold tracking-[2%] text-black"

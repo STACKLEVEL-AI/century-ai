@@ -50,7 +50,7 @@ function CaseVideoPreview({
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
       aria-label={label}
     >
       <source src={src} type="video/mp4" />
@@ -105,9 +105,16 @@ function Stepper({
 export default function CenturySection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].cases;
+  const detailsLabel = locale === "ru" ? "Подробнее" : "Learn more";
+  const collapseLabel = locale === "ru" ? "Скрыть" : "Hide";
   const { activeIndex, direction, scrollToStep, sectionRef } = useScrollDrivenSteps(slideMedia.length);
   const [playerIndex, setPlayerIndex] = useState<number | null>(null);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const selectCase = (index: number) => {
+    setExpandedIndex(null);
+    scrollToStep(index);
+  };
   const playerCopy = locale === "ru"
     ? { close: "Закрыть видео", open: "Открыть видео", hint: "Нажмите Esc, чтобы закрыть" }
     : { close: "Close video", open: "Open video", hint: "Press Esc to close" };
@@ -146,18 +153,19 @@ export default function CenturySection() {
     >
       <div className="century-cases__sticky">
         <div className="century-cases__shell">
-          <Stepper activeIndex={activeIndex} label={copy.tabsLabel} onStepClick={scrollToStep} />
+          <Stepper activeIndex={activeIndex} label={copy.tabsLabel} onStepClick={selectCase} />
 
           <div className="century-cases__slides" aria-live="polite">
             {copy.slides.map((slide, index) => {
               const step = String(index + 1).padStart(2, "0");
               const isActive = index === activeIndex;
+              const isExpanded = expandedIndex === index;
 
               return (
                 <article
                   key={`${locale}-${step}`}
                   id={isActive ? "case-slide-panel" : undefined}
-                  className={`century-cases__slide${isActive ? " is-active" : ""}`}
+                  className={`century-cases__slide${isActive ? " is-active" : ""}${isExpanded ? " is-expanded" : ""}`}
                   role="tabpanel"
                   aria-hidden={!isActive}
                   aria-labelledby={`case-tab-${step}`}
@@ -165,7 +173,18 @@ export default function CenturySection() {
                   <div className="century-cases__copy">
                     <h2 id={`case-slide-title-${index + 1}`}>{slide.title}</h2>
                     <p className="century-cases__lead">{slide.lead}</p>
-                    <p className="century-cases__body">{slide.body}</p>
+                    <div id={`case-details-${step}`} className="century-cases__footer">
+                      <p className="century-cases__body">{slide.body}</p>
+                      <button
+                        className="century-cases__details"
+                        type="button"
+                        aria-expanded={isExpanded}
+                        aria-controls={`case-details-${step}`}
+                        onClick={() => setExpandedIndex((current) => (current === index ? null : index))}
+                      >
+                        {isExpanded ? collapseLabel : detailsLabel}
+                      </button>
+                    </div>
 
                     <div className="century-cases__tags" aria-label={copy.effectsLabel}>
                       {slide.tags.map((tag) => (
