@@ -8,7 +8,7 @@ export const CONTACT_EMAIL = "v.bakhmat@stacklevel.group";
 export const CONTACT_PHONE = "+375 (29) 668-21-27";
 export const CONTACT_PHONE_RAW = "+375296682127";
 export const TELEGRAM_HANDLE = "vitalibakhmat";
-export const OG_IMAGE_PATH = "/og/century-ai-og.svg";
+export const OG_IMAGE_PATH = "/og/century-ai-og.png";
 
 export type NavItem = {
   href: string;
@@ -63,21 +63,41 @@ export function absoluteUrl(path: string) {
   return new URL(path, SITE_URL).toString();
 }
 
+export function canonicalPath(path: string) {
+  if (path === "/") {
+    return path;
+  }
+
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
 export function createPageMetadata({
   title,
   description,
   path,
   keywords = [],
 }: MetadataInput): Metadata {
-  const fullTitle = `${title} | Century`;
-  const url = absoluteUrl(path);
+  const normalizedPath = canonicalPath(path);
+  const fullTitle = normalizedPath === "/" ? title : `${title} | ${SITE_NAME}`;
+  const url = absoluteUrl(normalizedPath);
 
   return {
     title: fullTitle,
     description,
     keywords: [...COMMON_KEYWORDS, ...keywords],
     alternates: {
-      canonical: path,
+      canonical: normalizedPath,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
     openGraph: {
       title: fullTitle,
@@ -91,7 +111,8 @@ export function createPageMetadata({
           url: absoluteUrl(OG_IMAGE_PATH),
           width: 1200,
           height: 630,
-          alt: SITE_NAME,
+          alt: fullTitle,
+          type: "image/png",
         },
       ],
     },

@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL, canonicalPath } from "@/lib/site";
 
-const SITE_URL = "https://century-ai.ru";
 export const dynamic = "force-static";
+const LAST_CONTENT_UPDATE = new Date("2026-08-05T00:00:00.000Z");
 
 const routes = [
   { path: "/", priority: 1 },
@@ -17,12 +18,14 @@ const routes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   return routes.map((route) => ({
-    url: `${SITE_URL}${route.path}`,
-    lastModified,
+    url: absoluteUrl(canonicalPath(route.path)),
+    lastModified: LAST_CONTENT_UPDATE,
     changeFrequency: "weekly",
     priority: route.priority,
   }));
+}
+
+function absoluteUrl(path: string) {
+  return new URL(path, SITE_URL).toString();
 }

@@ -2,7 +2,7 @@
 
 Canonical URL: https://century-ai.ru/
 Language: ru-RU
-Snapshot date: 2026-03-26
+Snapshot date: 2026-08-05
 
 ## 1) Overall positioning
 Century is presented as a corporate AI execution platform, not as a narrow safe-RAG landing page and not as a simple chat interface.
@@ -19,15 +19,15 @@ Core product framing:
 
 Primary navigation routes:
 - /
-- /platform
-- /workflow
-- /services
-- /assistants
-- /security
-- /observability
-- /cases
-- /pricing
-- /demo
+- /platform/
+- /workflow/
+- /services/
+- /assistants/
+- /security/
+- /observability/
+- /cases/
+- /pricing/
+- /demo/
 
 ## 2) Home page summary
 The home page is structured as a product site with the following block order:
