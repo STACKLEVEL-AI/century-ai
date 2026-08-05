@@ -6852,27 +6852,7 @@ footer section {
 }
 
 .century-home-hero {
-  position: relative;
-  width: 100%;
-  height: 100svh;
-  min-height: 100svh;
-  overflow: hidden;
-  background: #000;
-}
-
-.century-home-hero__video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-@supports (height: 100dvh) {
-  .century-home-hero {
-    height: 100dvh;
-    min-height: 100dvh;
-  }
+  height: calc(100svh - var(--landing-header-height));
 }
 
 [data-landing-section],
