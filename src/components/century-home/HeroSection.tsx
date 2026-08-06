@@ -6,6 +6,7 @@ import { homeCopy } from "@/lib/home-i18n";
 export default function HeroSection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].hero;
+  const videoName = locale === "ru" ? "ru" : "en";
 
   return (
     <section
@@ -19,15 +20,18 @@ export default function HeroSection() {
           : "Century — enterprise AI platform for business"}
       </h1>
       <video
+        key={locale}
         className="century-home-hero__video"
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
+        poster={`/hero-video/hero-${videoName}-poster.jpg`}
         aria-label={`${copy.lineOne} ${copy.lineTwo}`}
       >
-        <source src="/hero-video.mp4" type="video/mp4" />
+        <source src={`/hero-video/hero-${videoName}.webm`} type="video/webm" />
+        <source src={`/hero-video/hero-${videoName}.mp4`} type="video/mp4" />
       </video>
     </section>
   );
