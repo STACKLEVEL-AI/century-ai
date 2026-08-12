@@ -7249,6 +7249,175 @@ footer section {
   }
 }
 
+/* Palantir-inspired compact navigation bar. The interaction model remains
+   unchanged; only the presentation is consolidated into the top toolbar. */
+html:has(.century-home-page) .site-header {
+  width: min(1216px, calc(100% - 64px));
+  margin: 28px auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 72%),
+    rgba(25, 31, 38, 0.52);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 14px 32px rgba(4, 8, 14, 0.14);
+  backdrop-filter: blur(22px) saturate(130%);
+}
+
+html:has(.century-home-page) .site-header::before,
+html:has(.century-home-page) .site-header::after {
+  display: none;
+}
+
+html:has(.century-home-page) .header-main {
+  min-height: 54px;
+  padding: 0 18px;
+  grid-template-columns: minmax(0, 1fr) auto 40px;
+  gap: 14px;
+}
+
+html:has(.century-home-page) .logo {
+  width: auto;
+  height: 40px;
+  align-items: center;
+}
+
+html:has(.century-home-page) .logo-century {
+  color: #fff;
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-cta--desktop {
+  display: inline-flex;
+  width: 176px;
+  min-height: 38px;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.header-cta--desktop:hover {
+  border-color: #fff;
+  background: #dfe4e9;
+  box-shadow: none;
+  color: #15191e;
+}
+
+.header-search-ornament,
+html:has(.century-home-page) .burger-btn {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: #fff;
+  color: #15191e;
+}
+
+.header-search-ornament svg {
+  width: 19px;
+  height: 19px;
+}
+
+html:has(.century-home-page) .burger-btn {
+  justify-self: auto;
+  padding: 0;
+}
+
+html:has(.century-home-page) .burger-line {
+  width: 20px;
+  height: 1px;
+  border-radius: 0;
+  background: #15191e;
+}
+
+html:has(.century-home-page) .burger-line:nth-child(1) {
+  top: 12px;
+}
+
+html:has(.century-home-page) .burger-line:nth-child(2) {
+  top: 18px;
+}
+
+html:has(.century-home-page) .burger-line:nth-child(3) {
+  top: 24px;
+}
+
+html:has(.century-home-page) .burger-btn.is-active .burger-line:nth-child(1),
+html:has(.century-home-page) .burger-btn.is-active .burger-line:nth-child(3) {
+  top: 18px;
+}
+
+html:has(.century-home-page) .main-nav {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  width: min(360px, 100%);
+  padding: 12px;
+  align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2px;
+  background: rgba(25, 31, 38, 0.96);
+  box-shadow: 0 16px 36px rgba(4, 8, 14, 0.24);
+  color: #fff;
+}
+
+html:has(.century-home-page) .main-nav .main-nav__link {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  color: #fff;
+}
+
+html:has(.century-home-page) .main-nav .main-nav__link:hover,
+html:has(.century-home-page) .main-nav .main-nav__link.is-active {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  color: #fff;
+}
+
+@media (min-width: 1041px) {
+  html:has(.century-home-page) .burger-btn {
+    display: grid !important;
+  }
+
+  html:has(.century-home-page) .main-nav {
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    flex-direction: column;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  html:has(.century-home-page) .main-nav.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
 /* =========================================================
    Century landing: slide scroll and interactive sections
    ========================================================= */
@@ -11036,4 +11205,447 @@ html:has(.century-home-page) .century-home-hero {
   .security-slide__partner {
     min-height: 128px;
   }
+}
+
+/* Keep the translucent Palantir-style toolbar intact after the landing
+   page's legacy mobile overrides above. */
+@media (max-width: 1040px) {
+  html:has(.century-home-page) .site-header {
+    top: 20px;
+    width: min(1216px, calc(100% - 40px));
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 72%),
+      rgba(25, 31, 38, 0.62);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 14px 32px rgba(4, 8, 14, 0.14);
+    backdrop-filter: blur(22px) saturate(130%);
+  }
+
+  html:has(.century-home-page) .header-main {
+    min-height: 54px;
+    padding: 0 14px;
+    grid-template-columns: minmax(0, 1fr) auto 40px;
+    gap: 10px;
+  }
+
+  html:has(.century-home-page) .main-nav {
+    top: calc(100% + 10px);
+    right: 0;
+    left: auto;
+    width: min(360px, 100%);
+    align-items: stretch;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    background: rgba(25, 31, 38, 0.96);
+    box-shadow: 0 16px 36px rgba(4, 8, 14, 0.24);
+    color: #fff;
+  }
+
+  html:has(.century-home-page) .main-nav .main-nav__link {
+    color: #fff;
+  }
+}
+
+@media (max-width: 640px) {
+  html:has(.century-home-page) .header-main {
+    grid-template-columns: minmax(0, 1fr) 40px;
+    padding: 0 8px 0 16px;
+  }
+
+  html:has(.century-home-page) .header-actions {
+    display: none;
+  }
+
+  html:has(.century-home-page) .logo-century {
+    color: #fff;
+    font-size: 23px;
+  }
+}
+
+html:has(.century-home-page) .site-header {
+  overflow: visible;
+}
+
+html:has(.century-home-page) .main-nav .language-switch {
+  display: flex;
+  margin: 12px 0 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 6px;
+}
+
+html:has(.century-home-page) .main-nav .language-switch button {
+  width: 42px;
+  min-height: 30px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+html:has(.century-home-page) .main-nav .language-switch button.is-active {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+}
+
+html:has(.century-home-page) .main-nav .nav-cta {
+  display: inline-flex;
+  width: 100%;
+  min-height: 42px;
+  margin: 12px 0 0;
+  justify-content: center;
+  border: 1px solid #fff;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html:has(.century-home-page) .main-nav .nav-cta:hover {
+  border-color: #fff;
+  background: #dfe4e9;
+  box-shadow: none;
+  color: #15191e;
+}
+
+/* Shared header treatment for every route rendered inside SiteChrome. */
+.site-header.palantir-header {
+  width: min(1216px, calc(100% - 64px));
+  margin: 28px auto 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 72%),
+    rgba(25, 31, 38, 0.52);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 14px 32px rgba(4, 8, 14, 0.14);
+  overflow: visible;
+  backdrop-filter: blur(22px) saturate(130%);
+}
+
+.site-header.palantir-header::before,
+.site-header.palantir-header::after {
+  display: none;
+}
+
+.site-header.palantir-header .header-main {
+  min-height: 54px;
+  padding: 0 18px;
+  grid-template-columns: minmax(0, 1fr) auto 40px;
+  gap: 14px;
+}
+
+.site-header.palantir-header .logo {
+  width: auto;
+  height: 40px;
+  align-items: center;
+}
+
+.site-header.palantir-header .logo-century {
+  color: #fff;
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.site-header.palantir-header .burger-btn {
+  display: grid !important;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: #fff;
+  color: #15191e;
+}
+
+.site-header.palantir-header .burger-line {
+  width: 20px;
+  height: 1px;
+  border-radius: 0;
+  background: #15191e;
+}
+
+.site-header.palantir-header .burger-line:nth-child(1) {
+  top: 12px;
+}
+
+.site-header.palantir-header .burger-line:nth-child(2) {
+  top: 18px;
+}
+
+.site-header.palantir-header .burger-line:nth-child(3) {
+  top: 24px;
+}
+
+.site-header.palantir-header .burger-btn.is-active .burger-line:nth-child(1),
+.site-header.palantir-header .burger-btn.is-active .burger-line:nth-child(3) {
+  top: 18px;
+}
+
+.site-header.palantir-header .main-nav {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  display: flex;
+  width: min(360px, 100%);
+  padding: 12px;
+  align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2px;
+  flex-direction: column;
+  background: rgba(25, 31, 38, 0.96);
+  box-shadow: 0 16px 36px rgba(4, 8, 14, 0.24);
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.site-header.palantir-header .main-nav.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.site-header.palantir-header .main-nav .main-nav__link {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  color: #fff;
+}
+
+.site-header.palantir-header .main-nav .main-nav__link:hover,
+.site-header.palantir-header .main-nav .main-nav__link.is-active {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  color: #fff;
+}
+
+.site-header.palantir-header .main-nav .language-switch {
+  display: flex;
+  margin: 12px 0 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: 6px;
+}
+
+.site-header.palantir-header .main-nav .language-switch button {
+  width: 42px;
+  min-height: 30px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.site-header.palantir-header .main-nav .language-switch button.is-active {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+}
+
+.site-header.palantir-header .main-nav .nav-cta {
+  display: inline-flex;
+  width: 100%;
+  min-height: 42px;
+  margin: 12px 0 0;
+  justify-content: center;
+  border: 1px solid #fff;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.site-header.palantir-header .main-nav .nav-cta:hover {
+  border-color: #fff;
+  background: #dfe4e9;
+  box-shadow: none;
+  color: #15191e;
+}
+
+@media (max-width: 1040px) {
+  .site-header.palantir-header {
+    top: 20px;
+    width: min(1216px, calc(100% - 40px));
+    margin: 0 auto;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 72%),
+      rgba(25, 31, 38, 0.62);
+  }
+
+  .site-header.palantir-header .header-main {
+    padding: 0 14px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header.palantir-header .header-main {
+    grid-template-columns: minmax(0, 1fr) 40px;
+    padding: 0 8px 0 16px;
+  }
+
+  .site-header.palantir-header .header-actions {
+    display: none;
+  }
+}
+
+/* Language controls: plain buttons without the previous glass treatment. */
+.language-switch {
+  position: static;
+  display: inline-flex;
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  isolation: auto;
+  gap: 8px;
+}
+
+.language-switch::before {
+  display: none;
+}
+
+.language-switch button,
+.site-header.palantir-header .main-nav .language-switch button {
+  width: 42px;
+  height: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: inherit;
+  font: 600 11px/1 var(--font-lato), sans-serif;
+  letter-spacing: 0.04em;
+  transform: none;
+}
+
+.language-switch button:hover,
+.site-header.palantir-header .main-nav .language-switch button:hover,
+.site-header.palantir-header .main-nav .language-switch button:hover {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  transform: none;
+}
+
+.language-switch button.is-active,
+.site-header.palantir-header .main-nav .language-switch button.is-active {
+  border-color: #fff;
+  background: #fff;
+  box-shadow: none;
+  color: #15191e;
+  transform: none;
+}
+
+.site-header.palantir-header .main-nav .language-switch button {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-header.palantir-header .main-nav .language-switch button:hover,
+.site-header.palantir-header .main-nav .language-switch button.is-active {
+  color: #15191e;
+}
+
+/* Keep separators neutral when an active tab removes its blur. */
+.ai-modes-slide__tabs button.is-active::before,
+.ai-modes-slide__tabs button:hover::before,
+.ai-modes-slide__tabs button:focus-visible::before {
+  background: #a7a7a7;
+  filter: blur(1.1px);
+  opacity: 0.42;
+}
+
+.ai-modes-slide__tabs button:first-child.is-active::before,
+.ai-modes-slide__tabs button:first-child:hover::before,
+.ai-modes-slide__tabs button:first-child:focus-visible::before {
+  background: linear-gradient(
+    to bottom,
+    #a7a7a7 0 1px,
+    transparent 1px calc(100% - 1px),
+    #a7a7a7 calc(100% - 1px) 100%
+  );
+}
+
+/* Keep flipped security cards inside their panel and replace the text hint
+   with a small, self-explanatory visual cue. */
+.security-slide__features article,
+.security-slide__features article:hover,
+.security-slide__features article.is-flipped {
+  overflow: hidden;
+  transform: none;
+}
+
+.security-slide__features article:hover {
+  background: rgba(107, 92, 255, 0.09);
+}
+
+.security-slide__feature-front::after,
+.security-slide__feature-back::after {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.82);
+  content: "↻";
+  font-size: 17px;
+  line-height: 1;
+}
+
+.security-slide__feature-card {
+  transform-origin: center;
 }

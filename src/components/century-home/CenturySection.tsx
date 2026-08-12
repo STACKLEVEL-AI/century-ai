@@ -6,11 +6,11 @@ import { useScrollDrivenSteps } from "@/hooks/useScrollDrivenSteps";
 import { homeCopy } from "@/lib/home-i18n";
 
 const slideMedia = [
-  { src: "/slider-image/video/cursorful-video-1784747090863.mp4" },
-  { src: "/slider-image/video/cursorful-video-1785091786053.mp4" },
-  { src: "/slider-image/video/cursorful-video-1785094738421.mp4" },
+  { src: "/slider-image/video/cases-01.mp4" },
+  { src: "/slider-image/video/cases-02.mp4" },
+  { src: "/slider-image/video/cases-03.mp4" },
   { src: "/slider-image/video/cursorful-video-1784576147761.mp4" },
-  { src: "/slider-image/video/cursorful-video-1785180630482.mp4" },
+  { src: "/slider-image/video/cases-05.mp4" },
 ] as const;
 
 function CaseVideoPreview({
