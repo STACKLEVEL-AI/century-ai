@@ -31,16 +31,10 @@ export default function HeroSection() {
         aria-label={`${copy.lineOne} ${copy.lineTwo}`}
       >
         <source
-          src={`/hero-video/hero-${videoName}-mobile.webm`}
-          type="video/webm"
-          media="(max-width: 767px)"
-        />
-        <source
           src={`/hero-video/hero-${videoName}-mobile.mp4`}
           type="video/mp4"
           media="(max-width: 767px)"
         />
-        <source src={`/hero-video/hero-${videoName}.webm`} type="video/webm" />
         <source src={`/hero-video/hero-${videoName}.mp4`} type="video/mp4" />
       </video>
     </section>

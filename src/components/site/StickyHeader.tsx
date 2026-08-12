@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { Search } from "lucide-react";
 import { ActionLink } from "@/components/site/ActionLink";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy, type Locale } from "@/lib/home-i18n";
@@ -349,7 +350,7 @@ export default function StickyHeader() {
   return (
     <>
       <header
-        className={`site-header${hidden ? " is-hidden" : ""}${menuOpen ? " menu-open" : ""}`}
+        className={`site-header palantir-header${hidden ? " is-hidden" : ""}${menuOpen ? " menu-open" : ""}`}
         onMouseLeave={handleHeaderMouseLeave}
       >
         <div className="header-main mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
@@ -361,6 +362,21 @@ export default function StickyHeader() {
           >
             <span className="logo-century w-full">CENTURY</span>
           </Link>
+
+          <div className="header-actions">
+            <ActionLink
+              href="/#contacts"
+              className="header-cta header-cta--desktop"
+              trackingLabel="header_contact"
+              trackingContext="header"
+              onClick={(event) => handleLandingAnchorClick(event, "/#contacts")}
+            >
+              {copy.contact}
+            </ActionLink>
+            <span className="header-search-ornament" aria-hidden="true">
+              <Search strokeWidth={1.25} />
+            </span>
+          </div>
 
           <button
             className={`burger-btn${menuOpen ? " is-active" : ""}`}

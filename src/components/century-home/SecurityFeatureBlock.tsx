@@ -24,7 +24,7 @@ export default function SecurityFeatureBlock() {
         { label: "Integration", text: "Connect Century to internal services through APIs, queues and secure connectors without duplicating critical data." },
         { label: "Control", text: "Logs, roles, policies and action trails are ready for investigations, recurring audits and compliance reviews." },
       ];
-  const flipHint = locale === "ru" ? "Нажмите, чтобы перевернуть" : "Tap to flip";
+  const flipHint = locale === "ru" ? "Перевернуть карточку" : "Flip card";
 
   const toggleFeature = (index: number) => {
     setFlippedIndex((current) => (current === index ? null : index));
@@ -70,13 +70,11 @@ export default function SecurityFeatureBlock() {
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <h3>{feature.title}</h3>
                     <p>{feature.description}</p>
-                    <span className="security-slide__feature-hint" aria-hidden="true">{flipHint}</span>
                   </div>
                   <div className="security-slide__feature-back" aria-hidden={flippedIndex !== index}>
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <h3>{backCopy[index].label}</h3>
                     <p>{backCopy[index].text}</p>
-                    <span className="security-slide__feature-hint" aria-hidden="true">{flipHint}</span>
                   </div>
                 </div>
               </article>
