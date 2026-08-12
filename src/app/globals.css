@@ -11108,12 +11108,12 @@ html:has(.century-home-page) .century-home-hero {
   }
 
   .platform-architecture__content {
-    margin-top: 52px;
+    margin-top: 42px;
   }
 
   .platform-architecture__visual {
-    height: 430px;
-    min-height: 430px;
+    height: 500px;
+    min-height: 500px;
   }
 
   .platform-architecture__visual::after {
@@ -11130,11 +11130,11 @@ html:has(.century-home-page) .century-home-hero {
   }
 
   .platform-layer-card {
-    width: 326px;
+    width: min(350px, calc(100vw - 56px));
   }
 
   .century-cases__shell {
-    gap: 40px;
+    gap: 34px;
   }
 
   .century-cases__copy h2 {
@@ -11173,8 +11173,8 @@ html:has(.century-home-page) .century-home-hero {
   }
 
   .ai-modes-slide__card {
-    height: min(510px, calc(100svh - 310px));
-    grid-template-rows: minmax(230px, 1.08fr) minmax(210px, 0.92fr);
+    height: min(570px, calc(100svh - 250px));
+    grid-template-rows: minmax(250px, 1.08fr) minmax(230px, 0.92fr);
   }
 
   .ai-modes-slide__visual img {
