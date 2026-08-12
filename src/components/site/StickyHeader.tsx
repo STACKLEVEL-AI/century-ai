@@ -424,15 +424,6 @@ export default function StickyHeader() {
               ))}
             </div>
 
-            <ActionLink
-              href="/#contacts"
-              className="header-cta nav-cta w-[128px] h-[36px]"
-              trackingLabel="header_contact"
-              trackingContext="header"
-              onClick={(event) => handleLandingAnchorClick(event, "/#contacts")}
-            >
-              {copy.contact}
-            </ActionLink>
           </nav>
         </div>
       </header>
