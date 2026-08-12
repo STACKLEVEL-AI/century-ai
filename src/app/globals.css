@@ -11139,7 +11139,12 @@ html:has(.century-home-page) .century-home-hero {
   }
 
   .century-cases__footer {
-    margin-top: clamp(34px, 7vh, 66px);
+    position: absolute;
+    top: calc(clamp(168px, 23vh, 194px) + min(56vw, 220px) + 22px);
+    right: 0;
+    left: 0;
+    display: grid;
+    margin-top: 0;
     gap: 0;
   }
 
