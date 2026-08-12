@@ -11138,6 +11138,21 @@ html:has(.century-home-page) .century-home-hero {
     gap: 34px;
   }
 
+  .century-cases__footer {
+    margin-top: clamp(34px, 7vh, 66px);
+    gap: 0;
+  }
+
+  .century-cases__body {
+    display: block;
+    font-size: 14px;
+    line-height: 1.28;
+  }
+
+  .century-cases__details {
+    display: none;
+  }
+
   .century-cases__copy h2 {
     font-size: 28px;
   }
