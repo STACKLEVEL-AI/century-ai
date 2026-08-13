@@ -6868,6 +6868,71 @@ footer section {
   object-position: center;
 }
 
+.century-home-hero__overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(120px, 14vh, 176px) clamp(40px, 6.8vw, 112px) clamp(46px, 8vh, 88px);
+  pointer-events: none;
+}
+
+.century-home-hero__title {
+  display: grid;
+  width: fit-content;
+  margin: auto 0 0;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 6.8vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.38);
+}
+
+.century-home-hero__industries {
+  position: absolute;
+  top: clamp(142px, 18vh, 220px);
+  right: clamp(40px, 6.8vw, 112px);
+  display: grid;
+  gap: 0.12em;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3.4vw, 3.75rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.38);
+}
+
+@media (max-width: 767px) {
+  .century-home-hero__video {
+    object-position: 52% center;
+  }
+
+  .century-home-hero__overlay {
+    padding: clamp(92px, 15vh, 128px) 24px clamp(34px, 7vh, 64px);
+  }
+
+  .century-home-hero__title {
+    font-size: clamp(2.65rem, 13vw, 4.25rem);
+    line-height: 0.88;
+  }
+
+  .century-home-hero__industries {
+    top: clamp(108px, 17vh, 148px);
+    right: 24px;
+    gap: 0.16em;
+    font-size: clamp(1.05rem, 5.8vw, 1.7rem);
+    line-height: 0.98;
+  }
+}
+
 @supports (height: 100dvh) {
   .century-home-hero {
     height: 100dvh;
