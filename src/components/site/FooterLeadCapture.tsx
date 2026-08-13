@@ -184,9 +184,14 @@ export default function FooterLeadCapture() {
                   </label>
                   <div className="min-w-0 h-[20px] items-center text-center">
                     {copy.consentBefore}{" "}
-                    <Link className="underline decoration-[#240CFF] underline-offset-2" href="/">
+                    <a
+                      className="underline decoration-[#240CFF] underline-offset-2"
+                      href="/documents/century-ai-personal-data-consent.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <span className="text-[#240CFF]">{copy.consentLink}</span>
-                    </Link>
+                    </a>
                     {" "}{copy.consentAfter}
                   </div>
                 </div>
