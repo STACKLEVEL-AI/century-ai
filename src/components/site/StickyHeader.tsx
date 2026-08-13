@@ -28,6 +28,7 @@ export default function StickyHeader() {
   const copy = homeCopy[locale].navigation;
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [isOverHero, setIsOverHero] = useState(pathname === "/");
   const [activeSection, setActiveSection] = useState("");
   const lastScrollY = useRef(0);
   const downScrollAccum = useRef(0);
@@ -124,6 +125,11 @@ export default function StickyHeader() {
     };
 
     const onScroll = () => {
+      if (pathname !== "/") {
+        setIsOverHero(false);
+        return;
+      }
+
       if (updateCasesSliderLock()) {
         setHidden(true);
         return;
@@ -136,11 +142,19 @@ export default function StickyHeader() {
       const current = window.scrollY;
       const hero = document.getElementById("hero");
 
-      if (hero && hero.getBoundingClientRect().bottom > 0) {
-        downScrollAccum.current = 0;
-        setHidden(false);
-        lastScrollY.current = current;
-        return;
+      if (hero) {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        const headerBottom = document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0;
+        const nextIsOverHero = heroBottom > headerBottom;
+
+        setIsOverHero((previous) => previous !== nextIsOverHero ? nextIsOverHero : previous);
+
+        if (heroBottom > 0) {
+          downScrollAccum.current = 0;
+          setHidden(false);
+          lastScrollY.current = current;
+          return;
+        }
       }
 
       const delta = current - lastScrollY.current;
@@ -165,7 +179,7 @@ export default function StickyHeader() {
       window.removeEventListener("scroll", onScroll);
       document.documentElement.classList.remove("century-slider-active");
     };
-  }, [menuOpen]);
+  }, [menuOpen, pathname]);
 
   useEffect(() => {
     const onMouseMove = (event: globalThis.MouseEvent) => {
@@ -350,7 +364,7 @@ export default function StickyHeader() {
   return (
     <>
       <header
-        className={`site-header palantir-header${hidden ? " is-hidden" : ""}${menuOpen ? " menu-open" : ""}`}
+        className={`site-header palantir-header${isOverHero ? " is-over-hero" : ""}${hidden ? " is-hidden" : ""}${menuOpen ? " menu-open" : ""}`}
         onMouseLeave={handleHeaderMouseLeave}
       >
         <div className="header-main mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
