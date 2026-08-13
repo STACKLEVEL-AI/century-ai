@@ -2,7 +2,9 @@
 
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy } from "@/lib/home-i18n";
-import type { CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
+
+const sceneStartTimes = [0, 3, 8, 13, 18] as const;
 
 const overlayStyle = {
   position: "absolute",
@@ -17,7 +19,7 @@ const titleStyle = {
   left: "clamp(24px, 6.8vw, 112px)",
   display: "grid",
   color: "#fff",
-  fontSize: "clamp(2.65rem, 6.8vw, 7.5rem)",
+  fontSize: "clamp(2.15rem, 5vw, 5.5rem)",
   fontWeight: 400,
   lineHeight: 0.9,
   textTransform: "uppercase",
@@ -26,12 +28,11 @@ const titleStyle = {
 
 const industriesStyle = {
   position: "absolute",
-  top: "clamp(108px, 18vh, 220px)",
+  top: "clamp(108px, 18vh, 190px)",
   right: "clamp(24px, 6.8vw, 112px)",
-  display: "grid",
-  gap: "0.12em",
+  display: "block",
   color: "rgba(255, 255, 255, 0.96)",
-  fontSize: "clamp(1.05rem, 3.4vw, 3.75rem)",
+  fontSize: "clamp(0.95rem, 2.6vw, 2.7rem)",
   fontWeight: 400,
   lineHeight: 0.94,
   textAlign: "right",
@@ -42,10 +43,27 @@ const industriesStyle = {
 export default function HeroSection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].hero;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [activeScene, setActiveScene] = useState(0);
   const industries =
     locale === "ru"
       ? ["Финансы", "Агробизнес", "Металлургия", "Логистика", "Космос"]
       : ["Finance", "Agribusiness", "Metallurgy", "Logistics", "Space"];
+
+  const updateActiveScene = () => {
+    const currentTime = videoRef.current?.currentTime ?? 0;
+    let nextScene = 0;
+
+    sceneStartTimes.forEach((startTime, index) => {
+      if (currentTime >= startTime) {
+        nextScene = index;
+      }
+    });
+
+    setActiveScene((previousScene) =>
+      previousScene === nextScene ? previousScene : nextScene,
+    );
+  };
 
   return (
     <section
@@ -59,6 +77,7 @@ export default function HeroSection() {
           : "Century — enterprise AI platform for business"}
       </h1>
       <video
+        ref={videoRef}
         className="century-home-hero__video"
         autoPlay
         loop
@@ -66,6 +85,9 @@ export default function HeroSection() {
         playsInline
         preload="metadata"
         aria-label={`${copy.lineOne} ${copy.lineTwo}`}
+        onTimeUpdate={updateActiveScene}
+        onLoadedMetadata={updateActiveScene}
+        onSeeked={updateActiveScene}
       >
         <source src="/hero-video/century-main-visual.mp4" type="video/mp4" />
       </video>
@@ -76,9 +98,9 @@ export default function HeroSection() {
           <span>{copy.lineTwo}</span>
         </p>
         <div className="century-home-hero__industries" style={industriesStyle}>
-          {industries.map((industry) => (
-            <span key={industry}>{industry}</span>
-          ))}
+          <span key={activeScene} className="century-home-hero__industry">
+            {industries[activeScene]}
+          </span>
         </div>
       </div>
     </section>
