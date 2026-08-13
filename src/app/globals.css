@@ -11404,6 +11404,10 @@ html:has(.century-home-page) .main-nav .nav-cta:hover {
   line-height: 1;
 }
 
+html:has(.century-home-page) .site-header.palantir-header.is-over-hero .logo-century {
+  color: #fff;
+}
+
 .site-header.palantir-header .burger-btn {
   display: grid !important;
   width: 38px;
