@@ -6885,7 +6885,7 @@ footer section {
   margin: auto 0 0;
   color: #fff;
   font-family: var(--font-heading);
-  font-size: clamp(3rem, 6.8vw, 7.5rem);
+  font-size: clamp(2.4rem, 5vw, 5.5rem);
   font-weight: 400;
   line-height: 0.9;
   letter-spacing: 0;
@@ -6895,19 +6895,35 @@ footer section {
 
 .century-home-hero__industries {
   position: absolute;
-  top: clamp(142px, 18vh, 220px);
+  top: clamp(142px, 18vh, 190px);
   right: clamp(40px, 6.8vw, 112px);
-  display: grid;
-  gap: 0.12em;
+  display: block;
   color: rgba(255, 255, 255, 0.96);
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3.4vw, 3.75rem);
+  font-size: clamp(1.15rem, 2.6vw, 2.7rem);
   font-weight: 400;
   line-height: 0.94;
   letter-spacing: 0;
   text-align: right;
   text-transform: uppercase;
   text-shadow: 0 3px 24px rgba(0, 0, 0, 0.38);
+}
+
+.century-home-hero__industry {
+  display: block;
+  animation: hero-industry-enter 280ms ease-out both;
+}
+
+@keyframes hero-industry-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 767px) {
@@ -6920,15 +6936,14 @@ footer section {
   }
 
   .century-home-hero__title {
-    font-size: clamp(2.65rem, 13vw, 4.25rem);
+    font-size: clamp(2.15rem, 10.5vw, 3.5rem);
     line-height: 0.88;
   }
 
   .century-home-hero__industries {
     top: clamp(108px, 17vh, 148px);
     right: 24px;
-    gap: 0.16em;
-    font-size: clamp(1.05rem, 5.8vw, 1.7rem);
+    font-size: clamp(0.95rem, 4.6vw, 1.35rem);
     line-height: 0.98;
   }
 }
