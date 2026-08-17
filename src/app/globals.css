@@ -11848,3 +11848,110 @@ html:has(.century-home-page) .site-header.palantir-header.is-over-hero .header-c
     0 7px 16px rgba(0, 0, 0, 0.18);
   color: #fff;
 }
+
+/* Landing refinements: retain the glass surface without an enclosing outline. */
+html:has(.century-home-page) .site-header.palantir-header {
+  border: 0;
+  box-shadow: 0 16px 40px rgba(18, 30, 44, 0.16);
+}
+
+@media (hover: hover) {
+  .site-header.palantir-header .burger-btn:hover,
+  html:has(.century-home-page) .site-header.palantir-header .burger-btn:hover {
+    border-color: rgba(21, 25, 30, 0.42);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.92),
+      0 10px 20px rgba(18, 30, 44, 0.18);
+    transform: translateY(-1px);
+  }
+}
+
+.site-header.palantir-header .burger-btn:focus-visible,
+html:has(.century-home-page) .site-header.palantir-header .burger-btn:focus-visible {
+  outline: 2px solid #240cff;
+  outline-offset: 3px;
+}
+
+.platform-architecture__scroll-cue {
+  position: absolute;
+  z-index: 8;
+  bottom: clamp(12px, 2.4vh, 24px);
+  left: 50%;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #171927;
+  cursor: pointer;
+  transform: translateX(-50%);
+}
+
+.platform-architecture__scroll-cue svg {
+  width: 26px;
+  height: 26px;
+  animation: platform-scroll-cue-bounce 1.8s ease-in-out infinite;
+}
+
+.platform-architecture__scroll-cue:hover svg,
+.platform-architecture__scroll-cue:focus-visible svg {
+  color: #240cff;
+}
+
+.platform-architecture__scroll-cue:focus-visible {
+  outline: 2px solid #240cff;
+  outline-offset: 3px;
+}
+
+@keyframes platform-scroll-cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.footer-copyright {
+  background: #15191e;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-copyright .shell {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+}
+
+.footer-copyright p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* Native mobile scrolling prevents the landing from snapping users into a slide. */
+@media (max-width: 767px) {
+  html:has(.century-home-page) {
+    scroll-snap-type: none;
+  }
+
+  html:has(.century-home-page) .century-home-page > section,
+  html:has(.century-home-page) .site-footer,
+  .platform-architecture__step,
+  .century-cases__snap-step,
+  .ai-modes-slide__step {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-architecture__scroll-cue svg {
+    animation: none;
+  }
+}

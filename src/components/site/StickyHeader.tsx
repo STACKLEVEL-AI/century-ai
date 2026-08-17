@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
-import { Search } from "lucide-react";
 import { ActionLink } from "@/components/site/ActionLink";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy, type Locale } from "@/lib/home-i18n";
@@ -387,9 +386,6 @@ export default function StickyHeader() {
             >
               {copy.contact}
             </ActionLink>
-            <span className="header-search-ornament" aria-hidden="true">
-              <Search strokeWidth={1.25} />
-            </span>
           </div>
 
           <button

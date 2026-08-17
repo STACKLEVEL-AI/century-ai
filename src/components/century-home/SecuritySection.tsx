@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowDown } from "lucide-react";
 import { useState, type CSSProperties, type KeyboardEvent } from "react";
 import { PlatformLayerArtwork, PlatformLayerIcon } from "@/components/century-home/PlatformVisuals";
 import { useLanguage } from "@/components/site/LanguageProvider";
@@ -26,6 +27,10 @@ export default function SecuritySection() {
   const selectLayer = (index: number) => {
     setHoveredIndex(null);
     scrollToStep(index);
+  };
+
+  const scrollToNextSection = () => {
+    document.getElementById("cases")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -166,6 +171,14 @@ export default function SecuritySection() {
             </div>
           </div>
         </div>
+        <button
+          className="platform-architecture__scroll-cue"
+          type="button"
+          aria-label={locale === "ru" ? "Перейти к следующему разделу" : "Go to the next section"}
+          onClick={scrollToNextSection}
+        >
+          <ArrowDown aria-hidden="true" strokeWidth={1.5} />
+        </button>
       </div>
 
       <div className="platform-architecture__rail" aria-hidden="true">

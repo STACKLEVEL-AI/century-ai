@@ -55,11 +55,12 @@ const teamMembers = [
 export default function FooterLeadCapture() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].footer;
+  const year = new Date().getFullYear();
 
   return (
     <footer
       id="contacts"
-      className="site-footer site-footer--lead mb-6 border-b border-[#9B9B9B80] bg-white text-black sm:mb-[45px]"
+      className="site-footer site-footer--lead border-b border-[#9B9B9B80] bg-white text-black"
     >
       <section className="site-footer__surface overflow-hidden bg-white" aria-labelledby="footer-brief-title">
         <div className="shell max-w-[1440px] px-5 py-[clamp(34px,7vw,100px)] sm:px-8 lg:px-[100px]">
@@ -200,6 +201,11 @@ export default function FooterLeadCapture() {
           </div>
         </div>
       </section>
+      <div className="footer-copyright">
+        <div className="shell max-w-[1440px] px-5 sm:px-8 lg:px-[100px]">
+          <p>&copy; {year} Century. {locale === "ru" ? "Все права защищены." : "All rights reserved."}</p>
+        </div>
+      </div>
     </footer>
   );
 }
