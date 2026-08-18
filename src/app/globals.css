@@ -11873,50 +11873,6 @@ html:has(.century-home-page) .site-header.palantir-header .burger-btn:focus-visi
   outline-offset: 3px;
 }
 
-.platform-architecture__scroll-cue {
-  position: absolute;
-  z-index: 8;
-  bottom: clamp(12px, 2.4vh, 24px);
-  left: 50%;
-  display: grid;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  place-items: center;
-  border: 0;
-  background: transparent;
-  color: #171927;
-  cursor: pointer;
-  transform: translateX(-50%);
-}
-
-.platform-architecture__scroll-cue svg {
-  width: 26px;
-  height: 26px;
-  animation: platform-scroll-cue-bounce 1.8s ease-in-out infinite;
-}
-
-.platform-architecture__scroll-cue:hover svg,
-.platform-architecture__scroll-cue:focus-visible svg {
-  color: #240cff;
-}
-
-.platform-architecture__scroll-cue:focus-visible {
-  outline: 2px solid #240cff;
-  outline-offset: 3px;
-}
-
-@keyframes platform-scroll-cue-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(8px);
-  }
-}
-
 .footer-copyright {
   background: #15191e;
   color: rgba(255, 255, 255, 0.8);
@@ -11950,8 +11906,176 @@ html:has(.century-home-page) .site-header.palantir-header .burger-btn:focus-visi
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .platform-architecture__scroll-cue svg {
-    animation: none;
+/* Landing alignment and viewport corrections. Keep the case selector fixed
+   at the top while the active slide content uses the available height. */
+@media (min-width: 901px) {
+  .platform-architecture__shell {
+    justify-content: center;
+  }
+
+  .platform-architecture__content {
+    flex: 0 0 auto;
+    height: min(68vh, 620px);
+    height: min(68svh, 620px);
+  }
+}
+
+@media (max-width: 900px) {
+  .platform-architecture__shell {
+    justify-content: center;
+  }
+
+  .platform-architecture__content {
+    flex: 0 0 auto;
+    height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .platform-architecture__shell {
+    justify-content: flex-start;
+    padding-top: max(72px, calc(8vh + env(safe-area-inset-top)));
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+
+  .platform-architecture__content {
+    margin-top: clamp(52px, 6vh, 64px);
+  }
+
+  .cases-intro-slide__word:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .cases-intro-slide__word-space {
+    display: inline-block;
+    width: 0.28em;
+    white-space: pre;
+  }
+
+  .cases-intro-slide__line {
+    display: block;
+  }
+
+  .century-cases__slide {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    align-content: center;
+    gap: clamp(14px, 2.8vh, 26px);
+    translate: 0 calc(-1 * clamp(16px, 3vh, 28px));
+  }
+
+  .century-cases__copy {
+    display: contents;
+    height: auto;
+  }
+
+  .century-cases__copy h2 {
+    grid-row: 1;
+    margin: 0;
+  }
+
+  .century-cases__lead {
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .century-cases__media {
+    position: relative;
+    inset: auto;
+    grid-row: 3;
+    width: 100%;
+    height: min(56vw, 220px);
+    min-height: 0;
+  }
+
+  .century-cases__footer {
+    position: relative;
+    inset: auto;
+    display: block;
+    grid-row: 4;
+    margin: clamp(12px, 2.5vh, 26px) 0 0;
+    padding: 0;
+  }
+
+  .century-cases__body {
+    display: block;
+    max-width: none;
+    margin: 0;
+    overflow: visible;
+    color: #675fe0;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .century-cases__details {
+    display: none !important;
+  }
+
+  .century-cases__tags {
+    display: none;
+  }
+
+  .security-slide__feature-front,
+  .security-slide__feature-back {
+    padding: 11px 52px 40px 18px;
+  }
+
+  .security-slide__feature-front p,
+  .security-slide__feature-back p {
+    height: auto;
+    min-height: 0;
+    margin-top: 10px;
+    padding: 0;
+    align-self: end;
+    overflow-wrap: anywhere;
+  }
+
+  .security-slide__feature-front::after,
+  .security-slide__feature-back::after {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 640px) and (min-height: 760px) {
+  .cases-intro-slide__title {
+    font-size: clamp(44px, 11vw, 58px) !important;
+    line-height: 0.92 !important;
+  }
+
+}
+
+/* iOS Safari can report a changing visual viewport while its browser chrome
+   expands or collapses. Use the safe-area inset and a fill-available fallback
+   so sticky slides keep the same usable height as Chromium emulation. */
+@supports (-webkit-touch-callout: none) {
+  html:has(.century-home-page),
+  html:has(.century-home-page) body,
+  html:has(.century-home-page) .century-home-page {
+    min-height: -webkit-fill-available;
+  }
+
+  @supports not (height: 100svh) {
+    .platform-architecture__sticky,
+    .century-cases__sticky,
+    .ai-modes-slide__sticky,
+    .cases-intro-slide__sticky {
+      height: -webkit-fill-available;
+    }
+  }
+
+  @media (max-width: 640px) {
+    html:has(.century-home-page) .site-header {
+      top: max(20px, env(safe-area-inset-top));
+    }
+
+    .cases-intro-slide__shell,
+    .platform-architecture__shell,
+    .century-cases__shell,
+    .ai-modes-slide__shell,
+    .security-slide__shell {
+      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+    }
   }
 }

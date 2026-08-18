@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy } from "@/lib/home-i18n";
 
@@ -24,28 +24,31 @@ function TypedPhrase({
       aria-hidden="true"
     >
       {text.split(" ").map((word, wordIndex) => (
-        <span className="cases-intro-slide__word" key={`${word}-${wordIndex}`}>
-          {Array.from(word).map((character) => {
-            const index = characterIndex;
-            characterIndex += 1;
+        <Fragment key={`${word}-${wordIndex}`}>
+          {wordIndex > 0 ? <span className="cases-intro-slide__word-space" aria-hidden="true">{" "}</span> : null}
+          <span className="cases-intro-slide__word">
+            {Array.from(word).map((character) => {
+              const index = characterIndex;
+              characterIndex += 1;
 
-            return (
-              <span
-                key={`${character}-${index}`}
-                className="cases-intro-slide__char"
-                style={
-                  {
-                    "--char-index": index,
-                    "--char-reverse-index": characterCount - index - 1,
-                    "--char-delay": `${characterDelay}ms`,
-                  } as CSSProperties
-                }
-              >
-                {character}
-              </span>
-            );
-          })}
-        </span>
+              return (
+                <span
+                  key={`${character}-${index}`}
+                  className="cases-intro-slide__char"
+                  style={
+                    {
+                      "--char-index": index,
+                      "--char-reverse-index": characterCount - index - 1,
+                      "--char-delay": `${characterDelay}ms`,
+                    } as CSSProperties
+                  }
+                >
+                  {character}
+                </span>
+              );
+            })}
+          </span>
+        </Fragment>
       ))}
     </span>
   );
@@ -86,10 +89,11 @@ export default function CasesIntroSection() {
     const updateStage = () => {
       frame = 0;
       const rect = section.getBoundingClientRect();
-      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      const travel = Math.max(section.offsetHeight - viewportHeight, 1);
       const progress = Math.min(1, Math.max(0, -rect.top / travel));
       if (window.innerWidth <= 640 && !reduceMotion) {
-        const hasEnteredViewport = rect.top <= window.innerHeight * 0.72 && rect.bottom >= window.innerHeight * 0.28;
+        const hasEnteredViewport = rect.top <= viewportHeight * 0.72 && rect.bottom >= viewportHeight * 0.28;
 
         if (!hasEnteredViewport) {
           if (mobileSequenceStartedRef.current) {
@@ -125,12 +129,14 @@ export default function CasesIntroSection() {
     queueUpdate();
     window.addEventListener("scroll", queueUpdate, { passive: true });
     window.addEventListener("resize", queueUpdate);
+    window.visualViewport?.addEventListener("resize", queueUpdate);
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
       clearMobileTimers();
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
+      window.visualViewport?.removeEventListener("resize", queueUpdate);
     };
   }, []);
 

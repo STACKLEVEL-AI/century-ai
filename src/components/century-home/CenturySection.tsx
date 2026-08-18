@@ -105,14 +105,10 @@ function Stepper({
 export default function CenturySection() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].cases;
-  const detailsLabel = locale === "ru" ? "Подробнее" : "Learn more";
-  const collapseLabel = locale === "ru" ? "Скрыть" : "Hide";
   const { activeIndex, direction, scrollToStep, sectionRef } = useScrollDrivenSteps(slideMedia.length);
   const [playerIndex, setPlayerIndex] = useState<number | null>(null);
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const selectCase = (index: number) => {
-    setExpandedIndex(null);
     scrollToStep(index);
   };
   const playerCopy = locale === "ru"
@@ -159,13 +155,12 @@ export default function CenturySection() {
             {copy.slides.map((slide, index) => {
               const step = String(index + 1).padStart(2, "0");
               const isActive = index === activeIndex;
-              const isExpanded = expandedIndex === index;
 
               return (
                 <article
                   key={`${locale}-${step}`}
                   id={isActive ? "case-slide-panel" : undefined}
-                  className={`century-cases__slide${isActive ? " is-active" : ""}${isExpanded ? " is-expanded" : ""}`}
+                  className={`century-cases__slide${isActive ? " is-active" : ""}`}
                   role="tabpanel"
                   aria-hidden={!isActive}
                   aria-labelledby={`case-tab-${step}`}
@@ -175,15 +170,6 @@ export default function CenturySection() {
                     <p className="century-cases__lead">{slide.lead}</p>
                     <div id={`case-details-${step}`} className="century-cases__footer">
                       <p className="century-cases__body">{slide.body}</p>
-                      <button
-                        className="century-cases__details"
-                        type="button"
-                        aria-expanded={isExpanded}
-                        aria-controls={`case-details-${step}`}
-                        onClick={() => setExpandedIndex((current) => (current === index ? null : index))}
-                      >
-                        {isExpanded ? collapseLabel : detailsLabel}
-                      </button>
                     </div>
 
                     <div className="century-cases__tags" aria-label={copy.effectsLabel}>

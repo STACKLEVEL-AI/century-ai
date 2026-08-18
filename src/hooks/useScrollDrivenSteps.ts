@@ -22,7 +22,7 @@ export function useScrollDrivenSteps(stepCount: number) {
       frame = 0;
 
       const rect = section.getBoundingClientRect();
-      const viewportHeight = Math.max(1, window.innerHeight);
+      const viewportHeight = Math.max(1, window.visualViewport?.height ?? window.innerHeight);
 
       if (rect.top >= viewportHeight || rect.bottom <= 0) return;
 
@@ -48,11 +48,13 @@ export function useScrollDrivenSteps(stepCount: number) {
     queueUpdate();
     window.addEventListener("scroll", queueUpdate, { passive: true });
     window.addEventListener("resize", queueUpdate);
+    window.visualViewport?.addEventListener("resize", queueUpdate);
 
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", queueUpdate);
       window.removeEventListener("resize", queueUpdate);
+      window.visualViewport?.removeEventListener("resize", queueUpdate);
     };
   }, [stepCount]);
 
@@ -71,7 +73,7 @@ export function useScrollDrivenSteps(stepCount: number) {
       }
       setActiveIndex(nextIndex);
       window.scrollTo({
-        top: sectionTop + window.innerHeight * nextIndex,
+        top: sectionTop + (window.visualViewport?.height ?? window.innerHeight) * nextIndex,
         // Smooth programmatic scrolling can be cancelled by CSS scroll-snap.
         behavior: "auto",
       });
