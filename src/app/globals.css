@@ -7721,12 +7721,6 @@ html:has(.century-home-page) .century-home-hero {
   text-transform: uppercase;
 }
 
-.platform-architecture__hint::before {
-  content: "▸";
-  margin-right: 10px;
-  color: #7c80a0;
-}
-
 .platform-architecture__content {
   display: grid;
   min-height: 0;
