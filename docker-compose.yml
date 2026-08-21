@@ -1,3 +1,5 @@
+name: century-ai-by
+
 services:
   century-ai:
     build:
