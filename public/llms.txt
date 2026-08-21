@@ -1,6 +1,6 @@
 # Century by Stacklevel Group
 
-- Canonical URL: https://century-ai.ru/
+- Canonical URL: https://century-ai.by/
 - Language: ru-RU
 - Last updated: 2026-08-05
 
@@ -8,21 +8,21 @@
 Century is a corporate AI execution platform for managed enterprise AI rollout in on-prem, air-gapped, and hybrid environments. The public site presents Century as a product system that combines assistants, multi-agent execution, workflow orchestration, ready-made service modules, access-aware answers with citations, observability, audit, and controlled rollout from one scenario to a portfolio of corporate use cases.
 
 ## Primary entry points
-- https://century-ai.ru/
-- https://century-ai.ru/platform/
-- https://century-ai.ru/workflow/
-- https://century-ai.ru/services/
-- https://century-ai.ru/assistants/
-- https://century-ai.ru/security/
-- https://century-ai.ru/observability/
-- https://century-ai.ru/cases/
-- https://century-ai.ru/pricing/
-- https://century-ai.ru/demo/
+- https://century-ai.by/
+- https://century-ai.by/platform/
+- https://century-ai.by/workflow/
+- https://century-ai.by/services/
+- https://century-ai.by/assistants/
+- https://century-ai.by/security/
+- https://century-ai.by/observability/
+- https://century-ai.by/cases/
+- https://century-ai.by/pricing/
+- https://century-ai.by/demo/
 
 ## Canonical technical files
-- https://century-ai.ru/robots.txt
-- https://century-ai.ru/sitemap.xml
-- https://century-ai.ru/llms-full.txt
+- https://century-ai.by/robots.txt
+- https://century-ai.by/sitemap.xml
+- https://century-ai.by/llms-full.txt
 
 ## Official contacts
 - Email: v.bakhmat@stacklevel.group

@@ -1,6 +1,6 @@
 # Century by Stacklevel Group — full context snapshot
 
-Canonical URL: https://century-ai.ru/
+Canonical URL: https://century-ai.by/
 Language: ru-RU
 Snapshot date: 2026-08-05
 
@@ -224,7 +224,7 @@ Ownership line:
 - Century by Stacklevel Group
 
 ## 15) Canonical machine-readable resources
-- https://century-ai.ru/robots.txt
-- https://century-ai.ru/sitemap.xml
-- https://century-ai.ru/llms.txt
-- https://century-ai.ru/llms-full.txt
+- https://century-ai.by/robots.txt
+- https://century-ai.by/sitemap.xml
+- https://century-ai.by/llms.txt
+- https://century-ai.by/llms-full.txt

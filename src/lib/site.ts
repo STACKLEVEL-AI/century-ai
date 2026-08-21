@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
-export const SITE_URL = (configuredSiteUrl || "https://century-ai.ru").replace(/\/$/, "");
+export const SITE_URL = (configuredSiteUrl || "https://century-ai.by").replace(/\/$/, "");
 export const SITE_NAME = "Century";
 export const SITE_TAGLINE = "Платформа управляемого внедрения корпоративного ИИ";
 export const COMPANY_NAME = "Stacklevel Group";
