@@ -1,3 +1,5 @@
+name: century-ai-ru
+
 services:
   century-ai:
     build:
@@ -7,4 +9,3 @@ services:
     ports:
       - "8091:80"
     restart: unless-stopped
-
