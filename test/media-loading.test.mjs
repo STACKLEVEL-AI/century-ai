@@ -5,6 +5,8 @@ import { readFile } from "node:fs/promises";
 const heroPath = new URL("../src/components/century-home/HeroSection.tsx", import.meta.url);
 const casesPath = new URL("../src/components/century-home/CenturySection.tsx", import.meta.url);
 const nginxPath = new URL("../nginx.conf", import.meta.url);
+const originalHeroPath = new URL("../public/hero-video/century-main-visual.mp4", import.meta.url);
+const compressedHeroPath = new URL("../public/hero-video/century-main-visual-compressed.mp4", import.meta.url);
 
 test("hero has an immediate poster while case videos load only when active", async () => {
   const [hero, cases, nginx] = await Promise.all([
@@ -14,6 +16,8 @@ test("hero has an immediate poster while case videos load only when active", asy
   ]);
 
   assert.match(hero, /poster=\{locale === "ru" \? "\/hero-video\/hero-ru-poster\.jpg" : "\/hero-video\/hero-en-poster\.jpg"\}/);
+  assert.match(hero, /century-main-visual-compressed\.mp4/);
   assert.match(cases, /src=\{isActive \? src : undefined\}/);
   assert.match(nginx, /Cache-Control "public, max-age=2592000, immutable"/);
+  await Promise.all([readFile(originalHeroPath), readFile(compressedHeroPath)]);
 });
