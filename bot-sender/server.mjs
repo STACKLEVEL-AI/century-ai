@@ -117,8 +117,19 @@ export function createServer(config) {
         return json(res, 400, { ok: false, error: normalized.reason });
       }
       const text = formatTelegramMessage(config.siteHost, normalized.lead);
-      await Promise.all(config.chatIds.map((chatId) => sendTelegram(config, chatId, text)));
-      return json(res, 200, { ok: true });
+      const deliveries = await Promise.allSettled(
+        config.chatIds.map((chatId) => sendTelegram(config, chatId, text)),
+      );
+      const delivered = deliveries.filter((result) => result.status === "fulfilled").length;
+      const failed = deliveries.filter((result) => result.status === "rejected");
+
+      if (delivered === 0) {
+        const firstFailure = failed[0]?.reason;
+        throw firstFailure instanceof Error ? firstFailure : new Error("Telegram delivery failed");
+      }
+      if (failed.length) console.error(`lead delivered to ${delivered} of ${config.chatIds.length} recipients`);
+
+      return json(res, 200, { ok: true, delivered });
     } catch (error) {
       const statusCode = Number(error?.statusCode || 500);
       if (statusCode >= 500) console.error("lead sender error:", error);

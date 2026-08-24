@@ -1,6 +1,23 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { formatTelegramMessage, loadConfig, normalizeLead, siteHostFromUrl } from "./server.mjs";
+import http from "node:http";
+import { createServer, formatTelegramMessage, loadConfig, normalizeLead, siteHostFromUrl } from "./server.mjs";
+
+function postLead(server, body) {
+  const address = server.address();
+  return new Promise((resolve, reject) => {
+    const request = http.request(
+      { host: "127.0.0.1", port: address.port, method: "POST", path: "/send", headers: { "Content-Type": "application/json" } },
+      (response) => {
+        const chunks = [];
+        response.on("data", (chunk) => chunks.push(chunk));
+        response.on("end", () => resolve({ statusCode: response.statusCode, body: JSON.parse(Buffer.concat(chunks).toString("utf8")) }));
+      },
+    );
+    request.on("error", reject);
+    request.end(JSON.stringify(body));
+  });
+}
 
 test("siteHostFromUrl distinguishes RU and BY", () => {
   assert.equal(siteHostFromUrl("https://century-ai.ru"), "century-ai.ru");
@@ -33,4 +50,34 @@ test("loadConfig keeps site identity server-side and parses all recipients", () 
   const config = loadConfig({ TELEGRAM_BOT_TOKEN: "token", TELEGRAM_CHAT_ID: "8562745319, 435948288, 699352926", SITE_URL: "https://century-ai.by", PORT: "3001" });
   assert.equal(config.siteHost, "century-ai.by");
   assert.deepEqual(config.chatIds, ["8562745319", "435948288", "699352926"]);
+});
+
+test("returns success when at least one recipient accepts a lead", async (t) => {
+  const originalFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (_url, options) => {
+    const chatId = JSON.parse(options.body).chat_id;
+    calls.push(chatId);
+    if (chatId === "435948288") {
+      return new Response(JSON.stringify({ ok: false, description: "chat not found" }), { status: 400 });
+    }
+    return new Response(JSON.stringify({ ok: true, result: {} }), { status: 200 });
+  };
+
+  const server = createServer({
+    botToken: "token",
+    chatIds: ["8562745319", "435948288"],
+    siteUrl: "https://century-ai.by",
+    siteHost: "century-ai.by",
+    port: 0,
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+    server.close();
+  });
+
+  const result = await postLead(server, { name: "Alexey", email: "a@example.by" });
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(calls, ["8562745319", "435948288"]);
 });
