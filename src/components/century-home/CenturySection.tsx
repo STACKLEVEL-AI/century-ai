@@ -50,11 +50,10 @@ function CaseVideoPreview({
       loop
       muted
       playsInline
-      preload="metadata"
+      src={isActive ? src : undefined}
+      preload={isActive ? "metadata" : "none"}
       aria-label={label}
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    />
   );
 }
 

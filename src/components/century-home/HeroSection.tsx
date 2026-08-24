@@ -84,6 +84,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="metadata"
+        poster={locale === "ru" ? "/hero-video/hero-ru-poster.jpg" : "/hero-video/hero-en-poster.jpg"}
         aria-label={`${copy.lineOne} ${copy.lineTwo}`}
         onTimeUpdate={updateActiveScene}
         onLoadedMetadata={updateActiveScene}
