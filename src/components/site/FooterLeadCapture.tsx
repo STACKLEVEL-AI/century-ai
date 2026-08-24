@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { FormEvent, useState } from "react";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { CONTACT_EMAIL, TELEGRAM_HANDLE } from "@/lib/site";
 import { homeCopy } from "@/lib/home-i18n";
@@ -56,6 +57,42 @@ export default function FooterLeadCapture() {
   const { locale } = useLanguage();
   const copy = homeCopy[locale].footer;
   const year = new Date().getFullYear();
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (status === "sending") return;
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get("work_email") || "").trim();
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: locale === "ru" ? "Запрос сценариев" : "Scenario request",
+          email,
+          company: "",
+          role: "",
+          message:
+            locale === "ru"
+              ? "Запросить 3–5 сценариев внедрения ИИ"
+              : "Request 3–5 AI implementation scenarios",
+          website: formData.get("website"),
+        }),
+      });
+
+      if (!response.ok) throw new Error(`Contact API returned ${response.status}`);
+      form.reset();
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  };
 
   return (
     <footer
@@ -139,29 +176,40 @@ export default function FooterLeadCapture() {
                 {copy.description}
               </p>
 
-              <form className="mt-5 grid w-full max-w-[700px] gap-3 sm:gap-4">
+              <form onSubmit={handleSubmit} className="mt-5 grid w-full max-w-[700px] gap-3 sm:gap-4">
                 <div className="grid grid-cols-1 items-stretch gap-[9px] md:grid-cols-[minmax(0,1fr)_190px]">
                   <input
                     className="min-h-[50px] w-full max-w-none rounded-none border border-[rgba(19,21,27,0.14)] bg-white px-4 text-[16px] text-black outline-none transition-[border-color,box-shadow] duration-[180ms] placeholder:text-[#a3a3aa] focus-visible:border-[var(--color-primary-600)] focus-visible:shadow-[0_0_0_2px_rgba(33,13,255,0.08)] md:pl-11 md:pr-[18px]"
                     type="email"
                     name="work_email"
+                    required
                     autoComplete="email"
                     placeholder={copy.emailPlaceholder}
                     aria-label={copy.emailLabel}
                   />
                   <button
-                    type="button"
-                    className="min-h-[50px] w-full max-w-none cursor-pointer rounded-none border border-transparent bg-[#240CFF] px-3 text-[12px] font-medium leading-[100%] text-white transition-colors duration-[180ms] hover:bg-[var(--color-primary-700)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(33,13,255,0.2)] md:max-w-[190px]"
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="min-h-[50px] w-full max-w-none cursor-pointer rounded-none border border-transparent bg-[#240CFF] px-3 text-[12px] font-medium leading-[100%] text-white transition-colors duration-[180ms] hover:bg-[var(--color-primary-700)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(33,13,255,0.2)] disabled:cursor-not-allowed disabled:opacity-60 md:max-w-[190px]"
                   >
-                    {copy.submit}
+                    {status === "sending" ? (locale === "ru" ? "Отправляем..." : "Sending...") : copy.submit}
                   </button>
                 </div>
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="sr-only"
+                />
                 <div className="flex w-full items-center gap-2 text-[13px] font-normal leading-[1.3] text-[#000000] sm:text-[14px]">
                   <label className="flex shrink-0 cursor-pointer items-start">
                     <input
                       className="peer sr-only"
                       type="checkbox"
                       name="consent"
+                      required
                     />
                     <span
                       aria-hidden="true"
@@ -196,6 +244,18 @@ export default function FooterLeadCapture() {
                     {" "}{copy.consentAfter}
                   </div>
                 </div>
+                {status === "success" ? (
+                  <p className="m-0 text-sm text-green-700" role="status">
+                    {locale === "ru" ? "Заявка отправлена." : "Your request was sent."}
+                  </p>
+                ) : null}
+                {status === "error" ? (
+                  <p className="m-0 text-sm text-red-700" role="alert">
+                    {locale === "ru"
+                      ? "Не удалось отправить заявку. Попробуйте еще раз."
+                      : "Could not send the request. Please try again."}
+                  </p>
+                ) : null}
               </form>
             </div>
           </div>
