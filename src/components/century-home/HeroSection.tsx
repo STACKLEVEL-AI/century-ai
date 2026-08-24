@@ -90,7 +90,7 @@ export default function HeroSection() {
         onLoadedMetadata={updateActiveScene}
         onSeeked={updateActiveScene}
       >
-        <source src="/hero-video/century-main-visual.mp4" type="video/mp4" />
+        <source src="/hero-video/century-main-visual-compressed.mp4" type="video/mp4" />
       </video>
 
       <div className="century-home-hero__overlay" style={overlayStyle} aria-hidden="true">
