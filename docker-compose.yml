@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     environment:
       TELEGRAM_BOT_TOKEN: "8512393613:AAEMIhML5_pcp71UzQ6pcIjH1VTSjX0JwUA"
-      TELEGRAM_CHAT_ID: "699352926"
+      TELEGRAM_CHAT_ID: "8562745319,435948288,699352926"
       SITE_URL: "https://century-ai.ru"
       PORT: "3001"
     expose:
