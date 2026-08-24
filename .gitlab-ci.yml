@@ -1,0 +1,12 @@
+stages:
+  - test
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.v2.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.latest.gitlab-ci.yml
+  - template: Jobs/SAST-IaC.gitlab-ci.yml
+
+variables:
+  AST_ENABLE_MR_PIPELINES: "true"
+  SECRET_DETECTION_HISTORIC_SCAN: "false"
