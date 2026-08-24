@@ -9,3 +9,30 @@ services:
     ports:
       - "8091:80"
     restart: unless-stopped
+    depends_on:
+      bot-sender:
+        condition: service_healthy
+
+  bot-sender:
+    build:
+      context: ./bot-sender
+    restart: unless-stopped
+    environment:
+      TELEGRAM_BOT_TOKEN: "8512393613:AAEMIhML5_pcp71UzQ6pcIjH1VTSjX0JwUA"
+      TELEGRAM_CHAT_ID: "699352926"
+      SITE_URL: "https://century-ai.ru"
+      PORT: "3001"
+    expose:
+      - "3001"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 3s
