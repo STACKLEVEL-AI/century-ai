@@ -5,6 +5,7 @@ const MAX_BODY_BYTES = 16 * 1024;
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 8;
 const buckets = new Map();
+const TELEGRAM_API_BASE_URL = "https://api.telegram.org";
 
 export function siteHostFromUrl(siteUrl) {
   const host = new URL(siteUrl).hostname.toLowerCase();
@@ -112,7 +113,7 @@ async function sendTelegram(config, text) {
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     let response;
     try {
-      response = await fetch(`https://api.telegram.org/bot${config.botToken}/sendMessage`, {
+      response = await fetch(`${TELEGRAM_API_BASE_URL}/bot${config.botToken}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
