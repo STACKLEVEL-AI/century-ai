@@ -63,8 +63,8 @@ function json(res, statusCode, body) {
   res.end(JSON.stringify(body));
 }
 
-async function sendTelegram(config, text) {
-  const payload = { chat_id: config.chatId, text, disable_web_page_preview: true };
+async function sendTelegram(config, chatId, text) {
+  const payload = { chat_id: chatId, text, disable_web_page_preview: true };
   if (config.threadId) payload.message_thread_id = config.threadId;
   let lastError = "Telegram request failed";
   for (let attempt = 1; attempt <= 3; attempt += 1) {
@@ -90,18 +90,18 @@ async function sendTelegram(config, text) {
 
 export function loadConfig(env = process.env) {
   const botToken = env.TELEGRAM_BOT_TOKEN?.trim();
-  const chatId = env.TELEGRAM_CHAT_ID?.trim();
+  const chatIds = env.TELEGRAM_CHAT_ID?.split(",").map((value) => value.trim()).filter(Boolean) || [];
   const siteUrl = env.SITE_URL?.trim();
   const port = Number(env.PORT || 3001);
   const threadIdRaw = env.TELEGRAM_THREAD_ID?.trim();
   if (!botToken) throw new Error("TELEGRAM_BOT_TOKEN is required");
-  if (!chatId) throw new Error("TELEGRAM_CHAT_ID is required");
+  if (!chatIds.length) throw new Error("TELEGRAM_CHAT_ID is required");
   if (!siteUrl) throw new Error("SITE_URL is required");
   if (!Number.isInteger(port) || port <= 0 || port > 65535) throw new Error("PORT is invalid");
   const siteHost = siteHostFromUrl(siteUrl);
   const threadId = threadIdRaw ? Number(threadIdRaw) : undefined;
   if (threadIdRaw && !Number.isInteger(threadId)) throw new Error("TELEGRAM_THREAD_ID is invalid");
-  return { botToken, chatId, siteUrl, siteHost, port, threadId };
+  return { botToken, chatIds, siteUrl, siteHost, port, threadId };
 }
 
 export function createServer(config) {
@@ -116,7 +116,8 @@ export function createServer(config) {
         if (normalized.reason === "spam") return json(res, 200, { ok: true });
         return json(res, 400, { ok: false, error: normalized.reason });
       }
-      await sendTelegram(config, formatTelegramMessage(config.siteHost, normalized.lead));
+      const text = formatTelegramMessage(config.siteHost, normalized.lead);
+      await Promise.all(config.chatIds.map((chatId) => sendTelegram(config, chatId, text)));
       return json(res, 200, { ok: true });
     } catch (error) {
       const statusCode = Number(error?.statusCode || 500);

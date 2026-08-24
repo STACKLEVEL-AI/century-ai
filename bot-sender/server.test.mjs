@@ -29,8 +29,8 @@ test("Telegram formatter marks both production sites", () => {
   assert.match(ruText, /Задача: A&B/);
 });
 
-test("loadConfig keeps site identity server-side", () => {
-  const config = loadConfig({ TELEGRAM_BOT_TOKEN: "token", TELEGRAM_CHAT_ID: "-100123", SITE_URL: "https://century-ai.by", PORT: "3001" });
+test("loadConfig keeps site identity server-side and parses all recipients", () => {
+  const config = loadConfig({ TELEGRAM_BOT_TOKEN: "token", TELEGRAM_CHAT_ID: "8562745319, 435948288, 699352926", SITE_URL: "https://century-ai.by", PORT: "3001" });
   assert.equal(config.siteHost, "century-ai.by");
-  assert.equal(config.chatId, "-100123");
+  assert.deepEqual(config.chatIds, ["8562745319", "435948288", "699352926"]);
 });
