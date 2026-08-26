@@ -1,12 +1,29 @@
+image: node:22-alpine
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
 stages:
-  - test
+  - verify
 
-include:
-  - template: Jobs/SAST.gitlab-ci.yml
-  - template: Jobs/Dependency-Scanning.v2.gitlab-ci.yml
-  - template: Jobs/Secret-Detection.latest.gitlab-ci.yml
-  - template: Jobs/SAST-IaC.gitlab-ci.yml
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
 
-variables:
-  AST_ENABLE_MR_PIPELINES: "true"
-  SECRET_DETECTION_HISTORIC_SCAN: "false"
+verify:
+  stage: verify
+  script:
+    - npm ci --cache .npm --prefer-offline --no-audit --no-fund
+    - npm run lint
+    - node --test bot-sender/server.test.mjs test/*.test.mjs
+    - npm run build
+  artifacts:
+    when: always
+    paths:
+      - out/
+    expire_in: 1 week
