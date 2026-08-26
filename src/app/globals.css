@@ -6896,6 +6896,12 @@ footer section {
   justify-content: space-between;
   padding: clamp(120px, 14vh, 176px) clamp(40px, 6.8vw, 112px) clamp(46px, 8vh, 88px);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
+.century-home-hero__overlay.is-ready {
+  opacity: 1;
 }
 
 .century-home-hero__title {
@@ -11901,6 +11907,104 @@ html:has(.century-home-page) .site-header.palantir-header .burger-btn:focus-visi
   margin: 0;
   font-size: 12px;
   line-height: 1.3;
+}
+
+/* The contact form is intentionally omitted on hosts without a form backend.
+   Keep the remaining footer content balanced at every viewport width. */
+.site-footer.site-footer--lead .footer-lead__shell {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: clamp(44px, 8vw, 100px) clamp(20px, 6.8vw, 100px) clamp(40px, 6vw, 72px);
+}
+
+.site-footer.site-footer--lead .footer-lead__contacts {
+  display: grid;
+  justify-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  min-width: 0;
+  text-align: center;
+}
+
+.site-footer.site-footer--lead .footer-lead__team {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 40px);
+  padding-bottom: clamp(20px, 3vw, 32px);
+  border-bottom: 1px solid rgba(19, 21, 27, 0.14);
+}
+
+.site-footer.site-footer--lead .footer-lead__links {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px clamp(24px, 5vw, 64px);
+  padding-bottom: clamp(20px, 3vw, 32px);
+  border-bottom: 1px solid rgba(19, 21, 27, 0.14);
+}
+
+.site-footer.site-footer--lead .footer-lead__link {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 12px;
+  color: #000;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.1;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.site-footer.site-footer--lead .footer-lead__link:hover,
+.site-footer.site-footer--lead .footer-lead__link:focus-visible {
+  color: var(--color-primary-600);
+}
+
+.footer-lead__link-icon {
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 25px;
+  color: var(--color-primary-600);
+}
+
+.site-footer.site-footer--lead .footer-lead__brand {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.site-footer.site-footer--lead .footer-lead__brand a {
+  color: #000;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.site-footer.site-footer--lead .footer-lead__brand p {
+  max-width: none;
+  margin: 0;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.footer-copyright__inner {
+  justify-content: center;
+  text-align: center;
+}
+
+html:has(.century-home-page) .header-main {
+  grid-template-columns: minmax(0, 1fr) 40px;
 }
 
 /* Native mobile scrolling prevents the landing from snapping users into a slide. */
