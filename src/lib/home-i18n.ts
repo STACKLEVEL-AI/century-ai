@@ -4,7 +4,6 @@ export const homeCopy = {
   ru: {
     navigation: {
       items: ["Платформа", "Кейсы", "Режимы", "Безопасность"],
-      contact: "Связаться",
       openMenu: "Открыть меню",
       closeMenu: "Закрыть меню",
       aria: "Основная навигация",
@@ -154,21 +153,11 @@ export const homeCopy = {
       team: "Команда Century",
       home: "Главная Century",
       tagline: "Корпоративная ИИ-платформа будущего",
-      title: "Начните с цифр, а не с презентаций",
-      description:
-        "Отправим 3-5 сценариев внедрения ИИ под вашу компанию — с расчетом бизнес-эффекта по каждому",
-      emailPlaceholder: "ivanov@company.ru",
-      emailLabel: "Рабочий email",
-      submit: "Получить сценарии",
-      consentBefore: "Нажимая на кнопку, я даю",
-      consentLink: "согласие",
-      consentAfter: "на обработку персональных данных",
     },
   },
   en: {
     navigation: {
       items: ["Platform", "Use cases", "Modes", "Security"],
-      contact: "Contact us",
       openMenu: "Open menu",
       closeMenu: "Close menu",
       aria: "Main navigation",
@@ -302,15 +291,6 @@ export const homeCopy = {
       team: "Century team",
       home: "Century home",
       tagline: "The enterprise AI platform for tomorrow",
-      title: "Start with numbers, not presentations",
-      description:
-        "We will send 3-5 AI adoption scenarios tailored to your company, each with an estimated business impact",
-      emailPlaceholder: "name@company.com",
-      emailLabel: "Work email",
-      submit: "Get scenarios",
-      consentBefore: "By clicking the button, I",
-      consentLink: "consent",
-      consentAfter: "to personal data processing",
     },
   },
 } as const;
