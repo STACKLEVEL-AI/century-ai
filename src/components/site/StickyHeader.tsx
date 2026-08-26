@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
-import { ActionLink } from "@/components/site/ActionLink";
 import { useLanguage } from "@/components/site/LanguageProvider";
 import { homeCopy, type Locale } from "@/lib/home-i18n";
 import { siteNavigation } from "@/lib/site";
@@ -376,18 +375,6 @@ export default function StickyHeader() {
             <span className="logo-century w-full">CENTURY</span>
           </Link>
 
-          <div className="header-actions">
-            <ActionLink
-              href="/#contacts"
-              className="header-cta header-cta--desktop"
-              trackingLabel="header_contact"
-              trackingContext="header"
-              onClick={(event) => handleLandingAnchorClick(event, "/#contacts")}
-            >
-              {copy.contact}
-            </ActionLink>
-          </div>
-
           <button
             className={`burger-btn${menuOpen ? " is-active" : ""}`}
             type="button"
@@ -438,19 +425,6 @@ export default function StickyHeader() {
         </div>
       </header>
 
-      <div className="mobile-bottom-cta">
-        <div className="shell">
-          <ActionLink
-            href="/#contacts"
-            className="header-cta mobile-bottom-cta__link"
-            trackingLabel="mobile_bottom_contact"
-            trackingContext="mobile-bottom"
-            onClick={(event) => handleLandingAnchorClick(event, "/#contacts")}
-          >
-            {copy.contact}
-          </ActionLink>
-        </div>
-      </div>
     </>
   );
 }
