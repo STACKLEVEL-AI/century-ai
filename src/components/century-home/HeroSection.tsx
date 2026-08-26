@@ -5,6 +5,7 @@ import { homeCopy } from "@/lib/home-i18n";
 import { useRef, useState, type CSSProperties } from "react";
 
 const sceneStartTimes = [0, 3, 8, 13, 18] as const;
+const videoRevealDelay = 0.5;
 
 const overlayStyle = {
   position: "absolute",
@@ -45,6 +46,8 @@ export default function HeroSection() {
   const copy = homeCopy[locale].hero;
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeScene, setActiveScene] = useState(0);
+  const [videoReady, setVideoReady] = useState(false);
+  const poster = locale === "ru" ? "/hero-video/hero-ru-poster.jpg" : "/hero-video/hero-en-poster.jpg";
   const industries =
     locale === "ru"
       ? ["Финансы", "Агробизнес", "Металлургия", "Логистика", "Космос"]
@@ -63,6 +66,16 @@ export default function HeroSection() {
     setActiveScene((previousScene) =>
       previousScene === nextScene ? previousScene : nextScene,
     );
+
+    if (currentTime >= videoRevealDelay) {
+      setVideoReady(true);
+    }
+  };
+
+  const handleVideoPlaying = () => {
+    if ((videoRef.current?.currentTime ?? 0) >= videoRevealDelay) {
+      setVideoReady(true);
+    }
   };
 
   return (
@@ -76,24 +89,36 @@ export default function HeroSection() {
           ? "Century — платформа корпоративного ИИ для бизнеса"
           : "Century — enterprise AI platform for business"}
       </h1>
+      <div
+        className="century-home-hero__placeholder"
+        style={{ backgroundImage: `url(${poster})` }}
+        aria-hidden="true"
+      />
+
       <video
         ref={videoRef}
-        className="century-home-hero__video"
+        className={`century-home-hero__video${videoReady ? " is-ready" : ""}`}
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
-        poster={locale === "ru" ? "/hero-video/hero-ru-poster.jpg" : "/hero-video/hero-en-poster.jpg"}
+        preload="auto"
+        poster={poster}
         aria-label={`${copy.lineOne} ${copy.lineTwo}`}
         onTimeUpdate={updateActiveScene}
         onLoadedMetadata={updateActiveScene}
         onSeeked={updateActiveScene}
+        onPlaying={handleVideoPlaying}
+        onError={() => setVideoReady(false)}
       >
-        <source src="/hero-video/century-main-visual-compressed.mp4" type="video/mp4" />
+        <source src="/hero-video/century-main-visual.mp4" type="video/mp4" />
       </video>
 
-      <div className="century-home-hero__overlay" style={overlayStyle} aria-hidden="true">
+      <div
+        className={`century-home-hero__overlay${videoReady ? " is-ready" : ""}`}
+        style={overlayStyle}
+        aria-hidden="true"
+      >
         <p className="century-home-hero__title" style={titleStyle}>
           <span>{copy.lineOne}</span>
           <span>{copy.lineTwo}</span>

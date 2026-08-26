@@ -25,7 +25,6 @@ function TypedPhrase({
     >
       {text.split(" ").map((word, wordIndex) => (
         <Fragment key={`${word}-${wordIndex}`}>
-          {wordIndex > 0 ? <span className="cases-intro-slide__word-space" aria-hidden="true">{" "}</span> : null}
           <span className="cases-intro-slide__word">
             {Array.from(word).map((character) => {
               const index = characterIndex;
