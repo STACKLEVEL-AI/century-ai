@@ -6896,12 +6896,6 @@ footer section {
   justify-content: space-between;
   padding: clamp(120px, 14vh, 176px) clamp(40px, 6.8vw, 112px) clamp(46px, 8vh, 88px);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 260ms ease;
-}
-
-.century-home-hero__overlay.is-ready {
-  opacity: 1;
 }
 
 .century-home-hero__title {
