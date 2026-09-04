@@ -6,12 +6,15 @@ import {
   COMPANY_NAME,
   CONTACT_EMAIL,
   CONTACT_PHONE_RAW,
+  HTML_LANG,
+  OG_LOCALE,
   OG_IMAGE_PATH,
   SITE_NAME,
   SITE_TAGLINE,
   SITE_URL,
   TELEGRAM_HANDLE,
   absoluteUrl,
+  siteConfig,
 } from "@/lib/site";
 import "./globals.css";
 
@@ -77,6 +80,13 @@ export const metadata: Metadata = {
   publisher: COMPANY_NAME,
   category: "enterprise ai",
   referrer: "origin-when-cross-origin",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "ru-RU": absoluteUrl("/"),
+      [siteConfig.alternateHreflang]: `${siteConfig.alternateSiteUrl}/`,
+    },
+  },
   robots: {
     index: true,
     follow: true,
@@ -99,7 +109,7 @@ export const metadata: Metadata = {
       "Платформа управляемого внедрения корпоративного ИИ: workflow, готовые сервисы, ассистенты, журнал исполнения и эксплуатационные метрики.",
     url: SITE_URL,
     siteName: SITE_NAME,
-    locale: "ru_RU",
+    locale: OG_LOCALE,
     type: "website",
     images: [
       {
@@ -206,7 +216,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={lato.variable}>
+    <html lang={HTML_LANG} className={lato.variable}>
       <body>
         <SiteChrome>{children}</SiteChrome>
         <Script id="yandex-metrika" strategy="afterInteractive">

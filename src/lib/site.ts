@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+export const siteConfig = {
+  siteUrl: (process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://century-ai.ru").trim().replace(/\/$/, ""),
+  region: (process.env.SITE_REGION || "RU") as "RU",
+  htmlLang: "ru-RU",
+  ogLocale: "ru_RU",
+  alternateSiteUrl: "https://century-ai.by",
+  alternateHreflang: "ru-BY",
+} as const;
 
-export const SITE_URL = (configuredSiteUrl || "https://century-ai.ru").replace(/\/$/, "");
+export const SITE_URL = siteConfig.siteUrl;
+export const HTML_LANG = siteConfig.htmlLang;
+export const OG_LOCALE = siteConfig.ogLocale;
 export const SITE_NAME = "Century";
 export const SITE_TAGLINE = "Платформа управляемого внедрения корпоративного ИИ";
 export const COMPANY_NAME = "Stacklevel Group";
@@ -89,6 +98,10 @@ export function createPageMetadata({
     keywords: [...COMMON_KEYWORDS, ...keywords],
     alternates: {
       canonical: normalizedPath,
+      languages: {
+        "ru-RU": absoluteUrl(normalizedPath),
+        [siteConfig.alternateHreflang]: new URL(normalizedPath, siteConfig.alternateSiteUrl).toString(),
+      },
     },
     robots: {
       index: true,
@@ -107,7 +120,7 @@ export function createPageMetadata({
       url,
       siteName: SITE_NAME,
       type: "website",
-      locale: "ru_RU",
+      locale: OG_LOCALE,
       images: [
         {
           url: absoluteUrl(OG_IMAGE_PATH),
